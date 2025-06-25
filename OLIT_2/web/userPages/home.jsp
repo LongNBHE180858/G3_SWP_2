@@ -6,10 +6,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
+        <meta charset="UTF-8">
         <title>Online Course Homepage</title>
-        <!-- Thêm jQuery và Slick Slider CSS/JS -->
+        <!-- Include jQuery and Slick Slider CSS/JS -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
@@ -89,7 +90,7 @@
             .slick-dots li button:before {
                 color: #1E88E5;
             }
-            .latest-posts {
+            .latest-posts-container {
                 flex: 1;
                 background-color: white;
                 padding: 15px;
@@ -98,7 +99,7 @@
                 height: 300px;
                 overflow-y: auto;
             }
-            .latest-posts h3 {
+            .latest-posts-container h3 {
                 margin-top: 0;
                 font-size: 18px;
             }
@@ -130,7 +131,7 @@
             .latest-post a:hover {
                 text-decoration: underline;
             }
-            /* Hot posts */
+            /* Featured posts */
             .hot-posts {
                 padding: 20px 40px;
                 margin-top: 0;
@@ -172,6 +173,10 @@
             .hot-post a:hover {
                 text-decoration: underline;
             }
+            /* Featured courses */
+            .hot-posts + .hot-posts {
+                margin-top: 40px;
+            }
             /* Footer */
             .footer {
                 background-color: #1E88E5;
@@ -188,7 +193,7 @@
             <div class="logo">Online Course</div>
             <div class="nav">
                 <a href="${pageContext.request.contextPath}/HomeServlet">Home</a>
-                <a href="${pageContext.request.contextPath}/MyRegistration">Course</a>
+                <a href="${pageContext.request.contextPath}/MyRegistration">Courses</a>
                 <a href="${pageContext.request.contextPath}/BlogListServlet">Blog</a>
                 <c:choose>
                     <c:when test="${not empty sessionScope.userID}">
@@ -221,7 +226,7 @@
                 </div>
             </div>
             <div class="latest-posts-container">
-                <h3>Bài viết mới nhất</h3>
+                <h3>Latest Posts</h3>
                 <c:forEach var="post" items="${latestPost}">
                     <div class="latest-post">
                         <img src="${post.thumbnailURL}" alt="${post.blogTitle}">
@@ -231,9 +236,9 @@
                 </c:forEach>
             </div>
         </div>
-        <!-- Hot Posts -->
+        <!-- Featured Posts -->
         <div class="hot-posts">
-            <h2>Bài viết nổi bật</h2>
+            <h2>Featured Posts</h2>
             <div class="hot-posts-container">
                 <c:forEach var="post" items="${latestPost}">
                     <div class="hot-post">
@@ -245,7 +250,7 @@
             </div>
         </div>
         <div class="hot-posts">
-            <h2>Khóa học nổi bật</h2>
+            <h2>Featured Courses</h2>
             <div class="hot-posts-container">
                 <c:forEach var="course" items="${hotCourse}">
                     <div class="hot-post">
@@ -259,7 +264,7 @@
         <div class="footer">
             © 2025 Online Course. All rights reserved.
         </div>
-        <!-- Khởi tạo Slick Slider -->
+        <!-- Initialize Slick Slider -->
         <script>
             $(document).ready(function () {
                 $('.slider').slick({
