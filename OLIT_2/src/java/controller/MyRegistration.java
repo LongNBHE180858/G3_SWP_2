@@ -20,7 +20,7 @@ import model.Registration;
  *
  * @author macbook
  */
-@WebServlet(name = "MyRegistration", urlPatterns = {"/MyRegistration"})
+@WebServlet("/MyRegistration")
 public class MyRegistration extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

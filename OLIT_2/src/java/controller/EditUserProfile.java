@@ -18,7 +18,7 @@ import model.Account;
  *
  * @author Admin
  */
-@WebServlet(name = "EditUserProfile", urlPatterns = {"/EditUserProfile"})
+@WebServlet("/EditUserProfile")
 public class EditUserProfile extends HttpServlet {
 
     @Override

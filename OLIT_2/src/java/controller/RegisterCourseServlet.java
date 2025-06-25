@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.*;
 
-@WebServlet(name="RegisterCourseServlet", urlPatterns={"/RegisterCourse"})
+@WebServlet("/RegisterCourse")
 public class RegisterCourseServlet extends HttpServlet {
     
     private PricePackageDAO pricePackageDAO;

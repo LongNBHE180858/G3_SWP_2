@@ -25,7 +25,7 @@ import java.util.List;
  *
  * @author macbook
  */
-@WebServlet(name="MyCourseServlet", urlPatterns={"/MyCourseServlet"})
+@WebServlet("/MyCourseServlet")
 public class MyCourseServlet extends HttpServlet {
    
     @Override

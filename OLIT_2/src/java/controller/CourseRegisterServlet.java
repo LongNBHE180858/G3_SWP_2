@@ -21,7 +21,7 @@ import model.PricePackage;
  *
  * @author Admin
  */
-@WebServlet(name = "CourseRegisterServlet", urlPatterns = {"/CourseRegisterServlet"})
+@WebServlet("/CourseRegisterServlet")
 public class CourseRegisterServlet extends HttpServlet {
     private PricePackageDAO pricePackageDAO;
     

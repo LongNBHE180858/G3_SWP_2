@@ -14,7 +14,7 @@ import model.Account;
  *
  * @author Admin
  */
-@WebServlet(name = "UserProfile", urlPatterns = {"/UserProfile"})
+@WebServlet("/UserProfile")
 public class UserProfile extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

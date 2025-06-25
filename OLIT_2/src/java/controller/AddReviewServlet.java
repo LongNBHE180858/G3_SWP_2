@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,6 +30,7 @@ import model.Review;
  *
  * @author Admin
  */
+@WebServlet("/AddReviewServlet")
 public class AddReviewServlet extends HttpServlet {
    
     /** 

@@ -345,7 +345,7 @@
         <div id="editModal" class="modal">
             <div class="modal-content">
               <span class="close" onclick="closeModal()">&times;</span>
-              <form method="post" action="EditUserProfile">
+              <form action="${pageContext.request.contextPath}/EditUserProfile" method="post">
                   <div class="form-group">
                       <label>Họ và tên</label>
                       <input type="text" name="fullName" value="${account.fullName}" required />

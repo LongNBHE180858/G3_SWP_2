@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import model.*;
 
-@WebServlet(name = "QuestionListServlet", urlPatterns = {"/QuestionListServlet"})
+@WebServlet("/QuestionListServlet")
 public class QuestionListServlet extends HttpServlet {
 
     @Override

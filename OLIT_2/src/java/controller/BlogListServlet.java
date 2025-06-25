@@ -19,7 +19,7 @@ import model.Post;
  *
  * @author Admin
  */
-@WebServlet(name = "BlogListServlet", urlPatterns = {"/BlogListServlet"})
+@WebServlet("/BlogListServlet")
 public class BlogListServlet extends HttpServlet {
 
     /**

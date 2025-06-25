@@ -20,7 +20,7 @@ import model.*;
  *
  * @author macbook
  */
-@WebServlet(name = "LessonViewServlet", urlPatterns = { "/LessonView" })
+@WebServlet("/LessonView")
 public class LessonViewServlet extends HttpServlet {
 
     /**

@@ -272,14 +272,14 @@
             <!-- Phần sidebar: tìm kiếm, thể loại, blog mới -->
             <div class="right">
                 <div class="search-box">
-                    <form action="BlogListServlet" method="get"> <!-- hoặc method="post" nếu Servlet xử lý POST -->
+                    <form action="${pageContext.request.contextPath}/BlogListServlet" method="get"> <!-- hoặc method="post" nếu Servlet xử lý POST -->
                         <input type="text" name="search" placeholder="🔍 Tìm kiếm blog..." id="search-input" />
                         <button type="submit">Tìm kiếm</button>
                     </form>
                 </div>
 
 
-                <form action="BlogListServlet" method="get">
+                <form action="${pageContext.request.contextPath}/BlogListServlet" method="get">
                     <label for="category-select">Thể loại:</label>
                     <select class="category-select" id="category-select" name="categoryId">
                         <option value="">-- Chọn thể loại --</option>

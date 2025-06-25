@@ -28,7 +28,7 @@ public class DBContext {
         try {
             if (connection == null || connection.isClosed()) {
                 String user = "sa";
-                String password = "MyStrongPass123";
+                String password = "123";
                 String url = "jdbc:sqlserver://localhost:1433;databaseName=OLIT;TrustServerCertificate=true";
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
                 connection = DriverManager.getConnection(url, user, password);

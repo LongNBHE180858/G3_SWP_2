@@ -43,7 +43,7 @@
             </div>
 
             <!-- Form search + filter + pageSize -->
-            <form method="get" action="QuestionListServlet" class="row mb-3">
+            <form method="get" action="${pageContext.request.contextPath}/QuestionListServlet" class="row mb-3">
                 <div class="col-md-6">
                     <input type="text" name="search" class="form-control" placeholder="Search question..." value="${param.search}">
                 </div>

@@ -580,7 +580,7 @@
                 <c:if test="${not empty reviews}">
                     <h3>Student Reviews</h3>
                     <c:if test="${not empty sessionScope.userID}">
-                        <form action="add-review" method="post" enctype="multipart/form-data" class="review-form">
+                        <form action="${pageContext.request.contextPath}/AddReviewServlet" method="post" enctype="multipart/form-data" class="review-form">
                             <input type="hidden" name="courseId" value="${course.courseID}" />
                             <input type="hidden" name="userId" value="${sessionScope.userID}" />
 
