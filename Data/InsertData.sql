@@ -159,102 +159,122 @@ INSERT INTO SectionModule (ModuleID, SectionID, ModuleTitle) VALUES
 (29, 15, N'Module 2: Công cụ hỗ trợ');
 
 INSERT INTO Lesson (LessonID, ModuleID, LessonTitle, LessonDetails, Status, URLLesson, [Order]) VALUES
--- Module 1: Giới thiệu & Mở đầu (Course 1)
+-- Module 1
 (1, 1, N'Bài 1: Giới thiệu khóa học', N'Giới thiệu tổng quan về khóa học Java', 1, 'https://www.youtube.com/watch?v=3gtOAlcovoQ&list=PL33lvabfss1yGrOutFR03OZoqm91TSsvs', 1),
-(2, 1, N'Bài 2: Mục tiêu học tập', N'Những điều bạn sẽ học được sau khóa học', 1, 'https://lesson.com/java/2', 2),
+(2, 1, N'Bài 2: Mục tiêu học tập',       N'Những điều bạn sẽ học được sau khóa học',        1, 'https://www.youtube.com/watch?v=pTB0EiLXUC8',                                         2),
 
--- Module 2: Mục tiêu học tập (Course 1)
-(3, 2, N'Bài 1: Hướng dẫn học hiệu quả', N'Cách tận dụng khóa học tối đa', 1, 'https://lesson.com/java/3', 1),
+-- Module 2
+(3, 2, N'Bài 1: Hướng dẫn học hiệu quả', N'Cách tận dụng khóa học tối đa',                   1, 'https://www.youtube.com/watch?v=8uGv2DZR1z4',                                         1),
+(4, 2, N'Bài 2: Kế hoạch học tập',        N'Hướng dẫn lập kế hoạch học tập hiệu quả',         1, 'https://www.youtube.com/watch?v=3gtOAlcovoQ',                                         2),
+(5, 2, N'Bài 3: Tài nguyên hỗ trợ',      N'Tổng hợp tài liệu và công cụ học Java',            1, 'http://localhost:8080/G3_SWP/userPages/java/2-3.html',                                 3),
 
--- Module 3: Cấu trúc chương trình Java
-(4, 3, N'Bài 1: Hàm main và cú pháp cơ bản', N'Giới thiệu hàm main()', 1, 'https://lesson.com/java/4', 1),
-(5, 3, N'Bài 2: Tệp .java và .class', N'Cách chương trình Java được biên dịch', 1, 'https://lesson.com/java/5', 2),
+-- Module 3
+(6, 3, N'Bài 1: Hàm main và cú pháp cơ bản', N'Giới thiệu hàm main()',                       1, 'https://www.youtube.com/watch?v=grEKMHGYyns',                                        1),
+(7, 3, N'Bài 2: Tệp .java và .class',        N'Cách chương trình Java được biên dịch',         1, 'https://www.youtube.com/watch?v=OoudRzH7oVA',                                         2),
 
--- Module 4: Biến và kiểu dữ liệu
-(6, 4, N'Bài 1: Kiểu dữ liệu cơ bản', N'int, float, String...', 1, 'https://lesson.com/java/6', 1),
-(7, 4, N'Bài 2: Khai báo và gán giá trị', N'Kỹ thuật khai báo biến', 1, 'https://lesson.com/java/7', 2),
-(8, 4, N'Bài 3: Biến hằng số', N'Sử dụng final trong Java', 1, 'https://lesson.com/java/8', 3),
+-- Module 4
+(8,  4, N'Bài 1: Kiểu dữ liệu cơ bản',    N'int, float, String...',                            1, 'https://www.youtube.com/watch?v=Qgl81fPcLc8',                                        1),
+(9,  4, N'Bài 2: Khai báo và gán giá trị', N'Kỹ thuật khai báo biến',                         1, 'https://www.youtube.com/watch?v=zLy8mdC2Xws',                                        2),
+(10, 4, N'Bài 3: Biến hằng số',            N'Sử dụng final trong Java',                        1, 'https://www.youtube.com/watch?v=M8D1nW78mHM',                                        3),
 
--- Module 5: Câu lệnh điều kiện
-(9, 5, N'Bài 1: if/else', N'Cấu trúc điều kiện trong Java', 1, 'https://lesson.com/java/9', 1),
-(10, 5, N'Bài 2: switch/case', N'Sử dụng switch để tối ưu code', 1, 'https://lesson.com/java/10', 2),
+-- Module 5
+(11, 5, N'Bài 1: if/else',                N'Cấu trúc điều kiện trong Java',                   1, 'https://www.youtube.com/watch?v=gdZLi9oWNZg',                                        1),
+(12, 5, N'Bài 2: switch/case',            N'Sử dụng switch để tối ưu code',                   1, 'https://www.youtube.com/watch?v=KVRo9Wpe4-4',                                        2),
 
--- Module 6: Viết ứng dụng Console
-(11, 6, N'Bài 1: In ra màn hình', N'Dùng System.out.print()', 1, 'https://lesson.com/java/11', 1),
-(12, 6, N'Bài 2: Nhập từ bàn phím', N'Scanner class', 1, 'https://lesson.com/java/12', 2),
+-- Module 6
+(13, 6, N'Bài 1: In ra màn hình',         N'Dùng System.out.print()',                         1, 'https://www.youtube.com/watch?v=5H0-KaYfOKg',                                        1),
+(14, 6, N'Bài 2: Nhập từ bàn phím',       N'Scanner class',                                  1, 'https://www.youtube.com/watch?v=2OLV3T3OQCk',                                        2),
 
--- Module 7: Đọc ghi file
-(13, 7, N'Bài 1: FileWriter và FileReader', N'Đọc ghi file văn bản đơn giản', 1, 'https://lesson.com/java/13', 1),
+-- Module 7
+(15, 7, N'Bài 1: FileWriter và FileReader', N'Đọc ghi file văn bản đơn giản',                 1, 'https://www.youtube.com/watch?v=Y5imlvOjBzI',                                        1),
+(16, 7, N'Bài 2: BufferedReader và BufferedWriter', N'Cách dùng BufferedReader/BufferedWriter để đọc ghi file nhanh', 1, 'https://www.youtube.com/watch?v=1tI5Kb_C1Mw', 2),
+(17, 7, N'Bài 3: Xử lý File CSV',          N'Hướng dẫn đọc/viết định dạng CSV trong Java',     1, 'http://localhost:8080/G3_SWP/userPages/java/13-3.html',                               3),
 
--- Module 8: Giới thiệu về MySQL
-(14, 8, N'Bài 1: Lịch sử và ứng dụng của MySQL', N'Tại sao MySQL phổ biến', 1, 'https://lesson.com/mysql/1', 1),
+-- Module 8
+(18, 8, N'Bài 1: Lịch sử và ứng dụng của MySQL', N'Tại sao MySQL phổ biến',                      1, 'https://www.youtube.com/watch?v=7S_tz1z_5bA',                                        1),
+(19, 8, N'Bài 2: Ưu điểm và Nhược điểm của MySQL', N'Phân tích ưu và nhược điểm khi sử dụng MySQL', 1, 'https://www.youtube.com/watch?v=Ke90Tje7VS0',                                        2),
+(20, 8, N'Bài 3: Tối ưu truy vấn',          N'Kỹ thuật tối ưu câu lệnh SELECT và Indexing',      1, 'http://localhost:8080/G3_SWP/userPages/mysql/1-3.html',                                3),
 
--- Module 9: Cài đặt và cấu hình
-(15, 9, N'Bài 1: Cài đặt trên Windows', N'Tải về và cài đặt MySQL', 1, 'https://lesson.com/mysql/2', 1),
-(16, 9, N'Bài 2: Cấu hình ban đầu', N'Tạo user, cấp quyền', 1, 'https://lesson.com/mysql/3', 2),
+-- Module 9
+(21, 9, N'Bài 1: Cài đặt trên Windows',    N'Tải về và cài đặt MySQL',                          1, 'https://www.youtube.com/watch?v=7kEp8o4Y30E',                                        1),
+(22, 9, N'Bài 2: Cấu hình ban đầu',        N'Tạo user, cấp quyền',                            1, 'https://www.youtube.com/watch?v=3yYrpBS_fcc',                                         2),
 
--- Module 10: Thiết kế bảng
-(17, 10, N'Bài 1: Các kiểu dữ liệu phổ biến', N'VARCHAR, INT, DATE...', 1, 'https://lesson.com/mysql/4', 1),
+-- Module 10
+(23, 10, N'Bài 1: Các kiểu dữ liệu phổ biến', N'VARCHAR, INT, DATE...',                       1, 'https://www.youtube.com/watch?v=9ylj9NR0Lcg',                                        1),
+(24, 10, N'Bài 2: Ràng buộc bảng (Constraints)', N'Tìm hiểu các loại ràng buộc: PRIMARY, UNIQUE, CHECK,…', 1, 'https://www.youtube.com/watch?v=ENrzD9HAZK4', 2),
+(25, 10, N'Bài 3: Thiết kế ERD cơ bản',     N'Hướng dẫn vẽ sơ đồ quan hệ thực thể với ERD tool', 1, 'http://localhost:8080/G3_SWP/userPages/mysql/4-3.html',                               3),
 
--- Module 11: Mối quan hệ giữa bảng
-(18, 11, N'Bài 1: Primary Key & Foreign Key', N'Tạo mối quan hệ giữa bảng', 1, 'https://lesson.com/mysql/5', 1),
+-- Module 11
+(26, 11, N'Bài 1: Primary Key & Foreign Key', N'Tạo mối quan hệ giữa bảng',                    1, 'https://www.youtube.com/watch?v=1tI5Kb_C1Mw',                                        1),
+(27, 11, N'Bài 2: Cascade và JOIN',          N'Áp dụng cascade khi xoá/sửa khoá và cách dùng JOIN nâng cao', 1, 'https://www.youtube.com/watch?v=I6ypD7qv3Z8', 2),
+(28, 11, N'Bài 3: Transactions và Locking',  N'Quản lý transaction và locking trong MySQL',      1, 'http://localhost:8080/G3_SWP/userPages/mysql/5-3.html',                               3),
 
--- Module 12: Truy vấn nâng cao
-(19, 12, N'Bài 1: JOIN các bảng', N'LEFT JOIN, INNER JOIN...', 1, 'https://lesson.com/mysql/6', 1),
-(20, 12, N'Bài 2: Subquery', N'Sử dụng lồng câu truy vấn', 1, 'https://lesson.com/mysql/7', 2),
+-- Module 12
+(29, 12, N'Bài 1: JOIN các bảng',           N'LEFT JOIN, INNER JOIN...',                       1, 'https://www.youtube.com/watch?v=9yeOJ0ZMUYw',                                        1),
+(30, 12, N'Bài 2: Subquery',                 N'Sử dụng lồng câu truy vấn',                      1, 'https://www.youtube.com/watch?v=2KmfA86Dpmk',                                         2),
+(31, 12, N'Bài 3: Stored Procedures',       N'Viết và gọi Stored Procedure trong MySQL',        1, 'http://localhost:8080/G3_SWP/userPages/mysql/7-3.html',                               3),
 
--- Module 13: React là gì?
-(21, 13, N'Bài 1: Giới thiệu ReactJS', N'Lịch sử và ưu điểm của React', 1, 'https://lesson.com/react/1', 1),
+-- Module 13
+(32, 13, N'Bài 1: Giới thiệu ReactJS',       N'Lịch sử và ưu điểm của React',                   1, 'https://www.youtube.com/watch?v=Ke90Tje7VS0',                                        1),
+(33, 13, N'Bài 2: Virtual DOM và JSX',      N'Giải thích cơ chế Virtual DOM và cách viết JSX trong React', 1, 'https://www.youtube.com/watch?v=Ke90Tje7VS0', 2),
+(34, 13, N'Bài 3: Thiết lập React Router',   N'Cấu hình điều hướng SPA với React Router',       1, 'http://localhost:8080/G3_SWP/userPages/react/1-3.html',                                3),
 
--- Module 14: Cài đặt môi trường
-(22, 14, N'Bài 1: Cài đặt NodeJS & npm', N'Thiết lập môi trường cho React', 1, 'https://lesson.com/react/2', 1),
+-- Module 14
+(35, 14, N'Bài 1: Cài đặt NodeJS & npm',      N'Thiết lập môi trường cho React',                 1, 'https://www.youtube.com/watch?v=ENrzD9HAZK4',                                        1),
+(36, 14, N'Bài 2: Thiết lập IDE và Extension', N'Hướng dẫn cấu hình VSCode/WebStorm, cài extension cần thiết', 1, 'https://www.youtube.com/watch?v=ENrzD9HAZK4', 2),
+(37, 14, N'Bài 3: Tích hợp ESLint & Prettier', N'Cấu hình linting và định dạng code tự động',      1, 'http://localhost:8080/G3_SWP/userPages/react/2-3.html',                                3),
 
--- Module 15: Component cơ bản
-(23, 15, N'Bài 1: Tạo component đầu tiên', N'Dùng function component', 1, 'https://lesson.com/react/3', 1),
-(24, 15, N'Bài 2: Props là gì?', N'Truyền dữ liệu giữa component', 1, 'https://lesson.com/react/4', 2),
+-- Module 15
+(38, 15, N'Bài 1: Tạo component đầu tiên',    N'Dùng function component',                        1, 'https://www.youtube.com/watch?v=I6ypD7qv3Z8',                                        1),
+(39, 15, N'Bài 2: Props là gì?',             N'Truyền dữ liệu giữa component',                   1, 'https://www.youtube.com/watch?v=0mYOSjWc0-M',                                       2),
 
--- Module 16: Props và Event
-(25, 16, N'Bài 1: Xử lý sự kiện', N'onClick, onChange...', 1, 'https://lesson.com/react/5', 1),
+-- Module 16
+(40, 16, N'Bài 1: Xử lý sự kiện',             N'onClick, onChange...',                           1, 'https://www.youtube.com/watch?v=dd7XkO8YM98',                                        1),
+(41, 16, N'Bài 2: Truyền Props nâng cao',     N'Kỹ thuật truyền Props sâu và validate với PropTypes', 1, 'https://www.youtube.com/watch?v=I6ypD7qv3Z8',                                    2),
+(42, 16, N'Bài 3: Context API cơ bản',        N'Sử dụng Context để chia sẻ state toàn ứng dụng',  1, 'http://localhost:8080/G3_SWP/userPages/react/5-3.html',                                3),
 
--- Module 17: State và useState
-(26, 17, N'Bài 1: useState Hook', N'Tạo state trong function component', 1, 'https://lesson.com/react/6', 1),
+-- Module 17
+(43, 17, N'Bài 1: useState Hook',             N'Tạo state trong function component',               1, 'https://www.youtube.com/watch?v=O6P86uwfdR0',                                        1),
+(44, 17, N'Bài 2: Quản lý state với nhiều biến', N'Kỹ thuật tách state thành nhiều biến con hiệu quả', 1, 'https://www.youtube.com/watch?v=9ylj9NR0Lcg',                                    2),
+(45, 17, N'Bài 3: useReducer Hook',           N'Sử dụng useReducer để quản lý state phức tạp',     1, 'http://localhost:8080/G3_SWP/userPages/react/6-3.html',                                3),
 
--- Module 18: Vòng đời component
-(27, 18, N'Bài 1: useEffect Hook', N'Thực hiện hành động khi render', 1, 'https://lesson.com/react/7', 1),
+-- Module 18
+(46, 18, N'Bài 1: useEffect Hook',            N'Thực hiện hành động khi render',                   1, 'https://www.youtube.com/watch?v=0ZJgIjIuY7U',                                        1),
 
--- Module 19: Marketing truyền thống vs số
-(28, 19, N'Bài 1: So sánh mô hình cũ và mới', N'Phân biệt hai phương pháp', 1, 'https://lesson.com/mkt/1', 1),
+-- Module 19
+(47, 19, N'Bài 1: So sánh mô hình cũ và mới', N'Phân biệt hai phương pháp',                       1, 'https://www.youtube.com/watch?v=YQGzXHUSOY8',                                        1),
 
--- Module 20: Xu hướng hiện tại
-(29, 20, N'Bài 1: Marketing trên TikTok', N'Chiến lược nội dung video ngắn', 1, 'https://lesson.com/mkt/2', 1),
+-- Module 20
+(48, 20, N'Bài 1: Marketing trên TikTok',     N'Chiến lược nội dung video ngắn',                   1, 'https://www.youtube.com/watch?v=rEgN4vycvTY',                                        1),
 
--- Module 21: SEO và SEM
-(30, 21, N'Bài 1: Tối ưu hóa từ khóa', N'Cách SEO giúp tăng traffic', 1, 'https://lesson.com/mkt/3', 1),
+-- Module 21
+(49, 21, N'Bài 1: Tối ưu hóa từ khóa',        N'Cách SEO giúp tăng traffic',                        1, 'https://www.youtube.com/watch?v=hF515-0Tduk',                                        1),
 
--- Module 22: Social Media Marketing
-(31, 22, N'Bài 1: Facebook Ads cơ bản', N'Chạy quảng cáo trên Facebook', 1, 'https://lesson.com/mkt/4', 1),
+-- Module 22
+(50, 22, N'Bài 1: Facebook Ads cơ bản',       N'Chạy quảng cáo trên Facebook',                     1, 'https://www.youtube.com/watch?v=Kc5Y1l-rsaw',                                        1),
 
--- Module 23: Đánh giá hiệu quả
-(32, 23, N'Bài 1: Chỉ số đo lường ROI', N'Cách xác định hiệu quả chiến dịch', 1, 'https://lesson.com/mkt/5', 1),
+-- Module 23
+(51, 23, N'Bài 1: Chỉ số đo lường ROI',       N'Cách xác định hiệu quả chiến dịch',                1, 'https://www.youtube.com/watch?v=lEEW5Ma_cJs',                                        1),
 
--- Module 24: Nguyên lý Agile
-(33, 24, N'Bài 1: Agile Manifesto', N'4 giá trị cốt lõi của Agile', 1, 'https://lesson.com/agile/1', 1),
+-- Module 24
+(52, 24, N'Bài 1: Agile Manifesto',           N'4 giá trị cốt lõi của Agile',                       1, 'https://www.youtube.com/watch?v=Z9QbYZh1YXY',                                        1),
 
--- Module 25: Agile Manifesto
-(34, 25, N'Bài 1: Các nguyên lý Agile', N'12 nguyên lý trong Agile Manifesto', 1, 'https://lesson.com/agile/2', 1),
+-- Module 25
+(53, 25, N'Bài 1: Các nguyên lý Agile',       N'12 nguyên lý trong Agile Manifesto',               1, 'https://www.youtube.com/watch?v=doqYY2xCXWU',                                        1),
 
--- Module 26: Scrum Roles
-(35, 26, N'Bài 1: Product Owner', N'Trách nhiệm và vai trò', 1, 'https://lesson.com/agile/3', 1),
-(36, 26, N'Bài 2: Scrum Master', N'Đảm bảo quy trình Scrum vận hành tốt', 1, 'https://lesson.com/agile/4', 2),
+-- Module 26
+(54, 26, N'Bài 1: Product Owner',            N'Trách nhiệm và vai trò',                          1, 'https://www.youtube.com/watch?v=6x1A8K8UHoe',                                        1),
+(55, 26, N'Bài 2: Scrum Master',             N'Đảm bảo quy trình Scrum vận hành tốt',             1, 'https://www.youtube.com/watch?v=UeQHdQ7U5RM',                                        2),
 
--- Module 27: Scrum Events
-(37, 27, N'Bài 1: Sprint Planning', N'Lên kế hoạch cho Sprint', 1, 'https://lesson.com/agile/5', 1),
+-- Module 27
+(56, 27, N'Bài 1: Sprint Planning',          N'Lên kế hoạch cho Sprint',                         1, 'https://www.youtube.com/watch?v=zaxPG4uDfr4',                                        1),
 
--- Module 28: Triển khai Agile
-(38, 28, N'Bài 1: Agile tại doanh nghiệp', N'Ví dụ triển khai thực tế', 1, 'https://lesson.com/agile/6', 1),
+-- Module 28
+(57, 28, N'Bài 1: Agile tại doanh nghiệp',    N'Ví dụ triển khai thực tế',                         1, 'https://www.youtube.com/watch?v=3HZWxsxaYNc',                                        1),
 
--- Module 29: Công cụ hỗ trợ
-(39, 29, N'Bài 1: Sử dụng Jira', N'Theo dõi tiến độ trong Agile', 1, 'https://lesson.com/agile/7', 1);
+-- Module 29
+(58, 29, N'Bài 1: Sử dụng Jira',              N'Theo dõi tiến độ trong Agile',                     1, 'https://www.youtube.com/watch?v=EOTXYa8qgJ0',                                        1);
+
 
 INSERT INTO Quiz (QuizID, SectionID, QuizName, PassRate, QuizType, QuizDuration, QuizLevel, Status) VALUES
 (1, 1, N'Kiểm tra Java cơ bản', 70.00, N'Multiple Choice', 30, N'Beginner', 1),
