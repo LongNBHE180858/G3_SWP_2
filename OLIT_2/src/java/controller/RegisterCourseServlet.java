@@ -60,7 +60,7 @@ public class RegisterCourseServlet extends HttpServlet {
                 System.out.println(pricePackages);
                 
                 // Forward to your JSP page
-                request.getRequestDispatcher("/register-course.jsp").forward(request, response);
+                request.getRequestDispatcher("/registerCourse.jsp").forward(request, response);
                 return;
             } catch (NumberFormatException e) {
                 e.printStackTrace();

@@ -55,7 +55,7 @@ public class QuestionListServlet extends HttpServlet {
         request.setAttribute("pageIndex", pageIndex);
         request.setAttribute("totalPage", totalPage);
 
-        request.getRequestDispatcher("/userPages/question-list.jsp").forward(request, response);
+        request.getRequestDispatcher("/userPages/questionList.jsp").forward(request, response);
     }
 
     @Override

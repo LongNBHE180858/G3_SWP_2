@@ -21,32 +21,6 @@
                 font-family: Arial, sans-serif;
                 background-color: #F4F4F4;
             }
-            /* Header */
-            .header {
-                background-color: #1E88E5;
-                color: white;
-                padding: 15px 40px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-            .header .logo {
-                font-size: 22px;
-                font-weight: bold;
-            }
-            .header .nav {
-                display: flex;
-                align-items: center;
-                gap: 20px;
-            }
-            .header .nav a {
-                color: white;
-                text-decoration: none;
-                font-size: 16px;
-            }
-            .header .nav a:hover {
-                text-decoration: underline;
-            }
             /* Slider + latest posts */
             .main {
                 display: flex;
@@ -177,38 +151,10 @@
             .hot-posts + .hot-posts {
                 margin-top: 40px;
             }
-            /* Footer */
-            .footer {
-                background-color: #1E88E5;
-                color: white;
-                text-align: center;
-                padding: 20px;
-                margin-top: 20px;
-            }
         </style>
     </head>
     <body>
-        <!-- Header -->
-        <div class="header">
-            <div class="logo">Online Course</div>
-            <div class="nav">
-                <a href="${pageContext.request.contextPath}/HomeServlet">Home</a>
-                <a href="${pageContext.request.contextPath}/MyRegistration">Courses</a>
-                <a href="${pageContext.request.contextPath}/BlogListServlet">Blog</a>
-                <c:choose>
-                    <c:when test="${not empty sessionScope.userID}">
-                        <a href="${pageContext.request.contextPath}/Logout">Logout</a>
-                        <a href="${pageContext.request.contextPath}/UserProfile">
-                            <img src="https://img.tripi.vn/cdn-cgi/image/width=700,height=700/https://gcs.tripi.vn/public-tripi/tripi-feed/img/482744KVW/anh-mo-ta.png" alt="Avatar" class="avatar" style="width:40px; height:40px; border-radius:50%;">
-                        </a>
-                    </c:when>
-                    <c:otherwise>
-                        <a href="${pageContext.request.contextPath}/Login">Login</a>
-                        <a href="${pageContext.request.contextPath}/Register">Register</a>
-                    </c:otherwise>
-                </c:choose>
-            </div>
-        </div>
+        <jsp:include page="components/header.jsp"/>
         <!-- Slider and Latest Posts -->
         <div class="main">
             <div class="slider-container">
@@ -260,10 +206,8 @@
                 </c:forEach>
             </div>
         </div>
-        <!-- Footer -->
-        <div class="footer">
-            © 2025 Online Course. All rights reserved.
-        </div>
+
+        <jsp:include page="components/footer.jsp"/>
         <!-- Initialize Slick Slider -->
         <script>
             $(document).ready(function () {

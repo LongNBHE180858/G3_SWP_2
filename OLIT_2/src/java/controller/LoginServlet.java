@@ -22,7 +22,7 @@ import jakarta.servlet.http.HttpSession;
  * @author Long0
  */
 @WebServlet("/LoginServlet")
-public class Login extends HttpServlet {
+public class LoginServlet extends HttpServlet {
 
     private static ArrayList<Account> accounts = AccountDAO.getAccounts();
 

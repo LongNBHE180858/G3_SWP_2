@@ -79,7 +79,7 @@ public class CourseDetailServlet extends HttpServlet {
         request.setAttribute("sliders", sliders);
         request.setAttribute("firstLesson", firstLesson);
 
-        request.getRequestDispatcher("/userPages/course-detail.jsp").forward(request, response);
+        request.getRequestDispatcher("/userPages/courseDetail.jsp").forward(request, response);
     }
 
     /** 
