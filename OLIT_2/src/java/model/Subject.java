@@ -9,13 +9,14 @@ public class Subject {
     private String subjectName;
     private String category;
     private int ownerId;
+    private String ownerName; // getter/setter
     private int numOfLessons;
     private boolean status;
 
     public Subject() {
     }
 
-    public Subject(int subjectID, String subjectName, String category, int ownerId, int numOfLessons, boolean status) {
+    public Subject(int subjectID, String subjectName, String category, int ownerId, int numOfLessons, String ownerName, boolean status) {
         this.subjectID = subjectID;
         this.subjectName = subjectName;
         this.category = category;
@@ -70,6 +71,14 @@ public class Subject {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
     }
     
     

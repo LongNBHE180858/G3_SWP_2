@@ -9,11 +9,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 
     <head>
         <meta charset="UTF-8">
-        <title>Blog List</title>
+        <title>Danh sách Blog</title>
         <style>
             * {
                 box-sizing: border-box;
@@ -139,7 +139,8 @@
                 width: 100%;
                 padding: 10px;
                 margin-bottom: 20px;
-                background-color: #e0f4ff; /* Light blue */
+                background-color: #e0f4ff;
+                /* Xanh biển nhạt */
                 border: 1px solid #0c98cf;
                 border-radius: 6px;
                 color: #333;
@@ -235,7 +236,7 @@
             <div class="nav-links">
                 <a href="${pageContext.request.contextPath}/HomeServlet">Home</a>
                 <a href="${pageContext.request.contextPath}/MyCourseServlet">Course List</a>
-                <a href="${pageContext.request.contextPath}/BlogListServlet">Blog List</a>
+                <a href="${pageContext.request.contextPath}/SubjectList">Subject List</a>
                 <a href="#">Quiz List</a>
                 <a href="#">Log in</a>
                 <a href="#">Register</a>
@@ -244,7 +245,7 @@
 
         <div class="container">
 
-            <!-- Blog list display section -->
+            <!-- Phần hiển thị danh sách blog -->
             <div class="left" id="blog-list">
                 <c:choose>
                     <c:when test="${not empty blogList}">
@@ -253,45 +254,46 @@
                                 <img src="${blog.thumbnailURL}" alt="Blog Image">
                                 <div class="blog-info">
                                     <h3>${blog.blogTitle}</h3>
-                                    <p>Author: <strong>${blog.getAccount().getFullName()}</strong></p> <!-- You can change userID to name if SQL query allows -->
-                                    <p>Published on: ${blog.updatedDate}</p>
-                                    <p>Category: <strong>${blog.getPostCategory().getCategoryName()}</strong></p> <!-- Similarly, you can replace categoryID with category name -->
+                                    <p>Tác giả: <strong>${blog.getAccount().getFullName()}</strong></p> <!-- Bạn có thể sửa userID thành tên nếu truy vấn SQL có -->
+                                    <p>Ngày đăng: ${blog.updatedDate}</p>
+                                    <p>Thể loại: <strong>${blog.getPostCategory().getCategoryName()}</strong></p> <!-- Tương tự categoryID có thể đổi tên thể loại -->
                                 </div>
                             </div>
                         </c:forEach>
                     </c:when>
                     <c:otherwise>
-                        <p>No blogs found.</p>
+                        <p>Không có blog nào được tìm thấy.</p>
                     </c:otherwise>
                 </c:choose>
 
-                <!-- You can add more blog-card elements here -->
+                <!-- Bạn có thể thêm nhiều blog-card ở đây -->
             </div>
 
-            <!-- Sidebar: search, category filter, latest blogs -->
+            <!-- Phần sidebar: tìm kiếm, thể loại, blog mới -->
             <div class="right">
                 <div class="search-box">
-                    <form action="${pageContext.request.contextPath}/BlogListServlet" method="get"> <!-- or method="post" if Servlet handles POST -->
-                        <input type="text" name="search" placeholder="🔍 Search blogs..." id="search-input" />
-                        <button type="submit">Search</button>
+                    <form action="BlogListServlet" method="get"> <!-- hoặc method="post" nếu Servlet xử lý POST -->
+                        <input type="text" name="search" placeholder="🔍 Tìm kiếm blog..." id="search-input" />
+                        <button type="submit">Tìm kiếm</button>
                     </form>
                 </div>
 
-                <form action="${pageContext.request.contextPath}/BlogListServlet" method="get">
-                    <label for="category-select">Category:</label>
+
+                <form action="BlogListServlet" method="get">
+                    <label for="category-select">Thể loại:</label>
                     <select class="category-select" id="category-select" name="categoryId">
-                        <option value="">-- Select Category --</option>
-                        <option value="1">Education News</option>
-                        <option value="2">Study Guides</option>
-                        <option value="3">Technology</option>
-                        <option value="4">Learning Experiences</option>
-                        <option value="5">Events</option>
+                        <option value="">-- Chọn thể loại --</option>
+                        <option value="1">Tin tức giáo dục</option>
+                        <option value="2">Hướng dẫn học tập</option>
+                        <option value="3">Công nghệ</option>
+                        <option value="4">Kinh nghiệm học tập</option>
+                        <option value="5">Sự kiện</option>
                     </select>
-                    <button type="submit" class="filter-btn">Filter</button>
+                    <button type="submit" class="filter-btn">Lọc</button>
                 </form>
 
                 <div class="latest-blogs">
-                    <h3>🆕 Latest Blogs</h3>
+                    <h3>🆕 Blog mới nhất</h3>
                     <c:forEach var="post" items="${newestPosts}">
                         <div class="blog-card">
                             <img src="${post.thumbnailURL}" alt="Latest Blog">
@@ -310,3 +312,4 @@
     </body>
 
 </html>
+

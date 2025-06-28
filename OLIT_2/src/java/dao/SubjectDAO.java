@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import dal.DBContext;
@@ -9,22 +5,89 @@ import model.Subject;
 import java.sql.*;
 import java.util.*;
 
-/**
- *
- * @author macbook
- */
 public class SubjectDAO extends DBContext {
-    public List<Subject> getAllSubjects() {
+
+    // Lấy tất cả Subject đã publish (Status = 1)
+    public List<Subject> getAllPublishedSubjects() {
+        List<Subject> list = new ArrayList<>();
+        String sql
+                = "SELECT s.SubjectID, s.SubjectName, s.Category, s.OwnerID, a.FullName AS OwnerName, s.Status, "
+                + "COUNT(l.LessonID) AS NumOfLessons "
+                + "FROM Subject s "
+                + "JOIN Account a ON s.OwnerID = a.UserID "
+                + "LEFT JOIN Course c ON s.SubjectID = c.SubjectID "
+                + "LEFT JOIN CourseSection cs ON c.CourseID = cs.CourseID "
+                + "LEFT JOIN SectionModule sm ON cs.SectionID = sm.SectionID "
+                + "LEFT JOIN Lesson l ON sm.ModuleID = l.ModuleID "
+                + "WHERE s.Status = 1 "
+                + "GROUP BY s.SubjectID, s.SubjectName, s.Category, s.OwnerID, a.FullName, s.Status "
+                + "ORDER BY s.SubjectID";
+        try (PreparedStatement ps = DBContext.getInstance().getConnection().prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Subject s = new Subject();
+                s.setSubjectID(rs.getInt("SubjectID"));
+                s.setSubjectName(rs.getString("SubjectName"));
+                s.setCategory(rs.getString("Category"));
+                s.setOwnerId(rs.getInt("OwnerID"));
+                s.setOwnerName(rs.getString("OwnerName"));
+                s.setStatus(rs.getBoolean("Status"));
+                s.setNumOfLessons(rs.getInt("NumOfLessons"));
+                list.add(s);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    // Lấy danh sách Subject theo filter
+    public List<Subject> getAllSubjects(String search, String category, String status) {
     List<Subject> list = new ArrayList<>();
-    String sql = "SELECT * FROM Subject WHERE Status = 1";
-    try {
-        PreparedStatement ps = DBContext.getInstance().getConnection().prepareStatement(sql);
+    String sql = 
+        "SELECT s.SubjectID, s.SubjectName, s.Category, s.OwnerID, a.FullName AS OwnerName, s.Status, " +
+        "COUNT(l.LessonID) AS NumOfLessons " +
+        "FROM Subject s " +
+        "JOIN Account a ON s.OwnerID = a.UserID " +
+        "LEFT JOIN Course c ON s.SubjectID = c.SubjectID " +
+        "LEFT JOIN CourseSection cs ON c.CourseID = cs.CourseID " +
+        "LEFT JOIN SectionModule sm ON cs.SectionID = sm.SectionID " +
+        "LEFT JOIN Lesson l ON sm.ModuleID = l.ModuleID " +
+        "WHERE 1=1 ";
+    List<Object> params = new ArrayList<>();
+    if (search != null && !search.isEmpty()) {
+        sql += "AND s.SubjectName LIKE ? ";
+        params.add("%" + search + "%");
+    }
+    if (category != null && !category.isEmpty()) {
+        sql += "AND s.Category = ? ";
+        params.add(category);
+    }
+    if (status != null && !status.isEmpty()) {
+        sql += "AND s.Status = ? ";
+        if ("1".equals(status) || "true".equalsIgnoreCase(status)) {
+            params.add(1);
+        } else if ("0".equals(status) || "false".equalsIgnoreCase(status)) {
+            params.add(0);
+        } else {
+            params.add(status);
+        }
+    }
+    sql += "GROUP BY s.SubjectID, s.SubjectName, s.Category, s.OwnerID, a.FullName, s.Status ";
+    sql += "ORDER BY s.SubjectID";
+    try (PreparedStatement ps = DBContext.getInstance().getConnection().prepareStatement(sql)) {
+        for (int i = 0; i < params.size(); i++) {
+            ps.setObject(i + 1, params.get(i));
+        }
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
             Subject s = new Subject();
             s.setSubjectID(rs.getInt("SubjectID"));
             s.setSubjectName(rs.getString("SubjectName"));
             s.setCategory(rs.getString("Category"));
+            s.setOwnerId(rs.getInt("OwnerID"));
+            s.setOwnerName(rs.getString("OwnerName"));
+            s.setStatus(rs.getBoolean("Status"));
+            s.setNumOfLessons(rs.getInt("NumOfLessons"));
             list.add(s);
         }
     } catch (Exception e) {
@@ -32,4 +95,38 @@ public class SubjectDAO extends DBContext {
     }
     return list;
 }
+
+
+    // Lấy tất cả các Category (phục vụ filter)
+    public List<String> getAllCategories() {
+        List<String> list = new ArrayList<>();
+        String sql = "SELECT DISTINCT Category FROM Subject";
+        try (PreparedStatement ps = DBContext.getInstance().getConnection().prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                list.add(rs.getString(1));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<Subject> getAllSubjects() {
+        List<Subject> list = new ArrayList<>();
+        String sql = "SELECT * FROM Subject WHERE Status = 1";
+        try {
+            PreparedStatement ps = DBContext.getInstance().getConnection().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Subject s = new Subject();
+                s.setSubjectID(rs.getInt("SubjectID"));
+                s.setSubjectName(rs.getString("SubjectName"));
+                s.setCategory(rs.getString("Category"));
+                list.add(s);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }
