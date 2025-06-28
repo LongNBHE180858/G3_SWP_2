@@ -34,7 +34,7 @@ public class MyCourseServlet extends HttpServlet {
 
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("userID") == null) {
-            response.sendRedirect(request.getContextPath() + "/userPages/login.jsp");
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
             return;
         }
 

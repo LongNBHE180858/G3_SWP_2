@@ -306,7 +306,7 @@
                         <img src="${empty userInfor.urlAvatar ? 'https://i.pravatar.cc/150' : userInfor.urlAvatar}" 
                              alt="Avatar" class="avatar" id="avatarImg" />
                         <br />
-                        <button type="button" class="btn-change-1" onclick="openModal()">Edit information</button>
+                        <button type="button" class="btn-change-1" onclick="openModal()">Edit Information</button>
                     </div>
 
                     <div class="right-panel">
@@ -338,7 +338,7 @@
 
             </c:when>
             <c:otherwise>
-                <p>Không tìm thấy thông tin người dùng!</p>
+                <p>User information not found!</p>
             </c:otherwise>
         </c:choose>
                 
@@ -347,15 +347,15 @@
               <span class="close" onclick="closeModal()">&times;</span>
               <form action="${pageContext.request.contextPath}/EditUserProfile" method="post">
                   <div class="form-group">
-                      <label>Họ và tên</label>
+                      <label>Full Name</label>
                       <input type="text" name="fullName" value="${account.fullName}" required />
                   </div>
                   <div class="form-group">
-                      <label>Ngày sinh</label>
+                      <label>Birthday</label>
                       <input type="date" name="birthday" value="${account.birthday}" max="<%= java.time.LocalDate.now() %>" required />
                   </div>
                   <div class="form-group">
-                      <label>Số điện thoại</label>
+                      <label>Phone</label>
                       <input type="tel" name="phoneNumber" value="${account.phoneNumber}" required />
                   </div>
                   <div class="form-group">
@@ -363,15 +363,15 @@
                       <input type="email" value="${account.email}" readonly />
                   </div>
                   <div class="form-group">
-                      <label>Giới tính</label>
+                      <label>Gender</label>
                       <div class="gender-group">
-                          <label><input type="radio" name="gender" value="Male" <c:if test="${account.gender == 'Male'}">checked</c:if>> Nam</label>
-                          <label><input type="radio" name="gender" value="Female" <c:if test="${account.gender == 'Female'}">checked</c:if>> Nữ</label>
-                          <label><input type="radio" name="gender" value="Other" <c:if test="${account.gender != 'Male' && account.gender != 'Female'}">checked</c:if>> Khác</label>
+                          <label><input type="radio" name="gender" value="Male" <c:if test="${account.gender == 'Male'}">checked</c:if>> Male</label>
+                          <label><input type="radio" name="gender" value="Female" <c:if test="${account.gender == 'Female'}">checked</c:if>> Female</label>
+                          <label><input type="radio" name="gender" value="Other" <c:if test="${account.gender != 'Male' && account.gender != 'Female'}">checked</c:if>> Other</label>
                       </div>
                   </div>
                   <div style="margin-top: 20px;">
-                      <button type="submit" class="btn-change">Lưu thay đổi</button>
+                      <button type="submit" class="btn-change">Save</button>
                   </div>
               </form>
             </div>
@@ -391,6 +391,41 @@
                       }
                     }
                 </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const birthdayInput = document.querySelector('input[name="birthday"]');
+
+        // Tính năm hiện tại - 16
+        const currentYear = new Date().getFullYear();
+        const maxYear = currentYear - 16;
+
+        // Gán ngày max là 31-12-(năm hiện tại - 16)
+        birthdayInput.setAttribute("max", `${maxYear}-12-31`);
+    });
+
+    // Kiểm tra trước khi submit
+    document.querySelector('form').addEventListener("submit", function (e) {
+        const phone = document.querySelector('input[name="phoneNumber"]').value.trim();
+        const phoneRegex = /^0\d{9}$/;
+
+        if (!phoneRegex.test(phone)) {
+            alert("Invalid phone number! Please enter 10 digits and start with 0 .");
+            e.preventDefault();
+            return;
+        }
+
+        // Kiểm tra tuổi theo năm
+        const birthdayValue = document.querySelector('input[name="birthday"]').value;
+        const birthYear = new Date(birthdayValue).getFullYear();
+        const currentYear = new Date().getFullYear();
+
+        if (currentYear - birthYear < 16) {
+            alert("Users must be 16 years of age or older.");
+            e.preventDefault();
+        }
+    });
+</script>
+
     </body>
 </html>
 
