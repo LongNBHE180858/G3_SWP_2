@@ -30,7 +30,7 @@ public class UserProfile extends HttpServlet {
         HttpSession session = request.getSession(false);
         AccountDAO accountDAO = new AccountDAO();
         if (session == null || session.getAttribute("userID") == null) {
-            response.sendRedirect(request.getContextPath() + "/userPages/login.jsp");
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
             return;
         }
         //lấy dữ liệu từ DB

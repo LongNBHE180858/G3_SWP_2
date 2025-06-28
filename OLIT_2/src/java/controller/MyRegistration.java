@@ -27,14 +27,14 @@ public class MyRegistration extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("userID") == null) {
-            response.sendRedirect(request.getContextPath() + "/userPages/login.jsp");
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
             return;
         }
         int userID = (int) session.getAttribute("userID");
         RegistrationDAO dao = new RegistrationDAO();
         // Lấy page từ URL, mặc định là 1
         int page = 1;
-        int recordsPerPage = 1;
+        int recordsPerPage = 5;
         String pageParam = request.getParameter("page");
         if (pageParam != null) {
             try {
