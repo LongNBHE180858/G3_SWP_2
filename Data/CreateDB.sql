@@ -80,6 +80,22 @@ CREATE TABLE Subject (
     NumOfLessons INT,
     Status BIT NOT NULL DEFAULT 0
 );
+
+CREATE TABLE ExpertSubject (
+    ExpertID INT FOREIGN KEY REFERENCES Account(UserID),
+    SubjectID INT FOREIGN KEY REFERENCES Subject(SubjectID),
+    PRIMARY KEY (ExpertID, SubjectID)
+);
+
+CREATE TABLE SubjectMedia (
+    MediaID INT PRIMARY KEY ,
+    SubjectID INT FOREIGN KEY REFERENCES Subject(SubjectID),
+    MediaURL NVARCHAR(255) NOT NULL,
+    MediaType NVARCHAR(10) CHECK (MediaType IN ('image', 'video')),
+    MediaDescription NVARCHAR(255)
+);
+
+
 CREATE TABLE Course (
     CourseID INT PRIMARY KEY,
     SubjectID INT FOREIGN KEY REFERENCES Subject(SubjectID),

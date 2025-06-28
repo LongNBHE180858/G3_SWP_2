@@ -176,20 +176,13 @@
                 box-sizing: border-box;   /* QUAN TRỌNG: giúp padding không vượt width */
             }
 
-            .header-left .logo {
-                font-size: 2em;
-                font-weight: bold;
-                color: #fff;
-                letter-spacing: 1.5px;
+            .header-left {
                 display: flex;
                 align-items: center;
-                gap: 10px;
+                gap: 16px; /* Giãn logo và chữ */
             }
 
-            .header-left .fa-graduation-cap {
-                font-size: 1.1em;
-                color: #fffde1;
-            }
+
 
             .header-center {
                 display: flex;
@@ -227,7 +220,24 @@
             .header-right .avatar:hover {
                 box-shadow: 0 6px 18px rgba(40,100,200,0.18);
             }
+            .logo-img {
+                height: 54px;       /* tăng lên cho to hơn */
+                width: auto;
+                padding: 4px;       /* thêm khoảng trắng xung quanh */
+                border-radius: 8px;
+                background: rgba(255,255,255,0.15);  /* nhẹ nhàng tách icon khỏi nền */
+                box-shadow: 0 2px 8px rgba(0,0,0,0.2); /* đổ bóng để nổi bật */
+                display: block;
+            }
 
+            .logo-text {
+                font-size: 2.1em;
+                font-weight: 700;
+                color: #fff;
+                letter-spacing: 1.5px;
+                font-family: inherit;
+                line-height: 1;  /* Tránh bị dính đáy */
+            }
             @media (max-width: 900px) {
                 .header {
                     flex-direction: column;
@@ -244,8 +254,12 @@
         </style>
     <div class="header">
         <div class="header-left">
-            <span class="logo"><i class="fa fa-graduation-cap"></i> CourseAura</span>
+            <img class="logo-img" src="images/HeaderIcon.png" alt="Logo">
+            <span class="logo-text">CourseAura</span>
         </div>
+
+
+
         <div class="header-center">
             <a href="${pageContext.request.contextPath}/HomeServlet">Home</a>
             <a href="${pageContext.request.contextPath}/MyCourseServlet">Course</a>

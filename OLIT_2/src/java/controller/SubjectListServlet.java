@@ -45,8 +45,12 @@ public class SubjectListServlet extends HttpServlet {
         List<Subject> subjectList = new ArrayList<>();
         List<String> categoryList = new ArrayList<>();
         try {
-            subjectList = dao.getAllSubjects(search, category, status);
             categoryList = dao.getAllCategories();
+            if (acc.getRoleID() == 1) { // Admin
+                subjectList = dao.getAllSubjects(search, category, status);
+            } else if (acc.getRoleID() == 2) { // Expert
+                subjectList = dao.getSubjectsByExpertId(acc.getUserID(), search, category, status); // CHỈ LẤY SUBJECT CỦA EXPERT
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

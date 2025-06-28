@@ -13,7 +13,7 @@ INSERT INTO Account (RoleID, FullName, Gender, Email, PhoneNumber, Password, URL
 (1, N'Nguyễn Bá Long', 'Male', 'longnbhe180858@fpt.edu.vn', '0123456789', '12345678@L', 'https://img.tripi.vn/cdn-cgi/image/width=700,height=700/https://gcs.tripi.vn/public-tripi/tripi-feed/img/482744KVW/anh-mo-ta.png', 'active', N'Hà Nội, Việt Nam', '1995-05-15'),
 
 -- 2 Expert
-(2, N'Trần Thị Minh', 'Female', 'minhtthe170234@fpt.edu.vn', '0987654321', '12345678@L', 'https://bareskin.vn/wp-content/uploads/2025/05/hinh-avatar-dep-nhat-the-gioi-15.jpg', 'active', N'Hồ Chí Minh, Việt Nam', '1988-08-20'),
+(2, N'Trần Thị Minh', 'Female', 'minhtthe170234@fpt.edu.vn', '0987654321', '12345678@L', 'https://robohash.org/nguyenkhai.png', 'active', N'Hồ Chí Minh, Việt Nam', '1988-08-20'),
 (2, N'Lê Văn Hùng', 'Male', 'hunglvhe160567@fpt.edu.vn', '0369852147', '12345678@L', 'https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/anh-avatar-ngau-2.jpg', 'active', N'Đà Nẵng, Việt Nam', '1990-12-03'),
 
 -- 3 Student
