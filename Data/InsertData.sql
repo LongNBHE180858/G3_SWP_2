@@ -48,12 +48,12 @@ INSERT INTO Post (PostID, UserID, CategoryID, BlogTitle, PostDetails, Status, Up
 (5, 1, 5, N'Sự kiện EdTech Vietnam 2024', N'Thông tin về hội thảo công nghệ giáo dục lớn nhất năm...', 1, '2024-05-01 11:00:00', 'https://sp-ao.shortpixel.ai/client/to_webp,q_glossy,ret_img,w_1620,h_1080/https://vku.udn.vn/wp-content/uploads/2024/07/VKU-37-3.jpg');
 
 -- Thêm dữ liệu vào bảng Subject
-INSERT INTO Subject (SubjectID, SubjectName, Category, NumOfLessons, OwnerId, Status) VALUES
-(1, N'Lập trình Java cơ bản', N'Programming', 20, 2, 1),
-(2, N'Thiết kế cơ sở dữ liệu', N'Database', 15, 3, 1),
-(3, N'Phát triển Web Frontend', N'Web Development', 25, 2, 1),
-(4, N'Marketing số', N'Marketing', 12, 3, 1),
-(5, N'Quản lý dự án IT', N'Management', 18, 2, 1);
+INSERT INTO Subject (SubjectID, SubjectName, Category, OwnerId, Status) VALUES
+(1, N'Lập trình Java cơ bản', N'Programming', 2, 1),
+(2, N'Thiết kế cơ sở dữ liệu', N'Database', 3, 1),
+(3, N'Phát triển Web Frontend', N'Web Development', 2, 1),
+(4, N'Marketing số', N'Marketing', 3, 1),
+(5, N'Quản lý dự án IT', N'Management', 2, 1);
 
 -- Thêm dữ liệu vào bảng Dimension
 INSERT INTO Dimension (DimensionID, SubjectID, DimensionName, Description) VALUES
