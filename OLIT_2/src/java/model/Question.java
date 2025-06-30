@@ -4,83 +4,138 @@
  */
 package model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Date;
+
 /**
  *
  * @author Admin
  */
 public class Question {
-    private int QuestionID;
-    private String QuestionContent;
-    private String Solution;
-    private String QuestionType;
-    private int Status;
-    private String QuestionLevel;
-    private String MediaURL;
+
+    private int questionId;
+    private String questionContent;
+    private int questionType;
+    private boolean status;
+    private int questionLevel;
+    private int createdBy;
+    private String createdAt;
+    private int subjectId;
+    private int lessonId;
 
     public Question() {
     }
 
-    public int getQuestionID() {
-        return QuestionID;
+    public Question(int questionId, String questionContent, int questionType, boolean status, int questionLevel, int createdBy, String createdAt, int subjectId, int lessonId) {
+        this.questionId = questionId;
+        this.questionContent = questionContent;
+        this.questionType = questionType;
+        this.status = status;
+        this.questionLevel = questionLevel;
+        this.createdBy = createdBy;
+        this.createdAt = createdAt;
+        this.subjectId = subjectId;
+        this.lessonId = lessonId;
     }
 
-    public void setQuestionID(int QuestionID) {
-        this.QuestionID = QuestionID;
+    public int getQuestionId() {
+        return questionId;
+    }
+
+    public void setQuestionId(int questionId) {
+        this.questionId = questionId;
     }
 
     public String getQuestionContent() {
-        return QuestionContent;
+        return questionContent;
     }
 
-    public void setQuestionContent(String QuestionContent) {
-        this.QuestionContent = QuestionContent;
+    public void setQuestionContent(String questionContent) {
+        this.questionContent = questionContent;
     }
 
-    public String getSolution() {
-        return Solution;
-    }
-
-    public void setSolution(String Solution) {
-        this.Solution = Solution;
-    }
-
-    public String getQuestionType() {
-        return QuestionType;
-    }
-
-    public void setQuestionType(String QuestionType) {
-        this.QuestionType = QuestionType;
-    }
-
-    public int getStatus() {
-        return Status;
-    }
-
-    public void setStatus(int Status) {
-        this.Status = Status;
-    }
-
-    public String getQuestionLevel() {
-        return QuestionLevel;
-    }
-
-    public void setQuestionLevel(String QuestionLevel) {
-        this.QuestionLevel = QuestionLevel;
-    }
-
-    public String getMediaURL() {
-        return MediaURL;
-    }
-
-    public void setMediaURL(String MediaURL) {
-        this.MediaURL = MediaURL;
-    }
-
-    @Override
-    public String toString() {
-        return "Question{" + "QuestionID=" + QuestionID + ", QuestionContent=" + QuestionContent + ", Solution=" + Solution + ", QuestionType=" + QuestionType + ", Status=" + Status + ", QuestionLevel=" + QuestionLevel + ", MediaURL=" + MediaURL + '}';
+    public int getQuestionType() {
+        return questionType;
     }
     
-    
-    
+    public String getQuestionTypeStr() {
+        return questionType == 1 ? "Type 1" : "Type 2";
+    }
+
+    public void setQuestionType(int questionType) {
+        this.questionType = questionType;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+        
+    public String isStatusStr() {
+        return (status ? "Active" : "Inactive");
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public int getQuestionLevel() {
+        return questionLevel;
+    }
+
+    public void setQuestionLevel(int questionLevel) {
+        this.questionLevel = questionLevel;
+    }
+
+    public int getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(int createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public int getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(int subjectId) {
+        this.subjectId = subjectId;
+    }
+
+    public int getLessonId() {
+        return lessonId;
+    }
+
+    public void setLessonId(int lessonId) {
+        this.lessonId = lessonId;
+    }
+
+    public String getDate() throws ParseException {
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+        // Định dạng đầu ra chỉ có giờ và phút
+        SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        // Chuyển đổi chuỗi thành Date
+        Date date = inputFormat.parse(createdAt.split(" ")[0]);
+        return outputFormat.format(date);
+    }
+
+    public String getTime() {
+        if (createdAt != null && createdAt.contains(" ")) {
+            String[] parts = createdAt.split(" "); // Tách chuỗi thành mảng
+            String timePart = parts[1]; // Lấy phần tử thứ hai (giờ)
+            return timePart.substring(0, 5); // Lấy "HH:mm"
+        }
+        return ""; // Trả về chuỗi rỗng nếu không hợp lệ
+    }
 }

@@ -12,23 +12,9 @@ GO
 USE OLIT
 GO
 
-USE master;
-IF EXISTS (SELECT * FROM sys.databases WHERE name = 'OLIT')
-BEGIN
-    ALTER DATABASE OLIT SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
-    DROP DATABASE OLIT;
-END
-GO
-
-CREATE DATABASE OLIT
-GO
-
-USE OLIT
-GO
-
 CREATE TABLE Role (
     RoleID INT PRIMARY KEY,
-    RoleName NVARCHAR(10) CHECK (RoleName IN ('Admin', 'Expert', 'Student')) DEFAULT 'Other',
+    RoleName NVARCHAR(10) CHECK (RoleName IN ('Admin', 'Expert', 'Student')) DEFAULT 'Other'
 );
 
 CREATE TABLE Account (
@@ -76,9 +62,16 @@ CREATE TABLE Subject (
     SubjectID INT PRIMARY KEY,
     SubjectName NVARCHAR(100) NOT NULL,
     Category NVARCHAR(50),
-    OwnerID INT,
     NumOfLessons INT,
+    CreatedBy INT FOREIGN KEY REFERENCES Account(UserID),
     Status BIT NOT NULL DEFAULT 0
+);
+
+CREATE TABLE Dimension (
+    DimensionID INT PRIMARY KEY,
+    SubjectID INT FOREIGN KEY REFERENCES Subject(SubjectID),
+    DimensionName NVARCHAR(255) NOT NULL,
+    Description NVARCHAR(255)
 );
 
 CREATE TABLE ExpertSubject (
@@ -112,13 +105,13 @@ CREATE TABLE Course (
 CREATE TABLE CourseSection (
     SectionID INT PRIMARY KEY,
     CourseID INT FOREIGN KEY REFERENCES Course(CourseID),
-    SectionTitle NVARCHAR(255) NOT NULL,
+    SectionTitle NVARCHAR(255) NOT NULL
 );
 
 CREATE TABLE SectionModule (
     ModuleID INT PRIMARY KEY,
     SectionID INT FOREIGN KEY REFERENCES CourseSection(SectionID),
-    ModuleTitle NVARCHAR(255) NOT NULL,
+    ModuleTitle NVARCHAR(255) NOT NULL
 );
 
 CREATE TABLE PricePackage (
@@ -138,7 +131,7 @@ CREATE TABLE Registration (
     CourseID INT FOREIGN KEY REFERENCES Course(CourseID),
     PackageID INT FOREIGN KEY REFERENCES PricePackage(PackageID),
     ApprovedBy INT FOREIGN KEY REFERENCES Account(UserID),
-    Status NVARCHAR(20) NOT NULL CHECK (Status IN ('Pending', 'Approved', 'NotApprove')) DEFAULT 'Pending',
+    Status NVARCHAR(20) NOT NULL CHECK (Status IN ('Pending', 'Approved', 'NotApproved')) DEFAULT 'Pending',
     ValidTo DATE,
     ValidFrom DATE
 );
@@ -176,15 +169,37 @@ CREATE TABLE QuizAttempt (
 CREATE TABLE Question (
     QuestionID INT PRIMARY KEY,
     QuestionContent NVARCHAR(MAX) NOT NULL,
-    Answer1 NVARCHAR(MAX),
-    Answer2 NVARCHAR(MAX),
-    Answer3 NVARCHAR(MAX),
-    Answer4 NVARCHAR(MAX),
-    Solution NVARCHAR(MAX),
-    QuestionType NVARCHAR(50),
+    QuestionType INT NOT NULL,
     Status BIT NOT NULL DEFAULT 0,
-    QuestionLevel NVARCHAR(50),
-    MediaURL NVARCHAR(255)
+    QuestionLevel INT NOT NULL,
+	CreatedBy INT FOREIGN KEY REFERENCES Account(UserID) NOT NULL,
+	CreatedAt DATETIME DEFAULT GETDATE() NOT NULL,
+	SubjectID INT FOREIGN KEY REFERENCES Subject(SubjectID) NOT NULL,
+    LessonID INT FOREIGN KEY REFERENCES Lesson(LessonID) NOT NULL
+);
+
+CREATE TABLE QuestionDimension (
+    QuestionID INT FOREIGN KEY REFERENCES Question(QuestionID) ON DELETE CASCADE,
+    DimensionID INT FOREIGN KEY REFERENCES Dimension(DimensionID) ON DELETE CASCADE,
+    PRIMARY KEY (QuestionID, DimensionID)
+);
+
+
+CREATE TABLE QuestionAnswer (
+	AnswerID INT IDENTITY(1,1) PRIMARY KEY,
+	AnswerDetail NVARCHAR(MAX) NOT NULL,
+	Explanation NVARCHAR(MAX) NOT NULL,
+	IsCorrect BIT NOT NULL DEFAULT 0,
+	QuestionID INT NOT NULL,
+    FOREIGN KEY (QuestionID) REFERENCES Question(QuestionID) ON DELETE CASCADE
+);
+
+CREATE TABLE QuestionMedia (
+    MediaID INT IDENTITY(1,1) PRIMARY KEY,
+    MediaURL NVARCHAR(255) NOT NULL,
+    MediaDescription NVARCHAR(255) NOT NULL,
+    QuestionID INT NOT NULL,
+    FOREIGN KEY (QuestionID) REFERENCES Question(QuestionID) ON DELETE CASCADE
 );
 
 CREATE TABLE QuizQuestion (
@@ -196,14 +211,12 @@ CREATE TABLE QuizQuestion (
 );
 
 CREATE TABLE UserAnswer (
-    AnswerID INT PRIMARY KEY,
+    UserAnswerID INT PRIMARY KEY,
     QuestionID INT FOREIGN KEY REFERENCES Question(QuestionID),
     AttemptID INT FOREIGN KEY REFERENCES QuizAttempt(AttemptID),
     UserAnswerContent NVARCHAR(MAX),
     IsCorrect BIT NOT NULL DEFAULT 0
 );
-
-ALTER TABLE Subject ADD CONSTRAINT FK_Subject_Owner FOREIGN KEY (OwnerID) REFERENCES Account(UserID);
 
 CREATE TABLE Slider (
     SliderID INT PRIMARY KEY,
