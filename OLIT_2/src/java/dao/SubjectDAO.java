@@ -42,60 +42,59 @@ public class SubjectDAO extends DBContext {
 
     // Lấy danh sách Subject theo filter
     public List<Subject> getAllSubjects(String search, String category, String status) {
-    List<Subject> list = new ArrayList<>();
-    String sql = 
-        "SELECT s.SubjectID, s.SubjectName, s.Category, s.OwnerID, a.FullName AS OwnerName, s.Status, " +
-        "COUNT(l.LessonID) AS NumOfLessons " +
-        "FROM Subject s " +
-        "JOIN Account a ON s.OwnerID = a.UserID " +
-        "LEFT JOIN Course c ON s.SubjectID = c.SubjectID " +
-        "LEFT JOIN CourseSection cs ON c.CourseID = cs.CourseID " +
-        "LEFT JOIN SectionModule sm ON cs.SectionID = sm.SectionID " +
-        "LEFT JOIN Lesson l ON sm.ModuleID = l.ModuleID " +
-        "WHERE 1=1 ";
-    List<Object> params = new ArrayList<>();
-    if (search != null && !search.isEmpty()) {
-        sql += "AND s.SubjectName LIKE ? ";
-        params.add("%" + search + "%");
-    }
-    if (category != null && !category.isEmpty()) {
-        sql += "AND s.Category = ? ";
-        params.add(category);
-    }
-    if (status != null && !status.isEmpty()) {
-        sql += "AND s.Status = ? ";
-        if ("1".equals(status) || "true".equalsIgnoreCase(status)) {
-            params.add(1);
-        } else if ("0".equals(status) || "false".equalsIgnoreCase(status)) {
-            params.add(0);
-        } else {
-            params.add(status);
+        List<Subject> list = new ArrayList<>();
+        String sql
+                = "SELECT s.SubjectID, s.SubjectName, s.Category, s.OwnerID, a.FullName AS OwnerName, s.Status, "
+                + "COUNT(l.LessonID) AS NumOfLessons "
+                + "FROM Subject s "
+                + "JOIN Account a ON s.OwnerID = a.UserID "
+                + "LEFT JOIN Course c ON s.SubjectID = c.SubjectID "
+                + "LEFT JOIN CourseSection cs ON c.CourseID = cs.CourseID "
+                + "LEFT JOIN SectionModule sm ON cs.SectionID = sm.SectionID "
+                + "LEFT JOIN Lesson l ON sm.ModuleID = l.ModuleID "
+                + "WHERE 1=1 ";
+        List<Object> params = new ArrayList<>();
+        if (search != null && !search.isEmpty()) {
+            sql += "AND s.SubjectName LIKE ? ";
+            params.add("%" + search + "%");
         }
-    }
-    sql += "GROUP BY s.SubjectID, s.SubjectName, s.Category, s.OwnerID, a.FullName, s.Status ";
-    sql += "ORDER BY s.SubjectID";
-    try (PreparedStatement ps = DBContext.getInstance().getConnection().prepareStatement(sql)) {
-        for (int i = 0; i < params.size(); i++) {
-            ps.setObject(i + 1, params.get(i));
+        if (category != null && !category.isEmpty()) {
+            sql += "AND s.Category = ? ";
+            params.add(category);
         }
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            Subject s = new Subject();
-            s.setSubjectID(rs.getInt("SubjectID"));
-            s.setSubjectName(rs.getString("SubjectName"));
-            s.setCategory(rs.getString("Category"));
-            s.setOwnerId(rs.getInt("OwnerID"));
-            s.setOwnerName(rs.getString("OwnerName"));
-            s.setStatus(rs.getBoolean("Status"));
-            s.setNumOfLessons(rs.getInt("NumOfLessons"));
-            list.add(s);
+        if (status != null && !status.isEmpty()) {
+            sql += "AND s.Status = ? ";
+            if ("1".equals(status) || "true".equalsIgnoreCase(status)) {
+                params.add(1);
+            } else if ("0".equals(status) || "false".equalsIgnoreCase(status)) {
+                params.add(0);
+            } else {
+                params.add(status);
+            }
         }
-    } catch (Exception e) {
-        e.printStackTrace();
+        sql += "GROUP BY s.SubjectID, s.SubjectName, s.Category, s.OwnerID, a.FullName, s.Status ";
+        sql += "ORDER BY s.SubjectID";
+        try (PreparedStatement ps = DBContext.getInstance().getConnection().prepareStatement(sql)) {
+            for (int i = 0; i < params.size(); i++) {
+                ps.setObject(i + 1, params.get(i));
+            }
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Subject s = new Subject();
+                s.setSubjectID(rs.getInt("SubjectID"));
+                s.setSubjectName(rs.getString("SubjectName"));
+                s.setCategory(rs.getString("Category"));
+                s.setOwnerId(rs.getInt("OwnerID"));
+                s.setOwnerName(rs.getString("OwnerName"));
+                s.setStatus(rs.getBoolean("Status"));
+                s.setNumOfLessons(rs.getInt("NumOfLessons"));
+                list.add(s);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
-    return list;
-}
-
 
     // Lấy tất cả các Category (phục vụ filter)
     public List<String> getAllCategories() {
@@ -131,56 +130,74 @@ public class SubjectDAO extends DBContext {
     }
     // SubjectDAO.java
 
-public List<Subject> getSubjectsByExpertId(int expertId, String search, String category, String status) {
-    List<Subject> list = new ArrayList<>();
-    String sql = "SELECT s.SubjectID, s.SubjectName, s.Category, s.OwnerID, s.Status, " +
-                 "COUNT(l.LessonID) AS NumOfLessons, a.FullName AS OwnerName " +
-                 "FROM Subject s " +
-                 "JOIN ExpertSubject es ON s.SubjectID = es.SubjectID " +  // Bảng này lưu assign
-                 "JOIN Account a ON s.OwnerID = a.UserID " +
-                 "LEFT JOIN Course c ON s.SubjectID = c.SubjectID " +
-                 "LEFT JOIN CourseSection cs ON c.CourseID = cs.CourseID " +
-                 "LEFT JOIN SectionModule sm ON cs.SectionID = sm.SectionID " +
-                 "LEFT JOIN Lesson l ON sm.ModuleID = l.ModuleID " +
-                 "WHERE es.ExpertID = ? ";
-    List<Object> params = new ArrayList<>();
-    params.add(expertId);
-    // Thêm search, category, status filter như cũ nếu cần
-    if (search != null && !search.isEmpty()) {
-        sql += " AND s.SubjectName LIKE ?";
-        params.add("%" + search + "%");
-    }
-    if (category != null && !category.isEmpty()) {
-        sql += " AND s.Category = ?";
-        params.add(category);
-    }
-    if (status != null && !status.isEmpty()) {
-        sql += " AND s.Status = ?";
-        params.add(Integer.parseInt(status));
-    }
-    sql += " GROUP BY s.SubjectID, s.SubjectName, s.Category, s.OwnerID, a.FullName, s.Status " +
-           "ORDER BY s.SubjectID";
-    try (PreparedStatement ps = DBContext.getInstance().getConnection().prepareStatement(sql)) {
-        for (int i = 0; i < params.size(); i++) {
-            ps.setObject(i + 1, params.get(i));
+    public List<Subject> getSubjectsByExpertId(int expertId, String search, String category, String status) {
+        List<Subject> list = new ArrayList<>();
+        String sql = "SELECT s.SubjectID, s.SubjectName, s.Category, s.OwnerID, s.Status, "
+                + "COUNT(l.LessonID) AS NumOfLessons, a.FullName AS OwnerName "
+                + "FROM Subject s "
+                + "JOIN ExpertSubject es ON s.SubjectID = es.SubjectID "
+                + // Bảng này lưu assign
+                "JOIN Account a ON s.OwnerID = a.UserID "
+                + "LEFT JOIN Course c ON s.SubjectID = c.SubjectID "
+                + "LEFT JOIN CourseSection cs ON c.CourseID = cs.CourseID "
+                + "LEFT JOIN SectionModule sm ON cs.SectionID = sm.SectionID "
+                + "LEFT JOIN Lesson l ON sm.ModuleID = l.ModuleID "
+                + "WHERE es.ExpertID = ? ";
+        List<Object> params = new ArrayList<>();
+        params.add(expertId);
+        // Thêm search, category, status filter như cũ nếu cần
+        if (search != null && !search.isEmpty()) {
+            sql += " AND s.SubjectName LIKE ?";
+            params.add("%" + search + "%");
         }
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            Subject s = new Subject();
-            s.setSubjectID(rs.getInt("SubjectID"));
-            s.setSubjectName(rs.getString("SubjectName"));
-            s.setCategory(rs.getString("Category"));
-            s.setOwnerId(rs.getInt("OwnerID"));
-            s.setNumOfLessons(rs.getInt("NumOfLessons"));
-            s.setStatus(rs.getBoolean("Status"));
-            s.setOwnerName(rs.getString("OwnerName"));
-            list.add(s);
+        if (category != null && !category.isEmpty()) {
+            sql += " AND s.Category = ?";
+            params.add(category);
         }
-    } catch (Exception e) {
-        e.printStackTrace();
+        if (status != null && !status.isEmpty()) {
+            sql += " AND s.Status = ?";
+            params.add(Integer.parseInt(status));
+        }
+        sql += " GROUP BY s.SubjectID, s.SubjectName, s.Category, s.OwnerID, a.FullName, s.Status "
+                + "ORDER BY s.SubjectID";
+        try (PreparedStatement ps = DBContext.getInstance().getConnection().prepareStatement(sql)) {
+            for (int i = 0; i < params.size(); i++) {
+                ps.setObject(i + 1, params.get(i));
+            }
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Subject s = new Subject();
+                s.setSubjectID(rs.getInt("SubjectID"));
+                s.setSubjectName(rs.getString("SubjectName"));
+                s.setCategory(rs.getString("Category"));
+                s.setOwnerId(rs.getInt("OwnerID"));
+                s.setNumOfLessons(rs.getInt("NumOfLessons"));
+                s.setStatus(rs.getBoolean("Status"));
+                s.setOwnerName(rs.getString("OwnerName"));
+                list.add(s);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
     }
-    return list;
-}
 
-    
+    public int insertSubjectReturnId(String name, String category, int ownerId, boolean status, String desc) {
+        String sql = "INSERT INTO Subject (SubjectName, Category, OwnerID, Status, Description) VALUES (?, ?, ?, ?, ?)";
+        try (Connection conn = DBContext.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, name);
+            ps.setString(2, category);
+            ps.setInt(3, ownerId);
+            ps.setBoolean(4, status);
+            ps.setString(5, desc);
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
 }

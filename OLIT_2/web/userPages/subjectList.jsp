@@ -286,7 +286,7 @@
                 </a>
             </c:if>    
         </div>
-        <form method="get" action="${pageContext.request.contextPath}/SubjectListServlet" class="filters">
+        <form method="get" action="${pageContext.request.contextPath}/SubjectList" class="filters">
             <input type="text" name="search" placeholder="Search for subject name..." value="${param.search}"/>
             <select name="category">
                 <option value="">Category</option>
