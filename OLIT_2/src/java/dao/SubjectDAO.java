@@ -11,16 +11,16 @@ public class SubjectDAO extends DBContext {
     public List<Subject> getAllPublishedSubjects() {
         List<Subject> list = new ArrayList<>();
         String sql
-                = "SELECT s.SubjectID, s.SubjectName, s.Category, s.OwnerID, a.FullName AS OwnerName, s.Status, "
+                = "SELECT s.SubjectID, s.SubjectName, s.Category, s.OwnerId, a.FullName AS OwnerName, s.Status, "
                 + "COUNT(l.LessonID) AS NumOfLessons "
                 + "FROM Subject s "
-                + "JOIN Account a ON s.OwnerID = a.UserID "
+                + "JOIN Account a ON s.OwnerId = a.UserID "
                 + "LEFT JOIN Course c ON s.SubjectID = c.SubjectID "
                 + "LEFT JOIN CourseSection cs ON c.CourseID = cs.CourseID "
                 + "LEFT JOIN SectionModule sm ON cs.SectionID = sm.SectionID "
                 + "LEFT JOIN Lesson l ON sm.ModuleID = l.ModuleID "
                 + "WHERE s.Status = 1 "
-                + "GROUP BY s.SubjectID, s.SubjectName, s.Category, s.CreatedBy, a.FullName, s.Status "
+                + "GROUP BY s.SubjectID, s.SubjectName, s.Category, s.OwnerId, a.FullName, s.Status "
                 + "ORDER BY s.SubjectID";
         try (PreparedStatement ps = DBContext.getInstance().getConnection().prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
@@ -28,7 +28,7 @@ public class SubjectDAO extends DBContext {
                 s.setSubjectID(rs.getInt("SubjectID"));
                 s.setSubjectName(rs.getString("SubjectName"));
                 s.setCategory(rs.getString("Category"));
-                s.setOwnerId(rs.getInt("CreatedBy"));
+                s.setOwnerId(rs.getInt("OwnerId"));
                 s.setOwnerName(rs.getString("OwnerName"));
                 s.setStatus(rs.getBoolean("Status"));
                 s.setNumOfLessons(rs.getInt("NumOfLessons"));
@@ -44,10 +44,10 @@ public class SubjectDAO extends DBContext {
     public List<Subject> getAllSubjects(String search, String category, String status) {
         List<Subject> list = new ArrayList<>();
         String sql
-                = "SELECT s.SubjectID, s.SubjectName, s.Category, s.CreatedBy, a.FullName AS CreatedBy, s.Status, "
+                = "SELECT s.SubjectID, s.SubjectName, s.Category, s.OwnerId, a.FullName AS OwnerName, s.Status, "
                 + "COUNT(l.LessonID) AS NumOfLessons "
                 + "FROM Subject s "
-                + "JOIN Account a ON s.CreatedBy = a.UserID "
+                + "JOIN Account a ON s.OwnerId = a.UserID "
                 + "LEFT JOIN Course c ON s.SubjectID = c.SubjectID "
                 + "LEFT JOIN CourseSection cs ON c.CourseID = cs.CourseID "
                 + "LEFT JOIN SectionModule sm ON cs.SectionID = sm.SectionID "
@@ -72,7 +72,7 @@ public class SubjectDAO extends DBContext {
                 params.add(status);
             }
         }
-        sql += "GROUP BY s.SubjectID, s.SubjectName, s.Category, s.CreatedBy, a.FullName, s.Status ";
+        sql += "GROUP BY s.SubjectID, s.SubjectName, s.Category, s.OwnerId, a.FullName, s.Status ";
         sql += "ORDER BY s.SubjectID";
         try (PreparedStatement ps = DBContext.getInstance().getConnection().prepareStatement(sql)) {
             for (int i = 0; i < params.size(); i++) {
@@ -84,7 +84,7 @@ public class SubjectDAO extends DBContext {
                 s.setSubjectID(rs.getInt("SubjectID"));
                 s.setSubjectName(rs.getString("SubjectName"));
                 s.setCategory(rs.getString("Category"));
-                s.setOwnerId(rs.getInt("OwnerID"));
+                s.setOwnerId(rs.getInt("OwnerId"));
                 s.setOwnerName(rs.getString("OwnerName"));
                 s.setStatus(rs.getBoolean("Status"));
                 s.setNumOfLessons(rs.getInt("NumOfLessons"));
@@ -132,12 +132,12 @@ public class SubjectDAO extends DBContext {
 
     public List<Subject> getSubjectsByExpertId(int expertId, String search, String category, String status) {
         List<Subject> list = new ArrayList<>();
-        String sql = "SELECT s.SubjectID, s.SubjectName, s.Category, s.CreatedBy, s.Status, "
+        String sql = "SELECT s.SubjectID, s.SubjectName, s.Category, s.OwnerId, s.Status, "
                 + "COUNT(l.LessonID) AS NumOfLessons, a.FullName AS OwnerName "
                 + "FROM Subject s "
                 + "JOIN ExpertSubject es ON s.SubjectID = es.SubjectID "
                 + // Bảng này lưu assign
-                "JOIN Account a ON s.CreatedBy = a.UserID "
+                "JOIN Account a ON s.OwnerId = a.UserID "
                 + "LEFT JOIN Course c ON s.SubjectID = c.SubjectID "
                 + "LEFT JOIN CourseSection cs ON c.CourseID = cs.CourseID "
                 + "LEFT JOIN SectionModule sm ON cs.SectionID = sm.SectionID "
@@ -158,7 +158,7 @@ public class SubjectDAO extends DBContext {
             sql += " AND s.Status = ?";
             params.add(Integer.parseInt(status));
         }
-        sql += " GROUP BY s.SubjectID, s.SubjectName, s.Category, s.CreatedBy, a.FullName, s.Status "
+        sql += " GROUP BY s.SubjectID, s.SubjectName, s.Category, s.OwnerId, a.FullName, s.Status "
                 + "ORDER BY s.SubjectID";
         try (PreparedStatement ps = DBContext.getInstance().getConnection().prepareStatement(sql)) {
             for (int i = 0; i < params.size(); i++) {
@@ -170,7 +170,7 @@ public class SubjectDAO extends DBContext {
                 s.setSubjectID(rs.getInt("SubjectID"));
                 s.setSubjectName(rs.getString("SubjectName"));
                 s.setCategory(rs.getString("Category"));
-                s.setOwnerId(rs.getInt("CreatedBy"));
+                s.setOwnerId(rs.getInt("OwnerId"));
                 s.setNumOfLessons(rs.getInt("NumOfLessons"));
                 s.setStatus(rs.getBoolean("Status"));
                 s.setOwnerName(rs.getString("OwnerName"));
@@ -197,7 +197,7 @@ public class SubjectDAO extends DBContext {
                 subject.setSubjectName(rs.getString("SubjectName"));
                 subject.setCategory(rs.getString("Category"));
                 subject.setNumOfLessons(rs.getInt("NumOfLessons"));
-                subject.setOwnerId(rs.getInt("CreatedBy"));
+                subject.setOwnerId(rs.getInt("OwnerId"));
             }
         } catch (Exception e) {
             e.printStackTrace();

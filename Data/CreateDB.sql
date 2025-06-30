@@ -63,7 +63,7 @@ CREATE TABLE Subject (
     SubjectName NVARCHAR(100) NOT NULL,
     Category NVARCHAR(50),
     NumOfLessons INT,
-    CreatedBy INT FOREIGN KEY REFERENCES Account(UserID),
+    OwnerId INT FOREIGN KEY REFERENCES Account(UserID),
     Status BIT NOT NULL DEFAULT 0
 );
 
