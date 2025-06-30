@@ -13,8 +13,37 @@ import java.util.List;
  */
 public class QuestionDAO extends DBContext {
 
+    public List<Question> getAllQuestion() {
+        List<Question> questions = new ArrayList<>();
+        DBContext db = DBContext.getInstance();
+        try {
+            String sql = """
+                            SELECT * FROM Question
+                         """;
+            PreparedStatement statement = db.getConnection().prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Question question = new Question(
+                        rs.getInt("QuestionID"),
+                        rs.getString("QuestionContent"),
+                        rs.getInt("QuestionType"),
+                        rs.getBoolean("Status"),
+                        rs.getInt("QuestionLevel"),
+                        rs.getInt("CreatedBy"),
+                        rs.getString("createdAt"),
+                        rs.getInt("SubjectId"),
+                        rs.getInt("LessonId")
+                );
+                questions.add(question);
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return questions;
+    }
+
     public List<Question> getAllQuestionWithParam(String searchQuery, String filterLevel, int pageSize, int pageIndex) {
-        List<Question> list = new ArrayList<>();
+        List<Question> questions = new ArrayList<>();
         StringBuilder sql = new StringBuilder("SELECT * FROM Question WHERE 1=1");
 
         // Gắn thêm điều kiện nếu có
@@ -43,22 +72,25 @@ public class QuestionDAO extends DBContext {
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    Question q = new Question();
-                    q.setQuestionID(rs.getInt("QuestionID"));
-                    q.setQuestionContent(rs.getString("QuestionContent"));
-                    q.setQuestionLevel(rs.getString("QuestionLevel"));
-                    q.setStatus(rs.getInt("Status"));
-                    q.setSolution(rs.getString("Solution"));
-                    q.setQuestionType(rs.getString("QuestionType"));
-                    q.setMediaURL(rs.getString("MediaURL"));
-                    list.add(q);
+                    Question question = new Question(
+                            rs.getInt("QuestionID"),
+                            rs.getString("QuestionContent"),
+                            rs.getInt("QuestionType"),
+                            rs.getBoolean("Status"),
+                            rs.getInt("QuestionLevel"),
+                            rs.getInt("CreatedBy"),
+                            rs.getString("createdAt"),
+                            rs.getInt("SubjectId"),
+                            rs.getInt("LessonId")
+                    );
+                    questions.add(question);
                 }
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return list;
+        return questions;
     }
 
     public int getTotalQuestionCount(String searchQuery, String filter) {
@@ -92,24 +124,23 @@ public class QuestionDAO extends DBContext {
         return count;
     }
 
-    public static void main(String[] args) {
-        QuestionDAO dao = new QuestionDAO();
-        // Tham số test
-        String searchQuery = "Java";      // tìm các câu hỏi chứa từ "What", có thể để null
-        String filterLevel = "Beginner";      // lọc theo Level, có thể để null
-        int pageSize = 5;                 // số lượng câu hỏi trên mỗi trang
-        int pageIndex = 1;                // trang số 1
-
-        List<Question> questions = dao.getAllQuestionWithParam(searchQuery, filterLevel, pageSize, pageIndex);
-
-        // In kết quả
-        for (Question q : questions) {
-            System.out.println("ID: " + q.getQuestionID());
-            System.out.println("Content: " + q.getQuestionContent());
-            System.out.println("Level: " + q.getQuestionLevel());
-            System.out.println("Status: " + q.getStatus());
-            System.out.println("------------------------");
-        }
-    }
-
+//    public static void main(String[] args) {
+//        QuestionDAO dao = new QuestionDAO();
+//        // Tham số test
+//        String searchQuery = "Java";      // tìm các câu hỏi chứa từ "What", có thể để null
+//        String filterLevel = "Beginner";      // lọc theo Level, có thể để null
+//        int pageSize = 5;                 // số lượng câu hỏi trên mỗi trang
+//        int pageIndex = 1;                // trang số 1
+//
+//        List<Question> questions = dao.getAllQuestionWithParam(searchQuery, filterLevel, pageSize, pageIndex);
+//
+//        // In kết quả
+//        for (Question q : questions) {
+//            System.out.println("ID: " + q.getQuestionID());
+//            System.out.println("Content: " + q.getQuestionContent());
+//            System.out.println("Level: " + q.getQuestionLevel());
+//            System.out.println("Status: " + q.getStatus());
+//            System.out.println("------------------------");
+//        }
+//    }
 }

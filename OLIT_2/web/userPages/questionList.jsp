@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@page import="dao.SubjectDAO"%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -81,20 +82,18 @@
                     <tbody>
                         <c:forEach var="q" items="${questionList}">
                             <tr>
-                                <td>${q.questionID}</td>
-                                <td>${q.questionContent}</td>
-                                <td>${q.questionType}</td>
-                                <td>${q.questionLevel}</td>
-                                <td>
-                                    <c:choose>
-                                        <c:when test="${q.status == 1}">Active</c:when>
-                                        <c:otherwise>Inactive</c:otherwise>
-                                    </c:choose>
-                                </td>
+                                <td>${q.getQuestionId()}</td>
+                                <td>${q.getQuestionContent()}</td>
+                                <td>${SubjectDAO.getSubjectById(q.getSubjectId()).getSubjectName()}</td>
+                                <td>${q.getQuestionLevel()}</td>
+                                <td>${q.isStatusStr()}</td>
                                 <td class="action-icons">
-                                    <i class="bi bi-eye-fill" title="Show"></i>
-                                    <i class="bi bi-eye-slash-fill" title="Hide"></i>
-                                    <i class="bi bi-pencil-fill" title="Edit"></i>
+                                    <form action="${pageContext.request.contextPath}/QuestionDetailServlet" method="post" style="display: inline;">
+                                        <input type="hidden" name="questionID" value="${q.getQuestionId()}">
+                                        <button type="submit" class="btn btn-link p-0" title="Edit">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -133,7 +132,6 @@
         <!-- Bootstrap + Bootstrap Icons -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-
         <script>
                                 function toggleColumn(index) {
                                     const table = document.getElementById("questionTable");
@@ -143,26 +141,15 @@
                                         cell.style.display = (cell.style.display === "none") ? "" : "none";
                                     }
                                 }
-        </script>
 
-        <script>
-            function toggleColumn(index) {
-                const table = document.getElementById("questionTable");
-                const rows = table.rows;
-                for (let i = 0; i < rows.length; i++) {
-                    const cell = rows[i].cells[index];
-                    cell.style.display = (cell.style.display === "none") ? "" : "none";
-                }
-            }
+                                function resetForm() {
+                                    // Xóa giá trị các trường input trong form
+                                    const form = document.querySelector("form");
+                                    form.reset(); // reset về giá trị mặc định ban đầu của input
 
-            function resetForm() {
-                // Xóa giá trị các trường input trong form
-                const form = document.querySelector("form");
-                form.reset(); // reset về giá trị mặc định ban đầu của input
-
-                // Chuyển hướng đến URL cơ bản để xoá mọi query param
-                window.location.href = "QuestionListServlet";
-            }
+                                    // Chuyển hướng đến URL cơ bản để xoá mọi query param
+                                    window.location.href = "QuestionListServlet";
+                                }
         </script>
 
 
