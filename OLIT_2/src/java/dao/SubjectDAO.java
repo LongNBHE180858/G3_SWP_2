@@ -1,17 +1,16 @@
 package dao;
 
 import dal.DBContext;
-import model.Subject;
 import java.sql.*;
 import java.util.*;
+import model.Subject;
 
-public class SubjectDAO extends DBContext {
+public class SubjectDAO {
 
     // Lấy tất cả Subject đã publish (Status = 1)
     public List<Subject> getAllPublishedSubjects() {
         List<Subject> list = new ArrayList<>();
-        String sql
-                = "SELECT s.SubjectID, s.SubjectName, s.Category, s.OwnerId, a.FullName AS OwnerName, s.Status, "
+        String sql = "SELECT s.SubjectID, s.SubjectName, s.Category, s.OwnerId, a.FullName AS OwnerName, s.Status, "
                 + "COUNT(l.LessonID) AS NumOfLessons "
                 + "FROM Subject s "
                 + "JOIN Account a ON s.OwnerId = a.UserID "
@@ -22,7 +21,13 @@ public class SubjectDAO extends DBContext {
                 + "WHERE s.Status = 1 "
                 + "GROUP BY s.SubjectID, s.SubjectName, s.Category, s.OwnerId, a.FullName, s.Status "
                 + "ORDER BY s.SubjectID";
-        try (PreparedStatement ps = DBContext.getInstance().getConnection().prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = DBContext.getInstance().getConnection();
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
             while (rs.next()) {
                 Subject s = new Subject();
                 s.setSubjectID(rs.getInt("SubjectID"));
@@ -36,6 +41,21 @@ public class SubjectDAO extends DBContext {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return list;
     }
@@ -43,13 +63,10 @@ public class SubjectDAO extends DBContext {
     // Lấy danh sách Subject theo filter
     public List<Subject> getAllSubjects(String search, String category, String status) {
         List<Subject> list = new ArrayList<>();
-        String sql
-
-                = "SELECT s.SubjectID, s.SubjectName, s.Category, s.OwnerId, a.FullName AS OwnerName, s.Status, "
+        String sql = "SELECT s.SubjectID, s.SubjectName, s.Category, s.OwnerId, a.FullName AS OwnerName, s.Status, "
                 + "COUNT(l.LessonID) AS NumOfLessons "
                 + "FROM Subject s "
                 + "JOIN Account a ON s.OwnerId = a.UserID "
-
                 + "LEFT JOIN Course c ON s.SubjectID = c.SubjectID "
                 + "LEFT JOIN CourseSection cs ON c.CourseID = cs.CourseID "
                 + "LEFT JOIN SectionModule sm ON cs.SectionID = sm.SectionID "
@@ -105,12 +122,33 @@ public class SubjectDAO extends DBContext {
     public List<String> getAllCategories() {
         List<String> list = new ArrayList<>();
         String sql = "SELECT DISTINCT Category FROM Subject";
-        try (PreparedStatement ps = DBContext.getInstance().getConnection().prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = DBContext.getInstance().getConnection();
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(rs.getString(1));
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return list;
     }
@@ -118,9 +156,13 @@ public class SubjectDAO extends DBContext {
     public List<Subject> getAllSubjects() {
         List<Subject> list = new ArrayList<>();
         String sql = "SELECT * FROM Subject WHERE Status = 1";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
-            PreparedStatement ps = DBContext.getInstance().getConnection().prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+            conn = DBContext.getInstance().getConnection();
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
             while (rs.next()) {
                 Subject s = new Subject();
                 s.setSubjectID(rs.getInt("SubjectID"));
@@ -130,6 +172,21 @@ public class SubjectDAO extends DBContext {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return list;
     }
@@ -190,34 +247,54 @@ public class SubjectDAO extends DBContext {
         return list;
     }
 
-    public int insertSubjectReturnId(String name, String category, int ownerId, boolean status, String desc) {
-        String sql = "INSERT INTO Subject (SubjectName, Category, OwnerID, Status, Description) VALUES (?, ?, ?, ?, ?)";
-        try (Connection conn = DBContext.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+    public int insertSubjectReturnId(String name, String category, int ownerId, boolean featuredFlag, boolean status,
+            String Description) {
+        String sql = "INSERT INTO Subject (SubjectName, Category, OwnerID, FeaturedFlag, Status,Description) VALUES (?, ?,?,?, ?,?)";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = DBContext.getInstance().getConnection();
+            ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, name);
             ps.setString(2, category);
             ps.setInt(3, ownerId);
-            ps.setBoolean(4, status);
-            ps.setString(5, desc);
+            ps.setBoolean(4, featuredFlag);
+            ps.setBoolean(5, status);
+            ps.setString(6, Description);
             ps.executeUpdate();
-            ResultSet rs = ps.getGeneratedKeys();
+            rs = ps.getGeneratedKeys();
             if (rs.next()) {
                 return rs.getInt(1);
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return -1;
     }
-
-    
 
     public static Subject getSubjectByID(int subjectID) {
         Subject subject = new Subject();
         DBContext db = DBContext.getInstance();
         try {
             String sql = """
-                         SELECT * FROM Subject WHERE SubjectID = ?
-                         """;
+                    SELECT * FROM Subject WHERE SubjectID = ?
+                    """;
             PreparedStatement statement = db.getConnection().prepareStatement(sql);
             statement.setInt(1, subjectID);
             ResultSet rs = statement.executeQuery();
@@ -233,6 +310,5 @@ public class SubjectDAO extends DBContext {
         }
         return subject;
     }
-
 
 }

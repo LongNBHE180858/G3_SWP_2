@@ -15,6 +15,7 @@
         <meta charset="UTF-8">
         <title>Danh sách Blog</title>
         <style>
+            
             * {
                 box-sizing: border-box;
             }
@@ -225,23 +226,38 @@
                     margin-left: 0;
                     margin-right: 20px;
                 }
+                .logo-img {
+        height: 54px;       /* chiều cao logo */
+        width: auto;
+        padding: 4px;       /* khoảng trắng quanh icon */
+        border-radius: 8px;
+        background: rgba(255,255,255,0.15);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        display: block;
+    }
+    .logo-text {
+        font-size: 2.1em;
+        font-weight: 700;
+        color: #fff;
+        letter-spacing: 1.5px;
+        font-family: inherit;
+        line-height: 1;
+    }
             }
         </style>
-    </head>
-
-    <body>
-
         <header>
-            <div class="logo">Online Learn</div>
+            <div class="logo">Course Aura</div>
             <div class="nav-links">
                 <a href="${pageContext.request.contextPath}/HomeServlet">Home</a>
                 <a href="${pageContext.request.contextPath}/MyCourseServlet">Course List</a>
                 <a href="${pageContext.request.contextPath}/SubjectList">Subject List</a>
-                <a href="#">Quiz List</a>
-                <a href="#">Log in</a>
-                <a href="#">Register</a>
+                <a href="${pageContext.request.contextPath}/QuestionListServlet">Question List</a>
+                
             </div>
         </header>
+    </head>
+
+    <body>       
 
         <div class="container">
 

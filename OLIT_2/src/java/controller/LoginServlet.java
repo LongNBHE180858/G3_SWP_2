@@ -92,6 +92,7 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("roleID", loggedInAccount.getRoleID());
             session.setAttribute("userEmail", loggedInAccount.getEmail());
             session.setAttribute("fullAccount", loggedInAccount);
+            session.setAttribute("avatarUrl", loggedInAccount.getUrlAvatar());
             response.sendRedirect(request.getContextPath() + "/HomeServlet");
         } else {
             err = "Wrong email or password, please re-enter";
