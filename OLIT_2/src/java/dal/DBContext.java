@@ -12,6 +12,7 @@ import java.sql.DriverManager;
  * @author Long0
  */
 public class DBContext {
+
     private static DBContext instance = new DBContext();//singleton pattern
     protected Connection connection;
     String err;
@@ -42,4 +43,20 @@ public class DBContext {
     public String getErr() {
         return this.err;
     }
+
+//    public static void main(String[] args) {
+//        DBContext db = DBContext.getInstance();
+//        Connection conn = db.getConnection();
+//        if (conn != null) {
+//            System.out.println("Kết nối cơ sở dữ liệu thành công!");
+//            try {
+//                System.out.println("Database Name: " + conn.getCatalog());
+//                conn.close(); // Đóng kết nối sau khi kiểm tra
+//            } catch (Exception e) {
+//                System.out.println("Lỗi khi lấy thông tin cơ sở dữ liệu: " + e.getMessage());
+//            }
+//        } else {
+//            System.out.println("Kết nối cơ sở dữ liệu thất bại! Lỗi: " + db.getErr());
+//        }
+//    }
 }

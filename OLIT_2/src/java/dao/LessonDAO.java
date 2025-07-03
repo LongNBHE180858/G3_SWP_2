@@ -12,6 +12,7 @@ import java.util.List;
 import model.*;
 
 public class LessonDAO {
+
     public List<Lesson> getLessonsByModuleId(int moduleId) {
         List<Lesson> list = new ArrayList<>();
         String sql = "SELECT * FROM Lesson WHERE ModuleID = ? ORDER BY [Order]";
@@ -22,7 +23,7 @@ public class LessonDAO {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Lesson lesson = new Lesson();
-                lesson.setLessonID(rs.getInt("LessonID"));       
+                lesson.setLessonID(rs.getInt("LessonID"));
                 lesson.setModuleID(rs.getInt("ModuleID"));
                 lesson.setLessonTitle(rs.getString("LessonTitle"));
                 lesson.setLessonDetail(rs.getString("LessonDetails"));
@@ -37,13 +38,13 @@ public class LessonDAO {
 
         return list;
     }
-    
+
     public Lesson getFirstLessonByCourseId(int courseId) {
-        String sql = "SELECT TOP 1 l.* FROM Lesson l " +
-                     "JOIN SectionModule sm ON l.ModuleID = sm.ModuleID " +
-                     "JOIN CourseSection cs ON sm.SectionID = cs.SectionID " +
-                     "WHERE cs.CourseID = ? " +
-                     "ORDER BY cs.SectionID, sm.ModuleID, l.[Order]";
+        String sql = "SELECT TOP 1 l.* FROM Lesson l "
+                + "JOIN SectionModule sm ON l.ModuleID = sm.ModuleID "
+                + "JOIN CourseSection cs ON sm.SectionID = cs.SectionID "
+                + "WHERE cs.CourseID = ? "
+                + "ORDER BY cs.SectionID, sm.ModuleID, l.[Order]";
 
         try (PreparedStatement ps = DBContext.getInstance().getConnection().prepareStatement(sql)) {
             ps.setInt(1, courseId);
@@ -64,5 +65,31 @@ public class LessonDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static Lesson getLessonByID(int lessonID) {
+        Lesson lesson = null;
+        String sql = """
+                         SELECT * FROM LESSON WHERE LessonID = ? ORDER BY [Order]
+                         """;
+        try (PreparedStatement ps = DBContext.getInstance().getConnection().prepareStatement(sql)) {
+            ps.setInt(1, lessonID);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    lesson = new Lesson(
+                            rs.getInt("LessonID"),
+                            rs.getInt("ModuleID"),
+                            rs.getString("LessonTitle"),
+                            rs.getString("LessonDetails"),
+                            rs.getBoolean("Status"),
+                            rs.getString("URLLesson"),
+                            rs.getInt("Order")
+                    );
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return lesson;
     }
 }

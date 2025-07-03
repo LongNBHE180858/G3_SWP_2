@@ -15,37 +15,37 @@ import java.util.Date;
  */
 public class Question {
 
-    private int questionId;
+    private int questionID;
     private String questionContent;
     private int questionType;
     private boolean status;
     private int questionLevel;
     private int createdBy;
     private String createdAt;
-    private int subjectId;
-    private int lessonId;
+    private int subjectID;
+    private int lessonID;
 
     public Question() {
     }
 
-    public Question(int questionId, String questionContent, int questionType, boolean status, int questionLevel, int createdBy, String createdAt, int subjectId, int lessonId) {
-        this.questionId = questionId;
+    public Question(int questionID, String questionContent, int questionType, boolean status, int questionLevel, int createdBy, String createdAt, int subjectID, int lessonID) {
+        this.questionID = questionID;
         this.questionContent = questionContent;
         this.questionType = questionType;
         this.status = status;
         this.questionLevel = questionLevel;
         this.createdBy = createdBy;
         this.createdAt = createdAt;
-        this.subjectId = subjectId;
-        this.lessonId = lessonId;
+        this.subjectID = subjectID;
+        this.lessonID = lessonID;
     }
 
-    public int getQuestionId() {
-        return questionId;
+    public int getQuestionID() {
+        return questionID;
     }
 
-    public void setQuestionId(int questionId) {
-        this.questionId = questionId;
+    public void setQuestionID(int questionID) {
+        this.questionID = questionID;
     }
 
     public String getQuestionContent() {
@@ -59,7 +59,7 @@ public class Question {
     public int getQuestionType() {
         return questionType;
     }
-    
+
     public String getQuestionTypeStr() {
         return questionType == 1 ? "Type 1" : "Type 2";
     }
@@ -71,7 +71,7 @@ public class Question {
     public boolean isStatus() {
         return status;
     }
-        
+
     public String isStatusStr() {
         return (status ? "Active" : "Inactive");
     }
@@ -104,20 +104,20 @@ public class Question {
         this.createdAt = createdAt;
     }
 
-    public int getSubjectId() {
-        return subjectId;
+    public int getSubjectID() {
+        return subjectID;
     }
 
-    public void setSubjectId(int subjectId) {
-        this.subjectId = subjectId;
+    public void setSubjectID(int subjectID) {
+        this.subjectID = subjectID;
     }
 
-    public int getLessonId() {
-        return lessonId;
+    public int getLessonID() {
+        return lessonID;
     }
 
-    public void setLessonId(int lessonId) {
-        this.lessonId = lessonId;
+    public void setLessonID(int lessonID) {
+        this.lessonID = lessonID;
     }
 
     public String getDate() throws ParseException {

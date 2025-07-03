@@ -211,7 +211,7 @@ public class SubjectDAO extends DBContext {
 
     
 
-    public static Subject getSubjectById(int subjectId) {
+    public static Subject getSubjectByID(int subjectID) {
         Subject subject = new Subject();
         DBContext db = DBContext.getInstance();
         try {
@@ -219,7 +219,7 @@ public class SubjectDAO extends DBContext {
                          SELECT * FROM Subject WHERE SubjectID = ?
                          """;
             PreparedStatement statement = db.getConnection().prepareStatement(sql);
-            statement.setInt(1, subjectId);
+            statement.setInt(1, subjectID);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 subject.setSubjectID(rs.getInt("SubjectID"));

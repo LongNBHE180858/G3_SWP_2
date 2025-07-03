@@ -124,6 +124,34 @@ public class QuestionDAO extends DBContext {
         return count;
     }
 
+    public static Question getQuesionByID(int questionID) {
+        String sql = """
+                     SELECT * FROM Question WHERE QuestionID = ?
+                     """;
+        try (PreparedStatement ps = DBContext.getInstance().getConnection().prepareCall(sql)) {
+            ps.setInt(1, questionID);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Question question = new Question(
+                            rs.getInt("QuestionID"),
+                            rs.getString("QuestionContent"),
+                            rs.getInt("QuestionType"),
+                            rs.getBoolean("Status"),
+                            rs.getInt("QuestionLevel"),
+                            rs.getInt("CreatedBy"),
+                            rs.getString("CreatedAt"),
+                            rs.getInt("SubjectID"),
+                            rs.getInt("LessonID")
+                    );
+                    return question;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 //    public static void main(String[] args) {
 //        QuestionDAO dao = new QuestionDAO();
 //        // Tham số test

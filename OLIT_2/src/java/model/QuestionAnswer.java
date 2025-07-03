@@ -9,6 +9,7 @@ package model;
  * @author Long0
  */
 public class QuestionAnswer {
+
     private int answerId;
     private String answerDetail;
     private String explanation;
@@ -65,6 +66,5 @@ public class QuestionAnswer {
     public void setQuestionId(int questionId) {
         this.questionId = questionId;
     }
-    
-    
+
 }

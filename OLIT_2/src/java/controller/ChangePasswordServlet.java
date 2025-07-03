@@ -23,6 +23,7 @@ public class ChangePasswordServlet extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String action = request.getParameter("action");
+
         if (action.equalsIgnoreCase("changePassword")) {
             HttpSession session = request.getSession(false);
             if (session != null) {

@@ -197,6 +197,7 @@ CREATE TABLE QuestionAnswer (
 CREATE TABLE QuestionMedia (
     MediaID INT IDENTITY(1,1) PRIMARY KEY,
     MediaURL NVARCHAR(255) NOT NULL,
+	MediaType INT NOT NULL,
     MediaDescription NVARCHAR(255) NOT NULL,
     QuestionID INT NOT NULL,
     FOREIGN KEY (QuestionID) REFERENCES Question(QuestionID) ON DELETE CASCADE

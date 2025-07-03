@@ -30,6 +30,7 @@ import validate.InputValidator;
  */
 @WebServlet("/ForgotPasswordServlet")
 public class ForgotPasswordServlet extends HttpServlet {
+    
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -94,7 +95,7 @@ public class ForgotPasswordServlet extends HttpServlet {
                 request.setAttribute("err", err);
                 request.getRequestDispatcher("forgotPassword.jsp").forward(request, response);
             } else {
-                String resetLink = "http://localhost:9999/OLIT/userPages/setPassword.jsp?email=" + email;
+                String resetLink = "http://localhost:9999/OLIT_2/userPages/setPassword.jsp?email=" + email;
 
                 sendVerificationEmail(email, resetLink);
 

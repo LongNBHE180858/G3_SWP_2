@@ -223,10 +223,10 @@ public class AccountDAO {
         DBContext db = DBContext.getInstance();
         try {
             String sql = "UPDATE Account SET Password=?, Status='active' WHERE Email=?";
-            PreparedStatement stmt = db.getConnection().prepareStatement(sql);
-            stmt.setString(1, password);
-            stmt.setString(2, email);
-            return stmt.executeUpdate() > 0;
+            PreparedStatement ps = db.getConnection().prepareStatement(sql);
+            ps.setString(1, password);
+            ps.setString(2, email);
+            return ps.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -268,12 +268,7 @@ public class AccountDAO {
         return list;
     }
 
-//    public static void main(String[] args) {
-////        ArrayList<Account> accounts = AccountDAO.getAccounts();
-////        for (Account account : accounts) {
-////            System.out.println(account);
-////        }
-//
-//        //boolean a = AccountDAO.editUserProfile(1, "NAM", "Male", "0112", "13/05/2004");
-//    }
+    public static void main(String[] args) {
+        System.out.println(updatePasswordAndActivate("longnbhe180858@fpt.edu.vn", "123"));
+    }
 }

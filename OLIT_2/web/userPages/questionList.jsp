@@ -82,14 +82,14 @@
                     <tbody>
                         <c:forEach var="q" items="${questionList}">
                             <tr>
-                                <td>${q.getQuestionId()}</td>
+                                <td>${q.getQuestionID()}</td>
                                 <td>${q.getQuestionContent()}</td>
-                                <td>${SubjectDAO.getSubjectById(q.getSubjectId()).getSubjectName()}</td>
+                                <td>${SubjectDAO.getSubjectByID(q.getSubjectID()).getSubjectName()}</td>
                                 <td>${q.getQuestionLevel()}</td>
                                 <td>${q.isStatusStr()}</td>
                                 <td class="action-icons">
                                     <form action="${pageContext.request.contextPath}/QuestionDetailServlet" method="post" style="display: inline;">
-                                        <input type="hidden" name="questionID" value="${q.getQuestionId()}">
+                                        <input type="hidden" name="questionID" value="${q.getQuestionID()}">
                                         <button type="submit" class="btn btn-link p-0" title="Edit">
                                             <i class="bi bi-pencil-square"></i>
                                         </button>

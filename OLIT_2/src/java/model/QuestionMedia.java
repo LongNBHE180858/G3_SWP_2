@@ -9,17 +9,20 @@ package model;
  * @author Long0
  */
 public class QuestionMedia {
+
     private int mediaId;
     private String mediaURL;
+    private int mediaType;
     private String mediaDescription;
     private int questionId;
 
     public QuestionMedia() {
     }
 
-    public QuestionMedia(int mediaId, String mediaURL, String mediaDescription, int questionId) {
+    public QuestionMedia(int mediaId, String mediaURL, int mediaType, String mediaDescription, int questionId) {
         this.mediaId = mediaId;
         this.mediaURL = mediaURL;
+        this.mediaType = mediaType;
         this.mediaDescription = mediaDescription;
         this.questionId = questionId;
     }
@@ -40,6 +43,14 @@ public class QuestionMedia {
         this.mediaURL = mediaURL;
     }
 
+    public int getMediaType() {
+        return mediaType;
+    }
+
+    public void setMediaType(int mediaType) {
+        this.mediaType = mediaType;
+    }
+
     public String getMediaDescription() {
         return mediaDescription;
     }
@@ -55,6 +66,5 @@ public class QuestionMedia {
     public void setQuestionId(int questionId) {
         this.questionId = questionId;
     }
-    
-    
+
 }

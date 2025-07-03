@@ -220,21 +220,23 @@ INSERT INTO Quiz (QuizID, SectionID, QuizName, PassRate, QuizType, QuizDuration,
 
 -- Thêm dữ liệu vào bảng Question
 INSERT INTO Question (QuestionID, QuestionContent, QuestionType, Status, QuestionLevel, CreatedBy, CreatedAt, SubjectID, LessonID) VALUES
-(1, N'Java là ngôn ngữ lập trình thuộc loại nào?', 1, 1, 1, 2, GETDATE(), 1, 6),
-(2, N'Khóa chính (Primary Key) trong database có tác dụng gì?', 1, 1, 1, 3, GETDATE(), 2, 26),
-(3, N'JSX là gì trong React?', 1, 1, 1, 2, GETDATE(), 3, 33),
-(4, N'SEO viết tắt của từ nào?', 1, 1, 1, 3, GETDATE(), 4, 49),
-(5, N'Scrum là một framework của phương pháp nào?', 1, 1, 2, 2, GETDATE(), 5, 54),
+(1, N'Java là ngôn ngữ lập trình thuộc loại nào?', 1, 1, 1, 2, GETDATE(), 1, 1),
+(2, N'Khóa chính (Primary Key) trong database có tác dụng gì?', 1, 1, 1, 3, GETDATE(), 2, 2),
+(3, N'JSX là gì trong React?', 1, 1, 1, 2, GETDATE(), 3, 3),
+(4, N'SEO viết tắt của từ nào?', 1, 1, 1, 3, GETDATE(), 4, 4),
+(5, N'Scrum là một framework của phương pháp nào?', 1, 1, 2, 2, GETDATE(), 5, 5),
 (6, N'Trong Java, từ khóa "static" có ý nghĩa gì?', 1, 1, 2, 2, GETDATE(), 1, 6),
-(7, N'Chuẩn hóa database (Database Normalization) là gì?', 1, 1, 2, 3, GETDATE(), 2, 27);
+(7, N'Chuẩn hóa database (Database Normalization) là gì?', 1, 1, 2, 3, GETDATE(), 2, 7);
 
 -- Thêm dữ liệu vào bảng QuestionDimension
 INSERT INTO QuestionDimension (QuestionID, DimensionID) VALUES
-(1, 1), -- Java Fundamentals
-(2, 3), -- Database Design
-(3, 5), -- React Components
-(6, 1), -- Java Fundamentals
-(7, 3); -- Database Design
+(1, 1), 
+(1, 2),
+(3, 1),
+(4, 2), 
+(5, 2), 
+(6, 3), 
+(7, 4); 
 
 -- Thêm dữ liệu vào bảng QuestionAnswer
 INSERT INTO QuestionAnswer (AnswerDetail, Explanation, IsCorrect, QuestionID) VALUES
@@ -268,10 +270,11 @@ INSERT INTO QuestionAnswer (AnswerDetail, Explanation, IsCorrect, QuestionID) VA
 (N'Quá trình sao lưu database định kỳ', N'Không đúng, chuẩn hóa không liên quan đến sao lưu.', 0, 7);
 
 -- Thêm dữ liệu vào bảng QuestionMedia
-INSERT INTO QuestionMedia (MediaURL,MediaDescription, QuestionID) VALUES
-('https://example.com/java-image.png', N'Hình minh họa cú pháp Java', 1),
-('https://example.com/database-diagram.png', N'Sơ đồ khóa chính', 2),
-('https://example.com/jsx-example.png', N'Minh họa JSX', 3);
+INSERT INTO QuestionMedia (MediaURL,MediaType,MediaDescription, QuestionID) VALUES
+('Screenshot 2025-07-02 000231.png', 1, N'Test image', 1),
+('2637-161442811_tiny.mp4', 2, N'Test video', 1),
+('131442-750559816_tiny.mp4', 2, N'Test video', 1),
+('Recording_147.m4a', 2, N'Test audio', 1);
 
 -- Thêm dữ liệu vào bảng QuizQuestion
 INSERT INTO QuizQuestion (QuizQuestionID, QuizID, QuestionID, QuestionOrder, Points) VALUES
