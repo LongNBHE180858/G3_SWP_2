@@ -24,10 +24,10 @@ public class Course {
     public Course() {
     }
 
-    public Course(int courseID, int subjectID, String courseTile, String courseTag, String urlCourse, String courseDetail, String courseLevel, String featureFlag, int status, int courseraDuration) {
+    public Course(int courseID, int subjectID, String courseTitle, String courseTag, String urlCourse, String courseDetail, String courseLevel, String featureFlag, int status, int courseraDuration) {
         this.courseID = courseID;
         this.subjectID = subjectID;
-        this.courseTitle = courseTile;
+        this.courseTitle = courseTitle;
         this.courseTag = courseTag;
         this.urlCourse = urlCourse;
         this.courseDetail = courseDetail;

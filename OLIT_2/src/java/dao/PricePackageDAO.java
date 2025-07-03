@@ -61,4 +61,26 @@ public class PricePackageDAO extends DBContext {
         }
         return list;
     }
+    public PricePackage getActivePackageByCourseId(int courseId) {
+        String sql = "SELECT TOP 1 * FROM PricePackage WHERE CourseID = ? AND Status = 1 ORDER BY SalePrice ASC";
+        try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
+            ps.setInt(1, courseId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new PricePackage(
+                        rs.getInt("PackageID"),
+                        rs.getInt("CourseID"),
+                        rs.getString("Name"),
+                        rs.getInt("AccessDuration"),
+                        rs.getInt("ListPrice"),
+                        rs.getInt("SalePrice"),
+                        rs.getInt("Status"),
+                        rs.getString("Description")
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

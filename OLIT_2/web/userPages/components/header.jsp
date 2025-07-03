@@ -90,7 +90,7 @@
         <!-- Menu / phần nav (giữ nguyên từ trước) -->
         <div class="nav">
             <a href="${pageContext.request.contextPath}/HomeServlet">Home</a>
-            <a href="${pageContext.request.contextPath}/MyRegistration">Courses</a>
+            <a href="${pageContext.request.contextPath}/CourseListServlet">Courses</a>
             <a href="${pageContext.request.contextPath}/BlogListServlet">Blog</a>
 
             <c:choose>

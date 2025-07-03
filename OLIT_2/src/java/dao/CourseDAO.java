@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import dal.DBContext;
@@ -9,12 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import model.*;
 
-/**
- *
- * @author Long0
- */
 public class CourseDAO {
 
     public static ArrayList<Course> getCourses() {
@@ -22,19 +15,20 @@ public class CourseDAO {
         ArrayList<Course> courses = new ArrayList<>();
         try {
             String sql = """
-                     Select 
-                         CourseID,
-                         SubjectID,
-                         CourseTitle,
-                         CourseTag,
-                         URLCourse,
-                         CourseDetail,
-                         CourseLevel,
-                         FeatureFlag,
-                         Status,
-                         CourseraDuration,
-                         FROM Course
-                         """;
+                SELECT 
+                    CourseID,
+                    SubjectID,
+                    CourseTitle,
+                    CourseTag,
+                    URLCourse,
+                    CourseDetail,
+                    CourseLevel,
+                    FeatureFlag,
+                    Status,
+                    CourseraDuration
+                FROM Course
+            """;
+
             PreparedStatement statement = db.getConnection().prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -53,6 +47,7 @@ public class CourseDAO {
                 courses.add(course);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
         return courses;
@@ -61,9 +56,7 @@ public class CourseDAO {
     public Course getCourseById(int id) {
         DBContext db = DBContext.getInstance();
         String sql = "SELECT * FROM Course WHERE CourseID = ?";
-
         try {
-
             PreparedStatement ps = db.getConnection().prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
@@ -72,6 +65,8 @@ public class CourseDAO {
                 course.setCourseID(rs.getInt("CourseID"));
                 course.setCourseTitle(rs.getString("CourseTitle"));
                 course.setCourseDetail(rs.getString("CourseDetail"));
+                course.setUrlCourse(rs.getString("URLCourse"));
+                
                 return course;
             }
         } catch (Exception e) {
@@ -124,10 +119,60 @@ public class CourseDAO {
         }
         return list;
     }
-   
+
+    public List<Course> getCoursesBySubjectIds(List<Integer> subjectIds) {
+        List<Course> list = new ArrayList<>();
+        if (subjectIds == null || subjectIds.isEmpty()) {
+            return list;
+        }
+
+        String placeholders = subjectIds.stream().map(id -> "?").collect(Collectors.joining(","));
+        String sql = "SELECT * FROM Course WHERE SubjectID IN (" + placeholders + ")";
+        try (PreparedStatement ps = DBContext.getInstance().getConnection().prepareStatement(sql)) {
+            for (int i = 0; i < subjectIds.size(); i++) {
+                ps.setInt(i + 1, subjectIds.get(i));
+            }
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Course c = new Course();
+                c.setCourseID(rs.getInt("CourseID"));
+                c.setSubjectID(rs.getInt("SubjectID"));
+                c.setCourseTitle(rs.getString("CourseTitle"));
+                c.setCourseTag(rs.getString("CourseTag"));
+                c.setUrlCourse(rs.getString("URLCourse"));
+                c.setCourseDetail(rs.getString("CourseDetail"));
+                c.setCourseLevel(rs.getString("CourseLevel"));
+                c.setFeatureFlag(rs.getString("FeatureFlag"));
+                c.setStatus(rs.getInt("Status"));
+                c.setCourseraDuration(rs.getInt("CourseraDuration"));
+                list.add(c);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public static void main(String[] args) {
+        ArrayList<Course> courses = getCourses(); // Gọi hàm tĩnh getCourses()
+
+        if (courses != null && !courses.isEmpty()) {
+            System.out.println("===== Danh sách khóa học từ CSDL =====");
+            for (Course c : courses) {
+                System.out.println("Course ID: " + c.getCourseID());
+                System.out.println("Title    : " + c.getCourseTitle());
+                System.out.println("SubjectID: " + c.getSubjectID());
+                System.out.println("Tag      : " + c.getCourseTag());
+                System.out.println("URL      : " + c.getUrlCourse());
+                System.out.println("Detail   : " + c.getCourseDetail());
+                System.out.println("Level    : " + c.getCourseLevel());
+                System.out.println("Feature  : " + c.getFeatureFlag());
+                System.out.println("Status   : " + c.getStatus());
+                System.out.println("Duration : " + c.getCourseraDuration() + " giờ");
+                System.out.println("--------------------------------------");
+            }
+        } else {
+            System.out.println("Không có dữ liệu hoặc xảy ra lỗi.");
+        }
+    }
 }
-
-
-
-
-

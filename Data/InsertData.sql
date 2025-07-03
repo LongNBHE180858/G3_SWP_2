@@ -94,13 +94,24 @@ INSERT INTO SubjectMedia (MediaID, SubjectID, MediaURL, MediaType, MediaDescript
 (3, 3, 'https://example.com/react-demo.mp4', 'video', N'Video demo React');
 
 -- Thêm dữ liệu vào bảng Course
-INSERT INTO Course (CourseID, SubjectID, CourseTitle, CourseTag, URLCourse, CourseDetail, CourseLevel, FeatureFlag, Status, CourseraDuration) VALUES
-(1, 1, N'Nhập môn Java Programming', N'java,programming,beginner', 'https://i.ytimg.com/vi/ptOjDnsLOCc/mqdefault.jpg', N'Khóa học cơ bản về lập trình Java', N'Beginner', N'featured', 1, 40),
-(2, 2, N'Thiết kế Database với MySQL', N'database,mysql,design', 'https://image.vietnix.vn/wp-content/uploads/2023/11/thiet-lap-co-so-du-lieu-tu-xa-voi-mysql-tren-ubuntu-20-04.png', N'Học cách thiết kế và tối ưu database', N'Intermediate', N'popular', 1, 30),
-(3, 3, N'React.js cho người mới bắt đầu', N'react,javascript,frontend', 'https://cdn2.fptshop.com.vn/unsafe/1920x0/filters:format(webp):quality(75)/2023_12_28_638393296838948284_reactjs.jpg', N'Xây dựng ứng dụng web với React', N'Beginner', N'new', 1, 50),
-(4, 4, N'Digital Marketing Strategy', N'marketing,digital,strategy', 'https://www.creationinfoways.com/blog/uploading/687193083.jpg', N'Chiến lược marketing số hiệu quả', N'Intermediate', N'trending', 1, 35),
-(5, 5, N'Agile Project Management', N'agile,project,management', 'https://miro.medium.com/v2/resize:fit:1024/0*jlUybkZYz6yxWtdk.jpg', N'Quản lý dự án theo phương pháp Agile', N'Advanced', N'featured', 1, 25);
-
+INSERT INTO Course 
+(CourseID, SubjectID, CourseTitle, CourseTag, URLCourse, CourseDetail, CourseLevel, FeatureFlag, Status, CourseraDuration, OriginalPrice, DiscountedPrice) 
+VALUES
+(1, 1, N'Nhập môn Java Programming', N'java,programming,beginner', 'https://i.ytimg.com/vi/ptOjDnsLOCc/mqdefault.jpg', N'Khóa học cơ bản về lập trình Java', N'Beginner', N'featured', 1, 40, 500000, 400000),
+(2, 2, N'Thiết kế Database với MySQL', N'database,mysql,design', 'https://image.vietnix.vn/wp-content/uploads/2023/11/thiet-lap-co-so-du-lieu-tu-xa-voi-mysql-tren-ubuntu-20-04.png', N'Học cách thiết kế và tối ưu database', N'Intermediate', N'popular', 1, 30, 600000, 450000),
+(3, 3, N'React.js cho người mới bắt đầu', N'react,javascript,frontend', 'https://cdn2.fptshop.com.vn/unsafe/1920x0/filters:format(webp):quality(75)/2023_12_28_638393296838948284_reactjs.jpg', N'Xây dựng ứng dụng web với React', N'Beginner', N'new', 1, 50, 700000, 550000),
+(4, 4, N'Digital Marketing Strategy', N'marketing,digital,strategy', 'https://www.creationinfoways.com/blog/uploading/687193083.jpg', N'Chiến lược marketing số hiệu quả', N'Intermediate', N'trending', 1, 35, 800000, 640000),
+(5, 5, N'Agile Project Management', N'agile,project,management', 'https://miro.medium.com/v2/resize:fit:1024/0*jlUybkZYz6yxWtdk.jpg', N'Quản lý dự án theo phương pháp Agile', N'Advanced', N'featured', 1, 25, 900000, 720000),
+(6, 1, N'Python cho người mới bắt đầu', N'python,beginner,programming', 'https://i.imgur.com/1n8aZ2P.jpg', N'Lập trình Python từ cơ bản đến nâng cao', N'Beginner', N'popular', 1, 45, 500000, 400000),
+(7, 2, N'Lập trình Web với Django', N'django,web,python', 'https://i.imgur.com/GWyDNfd.jpg', N'Xây dựng web app với Django Framework', N'Intermediate', N'featured', 1, 40, 650000, 520000),
+(8, 3, N'UI/UX Design Cơ bản', N'design,ui,ux', 'https://i.imgur.com/Jhzo3x0.jpg', N'Hướng dẫn thiết kế giao diện người dùng', N'Beginner', N'new', 1, 35, 550000, 470000),
+(9, 4, N'Phân tích dữ liệu với Excel', N'excel,data,analysis', 'https://i.imgur.com/s0zUJ0v.jpg', N'Kỹ năng Excel nâng cao cho phân tích dữ liệu', N'Intermediate', N'popular', 1, 30, 400000, 360000),
+(10, 5, N'Lập trình Android với Kotlin', N'android,kotlin,mobile', 'https://i.imgur.com/UufF9UL.jpg', N'Tạo ứng dụng Android bằng Kotlin', N'Intermediate', N'trending', 1, 50, 700000, 560000),
+(11, 1, N'Java nâng cao: Spring Boot', N'java,spring,backend', 'https://i.imgur.com/xx1dYH1.jpg', N'Xây dựng API với Spring Boot', N'Advanced', N'featured', 1, 55, 800000, 640000),
+(12, 2, N'Amazon Web Services (AWS) Cơ bản', N'aws,cloud,devops', 'https://i.imgur.com/SnVur7N.jpg', N'Làm quen với AWS và dịch vụ cloud', N'Beginner', N'new', 1, 30, 600000, 480000),
+(13, 3, N'Machine Learning Cơ bản', N'ml,ai,python', 'https://i.imgur.com/QkOfyxF.jpg', N'Giới thiệu Machine Learning và thuật toán', N'Intermediate', N'popular', 1, 60, 850000, 680000),
+(14, 4, N'Training kỹ năng mềm cho lãnh đạo', N'softskills,leadership', 'https://i.imgur.com/JzjDqAa.jpg', N'Kỹ năng giao tiếp và lãnh đạo hiệu quả', N'Advanced', N'trending', 1, 20, 450000, 400000),
+(15, 5, N'Lập trình Node.js và Express', N'nodejs,express,backend', 'https://i.imgur.com/2QF5a6M.jpg', N'Thiết kế backend với Node.js', N'Intermediate', N'featured', 1, 45, 700000, 560000);
 -- Thêm dữ liệu vào bảng PricePackage
 INSERT INTO PricePackage (PackageID, CourseID, Name, AccessDuration, ListPrice, SalePrice, Status, Description) VALUES
 (1, 1, N'Gói cơ bản', 30, 500000.00, 400000.00, 1, N'Truy cập khóa học trong 30 ngày'),

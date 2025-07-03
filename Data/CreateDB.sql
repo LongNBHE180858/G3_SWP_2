@@ -100,8 +100,12 @@ CREATE TABLE Course (
     CourseLevel NVARCHAR(50),
     FeatureFlag NVARCHAR(50),
     Status BIT NOT NULL DEFAULT 0,
-    CourseraDuration INT
+    CourseraDuration INT,
+    OriginalPrice DECIMAL(10, 2),     -- Giá tiền ban đầu
+    DiscountedPrice DECIMAL(10, 2),   -- Giá tiền sau khi giảm
+    CONSTRAINT chk_DiscountedPrice CHECK (DiscountedPrice <= OriginalPrice)
 );
+
 
 CREATE TABLE CourseSection (
     SectionID INT PRIMARY KEY,

@@ -90,7 +90,7 @@ public class CourseRegisterServlet extends HttpServlet {
         }
 
         // Hiển thị trang popup đăng ký khóa học (điền sẵn nếu đã login)
-        request.getRequestDispatcher("/userPages/register-course.jsp").forward(request, response);
+        request.getRequestDispatcher("/userPages/registerCourse.jsp").forward(request, response);
 
     }
 

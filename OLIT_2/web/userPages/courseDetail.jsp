@@ -97,11 +97,15 @@
                 line-height: 1.2;
             }
 
+            .price, .btn {
+                display: inline-block;
+                vertical-align: middle;
+            }
+
             .price {
                 font-size: 1.5rem;
                 font-weight: 700;
                 color: var(--danger);
-                display: inline-block;
                 margin: 0.5rem 0;
             }
 
@@ -127,7 +131,8 @@
                 cursor: pointer;
                 transition: var(--transition);
                 box-shadow: 0 4px 12px rgba(67, 97, 238, 0.25);
-                margin: 1.5rem 0;
+                margin-left: 2rem;
+                margin-top: 0 !important;
             }
 
             .btn:hover {
@@ -516,7 +521,7 @@
                 margin-left: 0.5rem;
                 vertical-align: middle;
             }
-              .review-form {
+            .review-form {
                 margin-top: 30px;
                 padding: 20px;
                 border: 1px solid #ccc;
@@ -543,10 +548,10 @@
             <div class="logo">Online Learn</div>
             <div class="nav-links">
                 <a href="${pageContext.request.contextPath}/HomeServlet">Home</a>
-                <a href="${pageContext.request.contextPath}/MyCourseServlet">Course List</a>
+                <a href="${pageContext.request.contextPath}/CourseListServlet">Course List</a>
                 <a href="${pageContext.request.contextPath}/BlogListServlet">Blog List</a>
-                <a href="#">Quiz List</a>
-                <a href="#">Log out</a>
+                <a href="${pageContext.request.contextPath}/MyCourseServlet">My Course</a>
+                <a href="${pageContext.request.contextPath}/LogoutServlet">Log out</a>
             </div>
         </header>
 
