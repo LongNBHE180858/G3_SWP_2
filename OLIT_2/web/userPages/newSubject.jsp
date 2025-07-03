@@ -1,79 +1,143 @@
-<%-- 
-    Document   : newSubject
-    Created on : Jun 29, 2025, 9:49:24 PM
-    Author     : khain
---%>
-
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
 <html>
-<head>
-    <title>New Subject</title>
-    <style>
-        .form-container {
-            background: #fff;
-            width: 460px;
-            margin: 40px auto;
-            border-radius: 16px;
-            box-shadow: 0 6px 28px rgba(0,0,0,0.10);
-            padding: 32px 40px 28px 40px;
-        }
-        h2 { margin-bottom: 22px; }
-        label { display: block; margin-top: 16px; font-weight: 600; }
-        input[type="text"], select, textarea {
-            width: 100%; margin-top: 7px; padding: 10px; border-radius: 8px; border: 1px solid #e0e7f0; font-size: 1em;
-        }
-        textarea { height: 75px; }
-        .status-group { margin-top: 12px; }
-        .btn-row { margin-top: 24px; display: flex; gap: 13px; }
-        button, .btn-row a {
-            background: #3867fa; color: #fff; border: none; border-radius: 8px; padding: 9px 26px;
-            font-size: 1em; font-weight: 600; text-decoration: none; transition: background 0.2s;
-        }
-        button[type="reset"], .btn-row a { background: #bbb; color: #23376a; }
-        button[type="reset"]:hover, .btn-row a:hover { background: #888; color: #fff; }
-        button[type="submit"]:hover { background: #204ac4; }
-    </style>
-</head>
-<body>
-<div class="form-container">
-    <h2>New Subject</h2>
-    <form action="${pageContext.request.contextPath}/newSubject" method="post" enctype="multipart/form-data">
-        <label>Name</label>
-        <input type="text" name="subjectName" required />
+    <head>
+        <title>New Subject</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    </head>
+    <body>
+        <jsp:include page="components/header.jsp"/>
+        
+        <div class="container mt-5">
+            <h2>New Subject</h2>
+            <form action="${pageContext.request.contextPath}/newSubject" method="post" enctype="multipart/form-data">
+                <!-- Subject Name -->
+                <div class="mb-3">
+                    <label for="subjectName" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="subjectName" name="subjectName" required>
+                </div>
 
-        <label>Images & Videos</label>
-        <input type="file" name="mediaFiles" multiple />
+                <!-- Images & Videos -->
+                <div class="mb-3">
+                    <label class="form-label">Images & Videos</label>
+                    <div id="previewList" class="list-group mb-2"></div>
+                    <input type="file"
+                           id="mediaFiles"
+                           name="mediaFiles"
+                           multiple
+                           accept="image/*,video/*"
+                           class="form-control">
+                </div>
 
-        <label>Category</label>
-        <select name="category" required>
-            <c:forEach var="cat" items="${categoryList}">
-                <option value="${cat}">${cat}</option>
-            </c:forEach>
-        </select>
+                <!-- Featured -->
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="featured" name="featuredFlag">
+                    <label class="form-check-label" for="featured">Featured</label>
+                </div>
 
-        <label>Owner (Expert)</label>
-        <select name="ownerId" required>
-            <c:forEach var="expert" items="${expertList}">
-                <option value="${expert.userID}">${expert.fullName}</option>
-            </c:forEach>
-        </select>
+                <!-- Category -->
+                <div class="mb-3">
+                    <label>Category</label>
+                    <select name="category" required>
+                        <c:forEach var="cat" items="${categoryList}">
+                            <option value="${cat}">${cat}</option>
+                        </c:forEach>
+                    </select>
+                </div>
 
-        <div class="status-group">
-            <label>Status</label>
-            <label><input type="radio" name="status" value="1" checked /> Published</label>
-            <label><input type="radio" name="status" value="0" /> Draft</label>
+                <!-- Owner -->
+                <div class="mb-3">
+                    <label>Owner (Expert)</label>
+                    <select name="ownerId" required>
+                        <c:forEach var="expert" items="${expertList}">
+                            <option value="${expert.userID}">${expert.fullName}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+
+                <!-- Status -->
+                <div class="mb-3">
+                    <label class="form-label">Status</label>
+                    <div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input"
+                                   type="radio"
+                                   name="status"
+                                   id="published"
+                                   value="1"
+                                   checked>
+                            <label class="form-check-label" for="published">Published</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input"
+                                   type="radio"
+                                   name="status"
+                                   id="draft"
+                                   value="0">
+                            <label class="form-check-label" for="draft">Draft</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea id="description"
+                              name="description"
+                              class="form-control"
+                              rows="3"></textarea>
+                </div>
+
+                <!-- Buttons -->
+                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="reset" class="btn btn-outline-secondary">Reset</button>
+                <a href="SubjectList" class="btn btn-outline-danger">Cancel</a>
+            </form>
         </div>
 
-        <label>Description</label>
-        <textarea name="description"></textarea>
+        <script>
+            const mediaInput = document.getElementById('mediaFiles');
+            const previewList = document.getElementById('previewList');
 
-        <div class="btn-row">
-            <button type="submit">Save</button>
-            <button type="reset">Reset</button>
-            <a href="${pageContext.request.contextPath}/SubjectList">Cancel</a>
-        </div>
-    </form>
-</div>
-</body>
+            mediaInput.addEventListener('change', () => {
+                previewList.innerHTML = '';
+                Array.from(mediaInput.files).forEach((file, idx) => {
+                    const item = document.createElement('div');
+                    item.className = 'd-flex align-items-center mb-1 list-group-item';
+
+                    let thumb;
+                    if (file.type.startsWith('image/')) {
+                        thumb = document.createElement('img');
+                        thumb.src = URL.createObjectURL(file);
+                        thumb.style.height = '40px';
+                        thumb.className = 'me-2';
+                    } else {
+                        thumb = document.createElement('div');
+                        thumb.textContent = 'Video';
+                        thumb.className = 'me-2';
+                    }
+
+                    const label = document.createElement('span');
+                    label.textContent = file.name;
+
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.innerHTML = '&times;';
+                    btn.className = 'btn-close ms-auto';
+                    btn.onclick = () => {
+                        const dt = new DataTransfer();
+                        Array.from(mediaInput.files)
+                                .filter((_, i) => i !== idx)
+                                .forEach(f => dt.items.add(f));
+                        mediaInput.files = dt.files;
+                        item.remove();
+                    };
+
+                    item.append(thumb, label, btn);
+                    previewList.append(item);
+                });
+            });
+        </script>
+    </body>
 </html>

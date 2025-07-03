@@ -59,10 +59,11 @@ CREATE TABLE Post (
 );
 
 CREATE TABLE Subject (
-   SubjectID INT PRIMARY KEY,
+    SubjectID INT IDENTITY(1,1) PRIMARY KEY,
     SubjectName NVARCHAR(100) NOT NULL,
     Category NVARCHAR(50), -- Chỉ là text, không khóa ngoại
     OwnerID INT FOREIGN KEY REFERENCES Account(UserID),
+	FeaturedFlag BIT NOT NULL DEFAULT(0),
     Status BIT NOT NULL DEFAULT 0,
     Description NVARCHAR(MAX)
 );

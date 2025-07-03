@@ -15,10 +15,32 @@
         justify-content: space-between;
         align-items: center;
     }
-    .header .logo {
-        font-size: 22px;
-        font-weight: bold;
+
+    /* Phần logo và tên (từ header-left gốc) */
+    .header-left {
+        display: flex;
+        align-items: center;
+        gap: 16px; /* khoảng cách giữa logo và chữ */
     }
+    .logo-img {
+        height: 54px;       /* chiều cao logo */
+        width: auto;
+        padding: 4px;       /* khoảng trắng quanh icon */
+        border-radius: 8px;
+        background: rgba(255,255,255,0.15);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        display: block;
+    }
+    .logo-text {
+        font-size: 2.1em;
+        font-weight: 700;
+        color: #fff;
+        letter-spacing: 1.5px;
+        font-family: inherit;
+        line-height: 1;
+    }
+
+    /* Phần menu bên phải (giữ nguyên style .nav hiện tại) */
     .header .nav {
         display: flex;
         align-items: center;
@@ -32,19 +54,39 @@
     .header .nav a:hover {
         text-decoration: underline;
     }
+    /* Nếu cần style cho avatar */
+    .header .nav .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        object-fit: cover;
+    }
 </style>
+
 <header>
     <div class="header">
-        <div class="logo">Online Course</div>
+        <!-- Logo + tên -->
+        <div class="header-left">
+            <img class="logo-img" src="images/HeaderIcon.png" alt="Logo">
+            <span class="logo-text">CourseAura</span>
+        </div>
+
+        <!-- Menu / phần nav (giữ nguyên từ trước) -->
         <div class="nav">
             <a href="${pageContext.request.contextPath}/HomeServlet">Home</a>
             <a href="${pageContext.request.contextPath}/MyRegistration">Courses</a>
             <a href="${pageContext.request.contextPath}/BlogListServlet">Blog</a>
+
             <c:choose>
                 <c:when test="${not empty sessionScope.userID}">
                     <a href="${pageContext.request.contextPath}/LogoutServlet">Logout</a>
                     <a href="${pageContext.request.contextPath}/UserProfile">
-                        <img src="https://img.tripi.vn/cdn-cgi/image/width=700,height=700/https://gcs.tripi.vn/public-tripi/tripi-feed/img/482744KVW/anh-mo-ta.png" alt="Avatar" class="avatar" style="width:40px; height:40px; border-radius:50%;">
+                        <img src="${sessionScope.avatarUrl != null 
+                                    ? sessionScope.avatarUrl 
+                                    : 'images/avatar-default.png'}"
+                             alt="Avatar"
+                             class="avatar">
                     </a>
                 </c:when>
                 <c:otherwise>

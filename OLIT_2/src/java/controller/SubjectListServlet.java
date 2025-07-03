@@ -33,7 +33,7 @@ public class SubjectListServlet extends HttpServlet {
         }
         // Kiểm tra quyền truy cập
         if (acc == null || (acc.getRoleID() != 1 && acc.getRoleID() != 2)) {
-            resp.sendRedirect(req.getContextPath() + "/accessDenied.jsp");
+            resp.sendRedirect(req.getContextPath() + "/userPages/accessDenied.jsp");
             return;
         }
 
