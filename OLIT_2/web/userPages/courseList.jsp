@@ -707,7 +707,7 @@
                         <label for="minQuantity"><strong>Số khóa học hiển thị:</strong></label>
                         <input type="number" id="minQuantity" name="minQuantity" 
                                value="${empty param.minQuantity ? 6 : param.minQuantity}" 
-                               min="1" max="12">
+                               min="1" max="6">
                     </div>
 
                     <label>
@@ -725,6 +725,7 @@
                     </div>
                 </form>
             </div>
+                      
         </div>
 
         <script>
@@ -752,5 +753,6 @@
                 });
             });
         </script>
-    </body>
+    </body>  
+    <jsp:include page="components/footer.jsp"/>
 </html>
