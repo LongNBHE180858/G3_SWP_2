@@ -101,9 +101,6 @@ CREATE TABLE Course (
     FeatureFlag NVARCHAR(50),
     Status BIT NOT NULL DEFAULT 0,
     CourseraDuration INT,
-    OriginalPrice DECIMAL(10, 2),     -- Giá tiền ban đầu
-    DiscountedPrice DECIMAL(10, 2),   -- Giá tiền sau khi giảm
-    CONSTRAINT chk_DiscountedPrice CHECK (DiscountedPrice <= OriginalPrice)
 );
 
 

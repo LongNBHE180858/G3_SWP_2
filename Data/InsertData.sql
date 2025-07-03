@@ -95,30 +95,39 @@ INSERT INTO SubjectMedia (MediaID, SubjectID, MediaURL, MediaType, MediaDescript
 
 -- Thêm dữ liệu vào bảng Course
 INSERT INTO Course 
-(CourseID, SubjectID, CourseTitle, CourseTag, URLCourse, CourseDetail, CourseLevel, FeatureFlag, Status, CourseraDuration, OriginalPrice, DiscountedPrice) 
-VALUES
-(1, 1, N'Nhập môn Java Programming', N'java,programming,beginner', 'https://i.ytimg.com/vi/ptOjDnsLOCc/mqdefault.jpg', N'Khóa học cơ bản về lập trình Java', N'Beginner', N'featured', 1, 40, 500000, 400000),
-(2, 2, N'Thiết kế Database với MySQL', N'database,mysql,design', 'https://image.vietnix.vn/wp-content/uploads/2023/11/thiet-lap-co-so-du-lieu-tu-xa-voi-mysql-tren-ubuntu-20-04.png', N'Học cách thiết kế và tối ưu database', N'Intermediate', N'popular', 1, 30, 600000, 450000),
-(3, 3, N'React.js cho người mới bắt đầu', N'react,javascript,frontend', 'https://cdn2.fptshop.com.vn/unsafe/1920x0/filters:format(webp):quality(75)/2023_12_28_638393296838948284_reactjs.jpg', N'Xây dựng ứng dụng web với React', N'Beginner', N'new', 1, 50, 700000, 550000),
-(4, 4, N'Digital Marketing Strategy', N'marketing,digital,strategy', 'https://www.creationinfoways.com/blog/uploading/687193083.jpg', N'Chiến lược marketing số hiệu quả', N'Intermediate', N'trending', 1, 35, 800000, 640000),
-(5, 5, N'Agile Project Management', N'agile,project,management', 'https://miro.medium.com/v2/resize:fit:1024/0*jlUybkZYz6yxWtdk.jpg', N'Quản lý dự án theo phương pháp Agile', N'Advanced', N'featured', 1, 25, 900000, 720000),
-(6, 1, N'Python cho người mới bắt đầu', N'python,beginner,programming', 'https://i.imgur.com/1n8aZ2P.jpg', N'Lập trình Python từ cơ bản đến nâng cao', N'Beginner', N'popular', 1, 45, 500000, 400000),
-(7, 2, N'Lập trình Web với Django', N'django,web,python', 'https://i.imgur.com/GWyDNfd.jpg', N'Xây dựng web app với Django Framework', N'Intermediate', N'featured', 1, 40, 650000, 520000),
-(8, 3, N'UI/UX Design Cơ bản', N'design,ui,ux', 'https://i.imgur.com/Jhzo3x0.jpg', N'Hướng dẫn thiết kế giao diện người dùng', N'Beginner', N'new', 1, 35, 550000, 470000),
-(9, 4, N'Phân tích dữ liệu với Excel', N'excel,data,analysis', 'https://i.imgur.com/s0zUJ0v.jpg', N'Kỹ năng Excel nâng cao cho phân tích dữ liệu', N'Intermediate', N'popular', 1, 30, 400000, 360000),
-(10, 5, N'Lập trình Android với Kotlin', N'android,kotlin,mobile', 'https://i.imgur.com/UufF9UL.jpg', N'Tạo ứng dụng Android bằng Kotlin', N'Intermediate', N'trending', 1, 50, 700000, 560000),
-(11, 1, N'Java nâng cao: Spring Boot', N'java,spring,backend', 'https://i.imgur.com/xx1dYH1.jpg', N'Xây dựng API với Spring Boot', N'Advanced', N'featured', 1, 55, 800000, 640000),
-(12, 2, N'Amazon Web Services (AWS) Cơ bản', N'aws,cloud,devops', 'https://i.imgur.com/SnVur7N.jpg', N'Làm quen với AWS và dịch vụ cloud', N'Beginner', N'new', 1, 30, 600000, 480000),
-(13, 3, N'Machine Learning Cơ bản', N'ml,ai,python', 'https://i.imgur.com/QkOfyxF.jpg', N'Giới thiệu Machine Learning và thuật toán', N'Intermediate', N'popular', 1, 60, 850000, 680000),
-(14, 4, N'Training kỹ năng mềm cho lãnh đạo', N'softskills,leadership', 'https://i.imgur.com/JzjDqAa.jpg', N'Kỹ năng giao tiếp và lãnh đạo hiệu quả', N'Advanced', N'trending', 1, 20, 450000, 400000),
-(15, 5, N'Lập trình Node.js và Express', N'nodejs,express,backend', 'https://i.imgur.com/2QF5a6M.jpg', N'Thiết kế backend với Node.js', N'Intermediate', N'featured', 1, 45, 700000, 560000);
+(CourseID, SubjectID, CourseTitle, CourseTag, URLCourse, CourseDetail, CourseLevel, FeatureFlag, Status, CourseraDuration) VALUES
+(1, 1, N'Nhập môn Java Programming', N'java,programming,beginner', 'https://i.ytimg.com/vi/ptOjDnsLOCc/mqdefault.jpg', N'Khóa học cơ bản về lập trình Java', N'Beginner', N'featured', 1, 40),
+(2, 2, N'Thiết kế Database với MySQL', N'database,mysql,design', 'https://image.vietnix.vn/wp-content/uploads/2023/11/thiet-lap-co-so-du-lieu-tu-xa-voi-mysql-tren-ubuntu-20-04.png', N'Học cách thiết kế và tối ưu database', N'Intermediate', N'popular', 1, 30),
+(3, 3, N'React.js cho người mới bắt đầu', N'react,javascript,frontend', 'https://cdn2.fptshop.com.vn/unsafe/1920x0/filters:format(webp):quality(75)/2023_12_28_638393296838948284_reactjs.jpg', N'Xây dựng ứng dụng web với React', N'Beginner', N'new', 1, 50),
+(4, 4, N'Digital Marketing Strategy', N'marketing,digital,strategy', 'https://www.creationinfoways.com/blog/uploading/687193083.jpg', N'Chiến lược marketing số hiệu quả', N'Intermediate', N'trending', 1, 35),
+(5, 5, N'Agile Project Management', N'agile,project,management', 'https://miro.medium.com/v2/resize:fit:1024/0*jlUybkZYz6yxWtdk.jpg', N'Quản lý dự án theo phương pháp Agile', N'Advanced', N'featured', 1, 25),
+(6, 1, N'Python cho người mới bắt đầu', N'python,beginner,programming', 'https://s3-sgn09.fptcloud.com/codelearnstorage/files/thumbnails/python-cho-nguoi-moi-bat-dau_f1a0ae13118c411ab7068e248f9f0206.png', N'Lập trình Python từ cơ bản đến nâng cao', N'Beginner', N'popular', 1, 45),
+(7, 2, N'Lập trình Web với Django', N'django,web,python', 'https://s3.icankid.io/icantech/cms/lap_trinh_web_django_7df5663f23.png', N'Xây dựng web app với Django Framework', N'Intermediate', N'featured', 1, 40),
+(8, 3, N'UI/UX Design Cơ bản', N'design,ui,ux', 'https://vndigitech.com/wp-content/uploads/2024/03/nguyen-tac-thiet-ke-uiux-digitech-e1711471060658.webp', N'Hướng dẫn thiết kế giao diện người dùng', N'Beginner', N'new', 1, 35),
+(9, 4, N'Phân tích dữ liệu với Excel', N'excel,data,analysis', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkrEWVMI81FoAsy5eo7eNzZ0BspQCP9OHf6A&s', N'Kỹ năng Excel nâng cao cho phân tích dữ liệu', N'Intermediate', N'popular', 1, 30),
+(10, 5, N'Lập trình Android với Kotlin', N'android,kotlin,mobile', 'https://cdn-s.hoolacdn.com/daotaotester-18154-1fa76n8o6/sgp1/lib/image/banner-khlt-android_oZ7mnxq8oT7PtjBEo-original.png', N'Tạo ứng dụng Android bằng Kotlin', N'Intermediate', N'trending', 1, 50),
+(11, 1, N'Java nâng cao: Spring Boot', N'java,spring,backend', 'https://techvccloud.mediacdn.vn/zoom/600_315/280518386289090560/2024/2/22/spring-boot-1708591158972430464422-0-0-500-890-crop-1708591162385231771559.jpg', N'Xây dựng API với Spring Boot', N'Advanced', N'featured', 1, 55),
+(12, 2, N'Amazon Web Services (AWS) Cơ bản', N'aws,cloud,devops', 'https://api.careers.saigontechnology.com/storage/blogs/BLOG-HTQnbleYwWTiDLZpwL4fDnjmlNOFhrmdndPWCURk.webp', N'Làm quen với AWS và dịch vụ cloud', N'Beginner', N'new', 1, 30),
+(13, 3, N'Machine Learning Cơ bản', N'ml,ai,python', 'https://vinuni.edu.vn/wp-content/uploads/2024/12/tim-hieu-machine-learning-co-ban-nhung-dieu-can-biet-cho-nguoi-moi-bat-dau-hinh-2.jpg', N'Giới thiệu Machine Learning và thuật toán', N'Intermediate', N'popular', 1, 60),
+(14, 4, N'Training kỹ năng mềm cho lãnh đạo', N'softskills,leadership', 'https://hrcacademy.vn/uploads/anh-banner/thang-08/anh-dang-web/tong-quan.jpg', N'Kỹ năng giao tiếp và lãnh đạo hiệu quả', N'Advanced', N'trending', 1, 20),
+(15, 5, N'Lập trình Node.js và Express', N'nodejs,express,backend', 'https://caodang.fpt.edu.vn/wp-content/uploads/a-9.png', N'Thiết kế backend với Node.js', N'Intermediate', N'featured', 1, 45);
 -- Thêm dữ liệu vào bảng PricePackage
 INSERT INTO PricePackage (PackageID, CourseID, Name, AccessDuration, ListPrice, SalePrice, Status, Description) VALUES
 (1, 1, N'Gói cơ bản', 30, 500000.00, 400000.00, 1, N'Truy cập khóa học trong 30 ngày'),
-(2, 1, N'Gói mở rộng', 90, 1200000.00, 1000000.00, 1, N'Truy cập khóa học trong 90 ngày + tài liệu'),
+(2, 5, N'Gói mở rộng', 90, 1200000.00, 1000000.00, 1, N'Truy cập khóa học trong 90 ngày + tài liệu'),
 (3, 2, N'Gói tiêu chuẩn', 60, 800000.00, 650000.00, 1, N'Truy cập khóa học trong 60 ngày'),
 (4, 3, N'Gói cơ bản', 45, 700000.00, 600000.00, 1, N'Truy cập khóa học trong 45 ngày'),
-(5, 4, N'Gói premium', 120, 1500000.00, 1200000.00, 1, N'Truy cập không giới hạn + mentor support');
+(5, 4, N'Gói premium', 120, 1500000.00, 1200000.00, 1, N'Truy cập không giới hạn + mentor support'),
+(6, 6, N'Gói cơ bản', 30, 500000.00, 400000.00, 1, N'Truy cập khóa học trong 30 ngày'),
+(7, 7, N'Gói mở rộng', 90, 1200000.00, 1000000.00, 1, N'Truy cập khóa học trong 90 ngày + tài liệu'),
+(8, 8, N'Gói tiêu chuẩn', 60, 800000.00, 650000.00, 1, N'Truy cập khóa học trong 60 ngày'),
+(9, 9, N'Gói cơ bản', 45, 700000.00, 600000.00, 1, N'Truy cập khóa học trong 45 ngày'),
+(10, 10, N'Gói premium', 120, 1500000.00, 1200000.00, 1, N'Truy cập không giới hạn + mentor support'),
+(11, 12, N'Gói cơ bản', 30, 500000.00, 400000.00, 1, N'Truy cập khóa học trong 30 ngày'),
+(12, 11, N'Gói mở rộng', 90, 1200000.00, 1000000.00, 1, N'Truy cập khóa học trong 90 ngày + tài liệu'),
+(13, 14, N'Gói tiêu chuẩn', 60, 800000.00, 650000.00, 1, N'Truy cập khóa học trong 60 ngày'),
+(14, 13, N'Gói cơ bản', 45, 700000.00, 600000.00, 1, N'Truy cập khóa học trong 45 ngày'),
+(15, 15, N'Gói premium', 120, 1500000.00, 1200000.00, 1, N'Truy cập không giới hạn + mentor support');
 
 -- Thêm dữ liệu vào bảng Registration
 INSERT INTO Registration (RegistrationID, UserID, CourseID, PackageID, ApprovedBy, Status, ValidFrom, ValidTo) VALUES
