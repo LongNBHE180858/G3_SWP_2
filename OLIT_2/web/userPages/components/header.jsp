@@ -1,11 +1,12 @@
 <%-- 
     Document   : header.jsp
     Created on : Jun 27, 2025, 3:10:11 PM
-    Author     : Long0
+    Author     : KhaiNHE
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <style>
     .header {
         background-color: #1E88E5;
@@ -65,6 +66,20 @@
 </style>
 
 <header>
+    <!-- Load Bootstrap and Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeo6lKGk7VwZU8B1zYXz4UxTzt7LOtI8Zp6G7niu735Sk7lN"
+        crossorigin="anonymous"
+        />
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-pzwf2U5fg0ygkXelm5Kx+gvm7wYhCw/eVZLyc88SNtsn8QWMxg46baKiQn9EvL5WRHr9F3+47P2hVU4LJ/7F0A=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+        />
     <div class="header">
         <!-- Logo + tên -->
         <div class="header-left">
@@ -96,3 +111,4 @@
         </div>
     </div>
 </header>
+

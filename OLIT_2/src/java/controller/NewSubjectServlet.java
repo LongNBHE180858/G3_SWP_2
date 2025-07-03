@@ -39,6 +39,19 @@ public class NewSubjectServlet extends HttpServlet {
             return;
         }
 
+        String success = (String) session.getAttribute("successMessage");
+        if (success != null) {
+            req.setAttribute("successMessage", success);
+            session.removeAttribute("successMessage");
+        }
+
+        // --- Flash errorMessage (nếu dùng session) ---
+        String error = (String) session.getAttribute("errorMessage");
+        if (error != null) {
+            req.setAttribute("errorMessage", error);
+            session.removeAttribute("errorMessage");
+        }
+
         // Load data cho dropdown
         List<String> categoryList = new SubjectDAO().getAllCategories();
         List<Account> expertList = new AccountDAO().getExperts();
@@ -47,8 +60,7 @@ public class NewSubjectServlet extends HttpServlet {
         req.setAttribute("expertList", expertList);
 
         // Forward đến JSP mới của bạn 
-        req.getRequestDispatcher("/userPages/newSubject.jsp")
-                .forward(req, resp);
+        req.getRequestDispatcher("/userPages/newSubject.jsp").forward(req, resp);
     }
 
     // Xử lý khi bấm Save
@@ -71,12 +83,6 @@ public class NewSubjectServlet extends HttpServlet {
         String statusRaw = req.getParameter("status");
         String description = req.getParameter("description");
 
-        if (ownerRaw == null || ownerRaw.isBlank()) {
-            req.setAttribute("error", "Bạn phải chọn Owner/Expert!");
-            doGet(req, resp);
-            return;
-        }
-
         int ownerId = Integer.parseInt(ownerRaw);
         boolean featuredFlag = req.getParameter("featuredFlag") != null;
         boolean status = "1".equals(statusRaw);
@@ -84,8 +90,9 @@ public class NewSubjectServlet extends HttpServlet {
         // 2) Lưu Subject, lấy ID
         int subjectID = new SubjectDAO().insertSubjectReturnId(subjectName, category, ownerId, featuredFlag, status, description);
         if (subjectID <= 0) {
-            req.setAttribute("error", "Tạo Subject thất bại!");
-            doGet(req, resp);
+            session.setAttribute("errorMessage", "Tạo Subject thất bại, vui lòng thử lại!");
+            
+            resp.sendRedirect(req.getContextPath() + "/newSubject");
             return;
         }
 
@@ -114,6 +121,7 @@ public class NewSubjectServlet extends HttpServlet {
         }
 
         // 4) Chuyển về trang danh sách
-        resp.sendRedirect(req.getContextPath() + "/SubjectList");
+        session.setAttribute("successMessage", "Tạo Subject thành công!");
+        resp.sendRedirect(req.getContextPath() + "/newSubject");
     }
 }

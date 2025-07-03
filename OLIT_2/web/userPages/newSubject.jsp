@@ -8,9 +8,24 @@
     </head>
     <body>
         <jsp:include page="components/header.jsp"/>
-        
+
         <div class="container mt-5">
             <h2>New Subject</h2>
+
+            <c:if test="${not empty successMessage}">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    ${successMessage}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </c:if>
+
+            <c:if test="${not empty errorMessage}">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    ${errorMessage}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </c:if>
+
             <form action="${pageContext.request.contextPath}/newSubject" method="post" enctype="multipart/form-data">
                 <!-- Subject Name -->
                 <div class="mb-3">
