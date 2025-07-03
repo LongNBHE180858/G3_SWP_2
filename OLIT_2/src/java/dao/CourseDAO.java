@@ -96,7 +96,7 @@ public class CourseDAO {
 
     public List<Course> getHotCourses() {
         List<Course> list = new ArrayList<>();
-        String sql = "SELECT TOP 3 * FROM Course WHERE status = 1 ORDER BY CourseID DESC";
+        String sql = "SELECT TOP 5 * FROM Course WHERE status = 1 ORDER BY CourseID DESC";
         try {
             PreparedStatement ps = DBContext.getInstance().getConnection().prepareStatement(sql);
             ResultSet rs = ps.executeQuery();

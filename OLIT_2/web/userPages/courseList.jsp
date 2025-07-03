@@ -253,7 +253,7 @@
                 gap: 10px;
                 margin-bottom: 15px;
             }
-            
+
 
             .btn-detail, .btn-register {
                 flex: 1;
@@ -726,7 +726,7 @@
                 </form>
             </div>
         </div>
-
+        <jsp:include page="components/footer.jsp"/>
         <script>
             function togglePopup() {
                 const popup = document.getElementById("popup");
@@ -752,5 +752,6 @@
                 });
             });
         </script>
+
     </body>
 </html>

@@ -143,7 +143,7 @@ public class PostDAO extends DBContext {
 
     public List<Post> getNewestPost() {
         List<Post> listBlog = new ArrayList<>();
-        String sql = "SELECT TOP 2 p.*, a.fullName, c.categoryName "
+        String sql = "SELECT TOP 5 p.*, a.fullName, c.categoryName "
                 + "FROM Post p "
                 + "JOIN Account a ON p.userID = a.userID "
                 + "JOIN PostCategory c ON p.categoryID = c.categoryID "

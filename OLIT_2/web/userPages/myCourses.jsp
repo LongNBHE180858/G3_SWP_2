@@ -185,7 +185,7 @@
                                 <div class="content">
                                     <h3>${course.getCourseTitle()}</h3>
                                     <p>${course.getCourseDetail()}</p>
-                                    <a href="${pageContext.request.contextPath}/CourseDetail?id=${course.getCourseID()}">View Course</a>
+                                    <a href="${pageContext.request.contextPath}/LessonView?id=${course.getCourseID()}">View Course</a>
                                 </div>
                             </div>
                         </c:forEach>
@@ -196,5 +196,7 @@
                 </c:choose>
             </div>
         </div>
+        
     </body>
+    <jsp:include page="components/footer.jsp"/>
 </html>
