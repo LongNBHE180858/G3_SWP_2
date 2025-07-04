@@ -82,11 +82,11 @@ CREATE TABLE ExpertSubject (
 );
 
 CREATE TABLE SubjectMedia (
-    MediaID INT PRIMARY KEY ,
+    MediaID INT IDENTITY(1,1) NOT NULL PRIMARY KEY ,
     SubjectID INT FOREIGN KEY REFERENCES Subject(SubjectID),
     MediaURL NVARCHAR(255) NOT NULL,
     MediaType NVARCHAR(10) CHECK (MediaType IN ('image', 'video')),
-    MediaDescription NVARCHAR(255)
+    MediaName NVARCHAR(255)
 );
 
 

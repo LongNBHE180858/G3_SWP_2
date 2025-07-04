@@ -15,8 +15,8 @@ import java.util.*;
  */
 public class SubjectMediaDAO extends DBContext {
 
-    public void insertMedia(int subjectId, String mediaUrl, String mediaType, String desc) {
-        String sql = "INSERT INTO SubjectMedia (SubjectID, MediaURL, MediaType, MediaDescription) VALUES (?, ?, ?, ?)";
+    public void insertMedia(int subjectId, String mediaUrl, String mediaType, String name) {
+        String sql = "INSERT INTO SubjectMedia (SubjectID, MediaURL, MediaType, MediaName) VALUES (?, ?, ?, ?)";
         Connection conn = DBContext.getInstance().getConnection();
         PreparedStatement ps = null;
         try {
@@ -33,7 +33,7 @@ public class SubjectMediaDAO extends DBContext {
             ps.setInt(1, subjectId);
             ps.setString(2, mediaUrl);
             ps.setString(3, mediaType);
-            ps.setString(4, desc);
+            ps.setString(4, name);
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();

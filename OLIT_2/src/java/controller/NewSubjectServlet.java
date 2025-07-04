@@ -6,7 +6,6 @@ import dao.SubjectMediaDAO;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.Collection;
 import java.util.List;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -16,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
+import java.util.stream.Collectors;
 import model.Account;
 
 @WebServlet(name = "NewSubjectServlet", urlPatterns = {"/newSubject"})
@@ -91,7 +91,7 @@ public class NewSubjectServlet extends HttpServlet {
         int subjectID = new SubjectDAO().insertSubjectReturnId(subjectName, category, ownerId, featuredFlag, status, description);
         if (subjectID <= 0) {
             session.setAttribute("errorMessage", "Tạo Subject thất bại, vui lòng thử lại!");
-            
+
             resp.sendRedirect(req.getContextPath() + "/newSubject");
             return;
         }
@@ -101,27 +101,43 @@ public class NewSubjectServlet extends HttpServlet {
         new File(uploadPath).mkdirs();
         SubjectMediaDAO smDao = new SubjectMediaDAO();
 
-        for (Part part : req.getParts()) {
-            if ("mediaFiles".equals(part.getName()) && part.getSize() > 0) {
-                String fileName = Paths
-                        .get(part.getSubmittedFileName())
-                        .getFileName()
-                        .toString();
-                String ext = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();
-                String mediaType = ext.matches("jpg|jpeg|png|gif")
-                        ? "image"
-                        : "video";
-                // Save file
-                String filePath = uploadPath + File.separator + fileName;
-                part.write(filePath);
-                // Save record vào DB
-                String url = "uploads/" + fileName;
-                smDao.insertMedia(subjectID, url, mediaType, fileName);
-            }
-        }
+        // Lấy các tên file tuỳ chỉnh từ JSP
+        String[] customNames = req.getParameterValues("customFileName");
 
-        // 4) Chuyển về trang danh sách
-        session.setAttribute("successMessage", "Tạo Subject thành công!");
-        resp.sendRedirect(req.getContextPath() + "/newSubject");
+        // Lọc ra danh sách Part là mediaFiles
+        List<Part> fileParts = req.getParts().stream()
+                .filter(p -> "mediaFiles".equals(p.getName()) && p.getSize() > 0)
+                .collect(Collectors.toList());
+
+        for (int i = 0; i < fileParts.size(); i++) {
+            Part part = fileParts.get(i);
+            String originalName = Paths.get(part.getSubmittedFileName())
+                    .getFileName().toString();
+            String ext = originalName.substring(originalName.lastIndexOf('.') + 1).toLowerCase();
+            String mediaType = ext.matches("jpg|jpeg|png|gif")
+                    ? "image"
+                    : "video";
+
+            String filePath = uploadPath + File.separator + originalName;
+            part.write(filePath);
+
+            
+            // Chọn tên tuỳ chỉnh (nếu rỗng thì dùng tên gốc)
+            String custom = (customNames != null && customNames.length > i && !customNames[i].isBlank())
+                    ? customNames[i]
+                    : originalName;
+            String url = "uploads/" + originalName;
+            // Save record vào DB
+            smDao.insertMedia(subjectID, url, mediaType, custom );
+        }
+    
+
+    // 4) Chuyển về trang danh sách
+    session.setAttribute (
+
+    "successMessage", "Tạo Subject thành công!");
+    resp.sendRedirect (req.getContextPath
+
+() + "/newSubject");
     }
 }

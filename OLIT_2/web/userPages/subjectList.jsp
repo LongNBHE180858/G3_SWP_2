@@ -338,7 +338,8 @@
                         <c:if test="${userRole eq 'Admin'}">
                             <td class="actions">
 
-                                <a href="${pageContext.request.contextPath}/editSubject?sid=${subj.subjectID}" class="edit-btn" title="Edit">
+                                <a href="#" class="edit-btn" title="Edit">
+                                    
                                     <i class="fa fa-edit"></i> Edit
                                 </a>
                             </td>
