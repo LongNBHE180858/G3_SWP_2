@@ -21,10 +21,12 @@ public class HomeServlet extends HttpServlet {
         CourseDAO courseDAO = new CourseDAO();
         List<Slider> listSlider = sliderDAO.getSlider();
         List<Post> latestPost = postDAO.getNewestPost();
+        List<Post> hotPost = postDAO.getHotPost();
         List<Course> hotCourse = courseDAO.getHotCourses();
         // Đặt danh sách slider vào request để chuyển sang JSP
         request.setAttribute("listSlider", listSlider);
         request.setAttribute("latestPost", latestPost);
+        request.setAttribute("hotPost", hotPost);
         request.setAttribute("hotCourse", hotCourse);
         request.getRequestDispatcher("/userPages/home.jsp").forward(request, response);
     }

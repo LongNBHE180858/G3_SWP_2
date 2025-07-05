@@ -179,6 +179,50 @@ public class PostDAO extends DBContext {
 
         return listBlog;
     }
+    
+    public List<Post> getHotPost() {
+    List<Post> listHot = new ArrayList<>();
+    String sql = 
+        "SELECT TOP 5 p.*, a.fullName, c.categoryName " +
+        "FROM Post p " +
+        "JOIN Account a ON p.userID = a.userID " +
+        "JOIN PostCategory c ON p.categoryID = c.categoryID " +
+        "WHERE p.IsHot = 1 " +
+        "ORDER BY p.UpdatedDate DESC";
+
+    try (PreparedStatement ps = connection.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            Post post = new Post();
+            post.setPostID(rs.getInt("PostID"));
+            post.setUserID(rs.getInt("UserID"));
+            post.setCategoryID(rs.getInt("CategoryID"));
+            post.setBlogTitle(rs.getString("BlogTitle"));
+            post.setPostDetails(rs.getString("PostDetails"));
+            post.setStatus(rs.getInt("Status"));
+            post.setUpdatedDate(rs.getString("UpdatedDate"));
+            post.setThumbnailURL(rs.getString("ThumbnailURL"));
+            post.setIsHot(rs.getBoolean("IsHot"));    // your new flag
+
+            Account acc = new Account();
+            acc.setFullName(rs.getString("FullName"));
+            post.setAccount(acc);
+
+            PostCategory pc = new PostCategory();
+            pc.setCategoryID(rs.getInt("CategoryID"));
+            pc.setCategoryName(rs.getString("CategoryName"));
+            post.setPostCategory(pc);
+
+            listHot.add(post);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return listHot;
+}
+
 
     public static void main(String[] args) {
         PostDAO postDAO = new PostDAO();

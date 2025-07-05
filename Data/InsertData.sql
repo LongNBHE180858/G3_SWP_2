@@ -40,12 +40,18 @@ INSERT INTO PostCategory (CategoryID, CategoryName, URL) VALUES
 (20, N'Kỹ năng mềm', 'soft-skills');
 
 -- Thêm dữ liệu vào bảng Post
-INSERT INTO Post (PostID, UserID, CategoryID, BlogTitle, PostDetails, Status, UpdatedDate, ThumbnailURL) VALUES
-(1, 1, 1, N'Xu hướng giáo dục trực tuyến 2024', N'Bài viết về những xu hướng mới trong giáo dục điện tử...', 1, '2024-05-15 10:30:00', 'https://gitiho.com/caches/p_medium_large//uploads/315313/images/image_xu-huong-elearning-1.jpg'),
-(2, 2, 2, N'5 mẹo học hiệu quả', N'Những phương pháp học tập được chứng minh hiệu quả...', 1, '2024-05-10 14:20:00', 'https://edubit.vn/data/blog/photo_1631782135.jpg?v=1631782136'),
-(3, 3, 3, N'AI trong giáo dục', N'Ứng dụng trí tuệ nhân tạo trong việc học và dạy...', 1, '2024-05-08 09:15:00', 'https://askany.com/_next/image?url=https%3A%2F%2Fd2czqxs5dso3qv.cloudfront.net%2Fimages%2Fb16fce83-f812-4b32-802d-7aac6fb27101.png&w=1920&q=75'),
-(4, 2, 4, N'Kinh nghiệm thi chứng chỉ IT', N'Chia sẻ kinh nghiệm chuẩn bị và thi các chứng chỉ IT...', 1, '2024-05-05 16:45:00', 'https://edusa.vn/wp-content/uploads/2023/11/cac-loai-chung-chi-tin-hoc-cho-sinh-vien-1.webp'),
-(5, 1, 5, N'Sự kiện EdTech Vietnam 2024', N'Thông tin về hội thảo công nghệ giáo dục lớn nhất năm...', 1, '2024-05-01 11:00:00', 'https://sp-ao.shortpixel.ai/client/to_webp,q_glossy,ret_img,w_1620,h_1080/https://vku.udn.vn/wp-content/uploads/2024/07/VKU-37-3.jpg');
+INSERT INTO Post (PostID, UserID, CategoryID, BlogTitle, PostDetails, Status, UpdatedDate, ThumbnailURL,IsHot) VALUES
+(1, 1, 1, N'Xu hướng giáo dục trực tuyến 2024', N'Bài viết về những xu hướng mới trong giáo dục điện tử...', 1, '2024-05-15 10:30:00', 'https://gitiho.com/caches/p_medium_large//uploads/315313/images/image_xu-huong-elearning-1.jpg',1),
+(2, 2, 2, N'5 mẹo học hiệu quả', N'Những phương pháp học tập được chứng minh hiệu quả...', 1, '2024-05-10 14:20:00', 'https://edubit.vn/data/blog/photo_1631782135.jpg?v=1631782136',1),
+(3, 3, 3, N'AI trong giáo dục', N'Ứng dụng trí tuệ nhân tạo trong việc học và dạy...', 1, '2024-05-08 09:15:00', 'https://askany.com/_next/image?url=https%3A%2F%2Fd2czqxs5dso3qv.cloudfront.net%2Fimages%2Fb16fce83-f812-4b32-802d-7aac6fb27101.png&w=1920&q=75',1),
+(4, 2, 4, N'Kinh nghiệm thi chứng chỉ IT', N'Chia sẻ kinh nghiệm chuẩn bị và thi các chứng chỉ IT...', 1, '2024-05-05 16:45:00', 'https://edusa.vn/wp-content/uploads/2023/11/cac-loai-chung-chi-tin-hoc-cho-sinh-vien-1.webp',1),
+(5, 1, 5, N'Sự kiện EdTech Vietnam 2024', N'Thông tin về hội thảo công nghệ giáo dục lớn nhất năm...', 1, '2024-05-01 11:00:00', 'https://sp-ao.shortpixel.ai/client/to_webp,q_glossy,ret_img,w_1620,h_1080/https://vku.udn.vn/wp-content/uploads/2024/07/VKU-37-3.jpg',1),
+(6, 4, 1, N'10 xu hướng e-learning cho lập trình viên', N'Khám phá các công nghệ và phương pháp mới nhất giúp lập trình viên học tập hiệu quả hơn...', 1, '2024-05-20 08:00:00', 'https://ocd.vn/wp-content/uploads/2025/03/How-to-Make-Friends-E-Learning-Presentation-1280-x-720-px-compressed.jpg',0),
+(7, 3, 2, N'Học Git và GitHub trong 1 ngày', N'Hướng dẫn nhanh các thao tác cơ bản và nâng cao với Git/GitHub, kèm ví dụ thực tế...', 1, '2024-05-18 13:30:00', 'https://cdn.codegym.vn/wp-content/uploads/2021/12/khoa-hoc-nhap-mon-git-va-github-online-mien-phi-codegym-5.jpg',0),
+(8, 5, 3, N'Tự động hóa kiểm thử với Selenium', N'Hướng dẫn cài đặt, viết test case và chạy song song với Selenium WebDriver...', 1, '2024-05-17 15:45:00', 'https://topdev.vn/blog/wp-content/uploads/2020/12/testing-1.jpg',0),
+(9, 2, 4, N'Chứng chỉ AWS Certified Cloud Practitioner', N'Chi tiết nội dung đề thi, kinh nghiệm ôn luyện và tài liệu tham khảo...', 1, '2024-05-16 10:20:00', 'https://topdev.vn/blog/wp-content/uploads/2024/05/chung-chi-aws-la-gi-1.jpg',0),
+(10, 4, 5, N'Khoá học React.js miễn phí tháng 6/2024', N'Tổng hợp các khoá học, video và dự án mẫu để bạn bắt đầu với React.js...', 1, '2024-05-22 09:15:00', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7X4unDFRGcQRqGGw2xhAn7W6CKbWTT9bKyg&s',0);
+
 
 -- Thêm dữ liệu vào bảng Subject
 INSERT INTO Subject (
@@ -88,10 +94,10 @@ INSERT INTO ExpertSubject (ExpertID, SubjectID) VALUES
 (2, 3); -- Trần Thị Minh là Expert của Web Frontend
 
 -- Thêm dữ liệu vào bảng SubjectMedia
-INSERT INTO SubjectMedia (MediaID, SubjectID, MediaURL, MediaType, MediaDescription) VALUES
-(1, 1, 'https://example.com/java-intro.mp4', 'video', N'Video giới thiệu Java'),
-(2, 2, 'https://example.com/database-diagram.png', 'image', N'Sơ đồ ERD mẫu'),
-(3, 3, 'https://example.com/react-demo.mp4', 'video', N'Video demo React');
+INSERT INTO SubjectMedia ( SubjectID, MediaURL, MediaType, MediaName) VALUES
+( 1, 'https://example.com/java-intro.mp4', 'video', N'Video giới thiệu Java'),
+( 2, 'https://example.com/database-diagram.png', 'image', N'Sơ đồ ERD mẫu'),
+( 3, 'https://example.com/react-demo.mp4', 'video', N'Video demo React');
 
 -- Thêm dữ liệu vào bảng Course
 INSERT INTO Course 

@@ -333,7 +333,7 @@
                 <div class="section mt-5">
                     <h2>Featured Posts</h2>
                     <div class="grid-container">
-                        <c:forEach var="post" items="${latestPost}">
+                        <c:forEach var="post" items="${hotPost}">
                             <div class="card">
                                 <img src="${post.thumbnailURL}" alt="${post.blogTitle}">
                                 <h3><a href="#">${post.blogTitle}</a></h3>

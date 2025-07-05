@@ -55,7 +55,8 @@ CREATE TABLE Post (
     PostDetails NVARCHAR(MAX),
     Status BIT NOT NULL DEFAULT 0,
     UpdatedDate DATETIME,
-    ThumbnailURL NVARCHAR(255)
+    ThumbnailURL NVARCHAR(255),
+	IsHot         BIT           NOT NULL DEFAULT 0
 );
 
 CREATE TABLE Subject (

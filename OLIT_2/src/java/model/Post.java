@@ -20,6 +20,7 @@ public class Post {
     private String thumbnailURL;
     private Account account;
     private PostCategory postCategory;
+    private Boolean isHot;
 
     public Post() {
     }
@@ -114,6 +115,15 @@ public class Post {
     public void setPostCategory(PostCategory postCategory) {
         this.postCategory = postCategory;
     }
+
+    public Boolean getIsHot() {
+        return isHot;
+    }
+
+    public void setIsHot(Boolean isHot) {
+        this.isHot = isHot;
+    }
+
     
     
     
