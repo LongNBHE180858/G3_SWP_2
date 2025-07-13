@@ -19,6 +19,9 @@ public class Registration {
     private String ValidTo;
     private Course Course;
     private PricePackage PricePackage;
+    private String userFullName;
+    private String userEmail;
+    private String userPhone;
 
     public Registration() {
     }
@@ -110,6 +113,29 @@ public class Registration {
     public void setPricePackage(PricePackage PricePackage) {
         this.PricePackage = PricePackage;
     }
-    
-    
+
+    public String getUserFullName() {
+        return userFullName;
+    }
+
+    public void setUserFullName(String userFullName) {
+        this.userFullName = userFullName;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public String getUserPhone() {
+        return userPhone;
+    }
+
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
+    }
+
 }

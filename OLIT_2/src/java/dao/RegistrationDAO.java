@@ -1,9 +1,6 @@
 package dao;
 
-import model.Registration;
-import model.Course;
-import model.Account;
-import model.PricePackage;
+import model.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -169,5 +166,58 @@ public class RegistrationDAO extends DBContext {
             e.printStackTrace();
         }
         return 0;
+    }
+    
+    public List<Registration> getAllRegistrationsForAdmin() {
+        List<Registration> list = new ArrayList<>();
+        String sql = "SELECT r.RegistrationID, r.UserID, r.CourseID, r.PackageID, r.ApprovedBy, "
+                + "r.Status, r.ValidFrom, r.ValidTo, "
+                + "a.FullName, a.Email, a.PhoneNumber, "
+                + "c.CourseTitle, "
+                + "pp.Name AS PackageName, pp.SalePrice "
+                + "FROM Registration r "
+                + "JOIN Account a ON r.UserID = a.UserID "
+                + "JOIN Course c ON r.CourseID = c.courseID "
+                + "JOIN PricePackage pp ON r.PackageID = pp.PackageID "
+                + "ORDER BY r.RegistrationID DESC";
+
+        try (PreparedStatement ps = DBContext.getInstance().getConnection().prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Registration r = new Registration();
+                r.setRegistrationID(rs.getInt("RegistrationID"));
+                r.setUserID(rs.getInt("UserID"));
+                r.setCourseID(rs.getInt("CourseID"));
+                r.setPackageID(rs.getInt("PackageID"));
+                r.setApprovedBy(rs.getInt("ApprovedBy"));
+                r.setStatus(rs.getString("Status"));
+                r.setValidFrom(rs.getString("ValidFrom"));
+                r.setValidTo(rs.getString("ValidTo"));
+
+                // Tạo Course object
+                Course course = new Course();
+                course.setCourseTitle(rs.getString("CourseTitle"));
+                r.setCourse(course);
+
+                // Tạo PricePackage object
+                PricePackage pp = new PricePackage();
+                pp.setName(rs.getString("PackageName"));
+                pp.setSalePrice(rs.getInt("SalePrice"));
+                r.setPricePackage(pp);
+
+                // Lưu thông tin người dùng trực tiếp vào Registration
+                r.setUserFullName(rs.getString("FullName"));
+                r.setUserEmail(rs.getString("Email"));
+                r.setUserPhone(rs.getString("PhoneNumber"));
+
+                list.add(r);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
     }
 }

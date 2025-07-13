@@ -565,20 +565,37 @@
             <!-- Sidebar -->
             <div class="sidebar">
                 <div>
-                    <h3><i class="fas fa-list"></i> Danh mục khóa học</h3>
+                    <h3><i class="fas fa-list"></i> Course Catalog</h3>
                     <ul>
-                        <li><a href="CourseList"><i class="fas fa-book"></i> Tất cả khóa học</a></li>
+                        <li><a href="CourseList"><i class="fas fa-book"></i> All courses</a></li>
                             <c:forEach var="cat" items="${categories}">
                             <li><a href="CourseList?category=${cat}"><i class="fas fa-tag"></i> ${cat}</a></li>
                             </c:forEach>
                     </ul>
 
-                    <h3><i class="fas fa-star"></i> Khóa học nổi bật</h3>
+                    <h3><i class="fas fa-star"></i> Featured Courses</h3>
                     <ul>
                         <c:forEach var="f" items="${featuredSubjects}">
                             <li><a href="CourseDetail?id=${f.courseID}"><i class="fas fa-crown"></i> ${f.courseTitle}</a></li>
                             </c:forEach>
                     </ul>
+                    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+                    <!-- ... các phần khác ... -->
+
+                    <!-- Nút chỉ hiện với admin -->
+                    <c:if test="${sessionScope.roleID == 1}">
+                        <div style="margin-bottom: 20px;">
+                            <a href="${pageContext.request.contextPath}/AdminRegistrationListServlet"
+                               style="
+                               color: white;
+                               padding: 10px 20px;
+                               border-radius: 6px;
+                               text-decoration: none;
+                               font-weight: bolder;">
+                                📋 Registration List
+                            </a>
+                        </div>
+                    </c:if>
                 </div>
 
                 <div class="contact">
@@ -594,7 +611,7 @@
                     <div class="search-bar">
                         <form action="CourseList" method="get">
                             <div class="search-input-wrapper">
-                                <input type="text" name="search" placeholder="Tìm kiếm khóa học..." value="${param.search}" />
+                                <input type="text" name="search" placeholder="Search Course..." value="${param.search}" />
                             </div>
                             <input type="hidden" name="sort" value="${param.sort}" />
                             <input type="hidden" name="status" value="${param.status}" />
@@ -603,7 +620,7 @@
                             <button type="submit" title="Tìm kiếm">
                                 <i class="fas fa-search"></i>
                             </button>
-                            <button type="button" id="toggleFilter" title="Bộ lọc nâng cao">
+                            <button type="button" id="toggleFilter" title="Advanced Filters">
                                 <i class="fas fa-filter"></i>
                             </button>
                         </form>
@@ -612,7 +629,7 @@
 
                 <!-- Page Title -->
                 <div class="page-title">
-                    <h2>Danh sách khóa học</h2>
+                    <h2>Course List</h2>
                 </div>
 
                 <!-- Empty State or Course Grid -->
@@ -620,8 +637,8 @@
                     <c:when test="${empty courses}">
                         <div class="empty-state">
                             <i class="fas fa-search"></i>
-                            <h3>Không có khóa học nào phù hợp</h3>
-                            <p>Thử thay đổi từ khóa tìm kiếm hoặc bộ lọc của bạn</p>
+                            <h3>No courses match</h3>
+                            <p>Try changing your search keywords or filters</p>
                         </div>
                     </c:when>
                     <c:otherwise>
@@ -636,10 +653,10 @@
 
                                         <div class="course-actions">
                                             <a href="CourseDetail?id=${c.courseID}" class="btn-detail">
-                                                <i class="fas fa-info-circle"></i> Chi tiết
+                                                <i class="fas fa-info-circle"></i> View details
                                             </a>
                                             <a href="CourseRegisterServlet?courseID=${c.courseID}" class="btn-register">
-                                                <i class="fas fa-user-plus"></i> Đăng ký ngay
+                                                <i class="fas fa-user-plus"></i> Register now
                                             </a>
                                         </div>  
 
@@ -659,7 +676,7 @@
                         <c:set var="baseUrl" value="CourseList?search=${param.search}&sort=${param.sort}&status=${param.status}&minQuantity=${param.minQuantity}&category=${param.category}" />
                         <div class="pagination">
                             <c:if test="${currentPage > 1}">
-                                <a href="${baseUrl}&page=${currentPage - 1}" title="Trang trước">
+                                <a href="${baseUrl}&page=${currentPage - 1}" title="Previous page">
                                     <i class="fas fa-chevron-left"></i>
                                 </a>
                             </c:if>
@@ -669,7 +686,7 @@
                             </c:forEach>
 
                             <c:if test="${currentPage < totalPages}">
-                                <a href="${baseUrl}&page=${currentPage + 1}" title="Trang sau">
+                                <a href="${baseUrl}&page=${currentPage + 1}" title="Next page">
                                     <i class="fas fa-chevron-right"></i>
                                 </a>
                             </c:if>
@@ -685,26 +702,26 @@
                 <button class="close-popup" onclick="togglePopup()">
                     <i class="fas fa-times"></i>
                 </button>
-                <h4><i class="fas fa-filter"></i> Bộ lọc nâng cao</h4>
+                <h4><i class="fas fa-filter"></i> Advanced Filters</h4>
 
                 <form method="get" action="CourseList">
                     <input type="hidden" name="search" value="${param.search}" />
                     <input type="hidden" name="category" value="${param.category}" />
 
                     <div style="margin-bottom: 20px;">
-                        <strong>Sắp xếp theo giá:</strong>
+                        <strong>Sort by price:</strong>
                         <label>
                             <input type="radio" name="sort" value="asc" ${param.sort == 'asc' ? 'checked' : ''}> 
-                            <i class="fas fa-sort-amount-up"></i> Giá tăng dần
+                            <i class="fas fa-sort-amount-up"></i> Price increases gradually
                         </label>
                         <label>
                             <input type="radio" name="sort" value="desc" ${param.sort == 'desc' ? 'checked' : ''}> 
-                            <i class="fas fa-sort-amount-down"></i> Giá giảm dần
+                            <i class="fas fa-sort-amount-down"></i> Price decreasing
                         </label>
                     </div>
 
                     <div class="number-input">
-                        <label for="minQuantity"><strong>Số khóa học hiển thị:</strong></label>
+                        <label for="minQuantity"><strong>Number of courses displayed:</strong></label>
                         <input type="number" id="minQuantity" name="minQuantity" 
                                value="${empty param.minQuantity ? 6 : param.minQuantity}" 
                                min="1" max="6">
@@ -712,20 +729,20 @@
 
                     <label>
                         <input type="checkbox" name="status" value="1" ${param.status == '1' ? 'checked' : ''}> 
-                        <i class="fas fa-check-circle"></i> Chỉ hiển thị khóa học đang hoạt động
+                        <i class="fas fa-check-circle"></i> Show only active courses
                     </label>
 
                     <div class="filter-actions">
                         <button type="submit">
-                            <i class="fas fa-check"></i> Áp dụng
+                            <i class="fas fa-check"></i> Apply
                         </button>
                         <a href="CourseList">
-                            <i class="fas fa-redo"></i> Đặt lại
+                            <i class="fas fa-redo"></i> Reset
                         </a>
                     </div>
                 </form>
             </div>
-                      
+
         </div>
         <jsp:include page="components/footer.jsp"/>
         <script>
