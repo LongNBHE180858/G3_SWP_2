@@ -149,6 +149,16 @@ CREATE TABLE Lesson (
     [Order] INT
 );
 
+CREATE TABLE LessonProgress (        -- 1 user 1 lesson 1 dòng
+    UserID     INT      NOT NULL,
+    LessonID   INT      NOT NULL,
+    Completed  BIT      NOT NULL DEFAULT 0,
+    CompletedAt DATETIME NULL,
+    CONSTRAINT PK_LessonProgress PRIMARY KEY (UserID, LessonID),
+    CONSTRAINT FK_LP_User   FOREIGN KEY (UserID)  REFERENCES Account(UserID),
+    CONSTRAINT FK_LP_Lesson FOREIGN KEY (LessonID)REFERENCES Lesson(LessonID)
+);
+
 CREATE TABLE Quiz (
     QuizID INT PRIMARY KEY,
     SectionID INT FOREIGN KEY REFERENCES CourseSection(SectionID),

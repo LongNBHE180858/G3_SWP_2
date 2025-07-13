@@ -13,6 +13,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import dao.*;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.List;
 import model.*;
 
@@ -69,6 +73,8 @@ public class LessonViewServlet extends HttpServlet {
         LessonDAO lessonDAO = new LessonDAO();
         CourseDAO courseDAO = new CourseDAO();
         QuizDAO quizDAO = new QuizDAO();
+        LessonProgressDAO lpDAO = new LessonProgressDAO();
+        int userId = ((Integer) request.getSession().getAttribute("userID"));
 
         List<CourseSection> sectionList = sectionDAO.getSectionsByCourseId(courseId);
         for (CourseSection section : sectionList) {
@@ -85,6 +91,22 @@ public class LessonViewServlet extends HttpServlet {
         }
 
         Course course = courseDAO.getCourseById(courseId);
+        int totalLessons = sectionList.stream()
+                .flatMap(s -> s.getModules().stream())
+                .mapToInt(m -> m.getLessons().size())
+                .sum();
+
+// Số bài đã hoàn thành
+        int completed;
+        try {
+            completed = lpDAO.countCompletedInCourse(userId, courseId);
+            request.setAttribute("totalLessons", totalLessons);
+            request.setAttribute("completedCount", completed);   // ← đã được dùng trong JSP
+        } catch (Exception ex) {
+            Logger.getLogger(LessonViewServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Set<Integer> completedLessonSet = new HashSet<>(new LessonProgressDAO().getCompletedLessonIds(userId));
+        request.setAttribute("completedLessonSet", completedLessonSet);
 
         request.setAttribute("course", course);
         request.setAttribute("sectionList", sectionList);

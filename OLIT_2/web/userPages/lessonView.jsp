@@ -1,5 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,6 +14,19 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
         <link href="${pageContext.request.contextPath}/userPages/assets/css/lesson-view.css" rel="stylesheet">
         <style>
+            .lesson.completed {
+                background-color: #2e2e42;
+                border-left: 4px solid #00c896;
+                color: #ccc;
+            }
+            .lesson.completed:hover {
+                background-color: #3a3a5c;
+            }
+            .lesson.completed i,
+            .lesson.completed span {
+                color: #00c896;
+            }
+
             .quiz-section {
                 background-color: #1a1a2e;
                 border: 1px solid #2e2e42;
@@ -61,6 +76,30 @@
             .quiz-section button:hover {
                 background-color: #ff6b81;
             }
+            .course-progress {
+                margin: 20px 0;
+            }
+
+            .progress-bar {
+                background-color: #2a2a3b;
+                height: 14px;
+                width: 100%;
+                border-radius: 10px;
+                overflow: hidden;
+                margin-bottom: 5px;
+            }
+
+            .progress-fill {
+                background-color: #00c896;
+                height: 100%;
+                width: 0%;
+                transition: width 0.4s ease-in-out;
+            }
+
+            .progress-percent {
+                font-size: 13px;
+                color: #ccc;
+            }
 
         </style>
     </head>
@@ -92,27 +131,29 @@
                         </div>
                     </div>
                 </div>
-                    
-                    <div class="course-progress">
-                        <div class="progress-bar">
-                            <div class="progress-fill"
-                                 style="width:
-                                 <c:choose>
-                                     <c:when test="${totalLessons > 0}">
-                                         ${ (completedCount*100) / totalLessons }%
-                                     </c:when>
-                                     <c:otherwise>0%</c:otherwise>
-                                 </c:choose>;"></div>
-                        </div>
-                        <div class="progress-percent">
-                            <c:choose>
-                                <c:when test="${totalLessons > 0}">
-                                    ${ (completedCount*100) / totalLessons }%
-                                </c:when>
-                                <c:otherwise>0%</c:otherwise>
-                            </c:choose>
-                        </div>
+
+                <div class="course-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill"
+                             style="width:
+                             <c:choose>
+                                 <c:when test='${totalLessons > 0}'>
+                                     <fmt:formatNumber value='${(completedCount * 100.0) / totalLessons}' maxFractionDigits='2' />%
+                                 </c:when>
+                                 <c:otherwise>0%</c:otherwise>
+                             </c:choose>;"
+                             ></div>
                     </div>
+                    <div class="progress-percent">
+                        <c:choose>
+                            <c:when test="${totalLessons > 0}">
+                                <fmt:formatNumber value="${(completedCount * 100.0) / totalLessons}" maxFractionDigits="2" />%
+
+                            </c:when>
+                            <c:otherwise>0%</c:otherwise>
+                        </c:choose>
+                    </div>
+                </div>
 
                 <div class="course-content-area">
                     <!-- Vertical List View (Default) -->
@@ -135,10 +176,11 @@
 
                                             <div class="module-content">
                                                 <c:forEach var="lesson" items="${module.lessons}">
-                                                    <div class="lesson" 
-                                                         data-url="${lesson.URLLesson}"
+                                                    <div class="lesson ${completedLessonSet.contains(lesson.lessonID) ? 'completed' : ''}" 
+                                                         data-lesson-id="${lesson.lessonID}" 
+                                                         data-url="${lesson.URLLesson}" 
+                                                         onclick="console.log('📦 lessonID =', '${lesson.lessonID}'); selectLesson(this)">
 
-                                                         onclick="selectLesson('${lesson.lessonTitle}', '${lesson.URLLesson}')">
                                                         <div class="lesson-icon">
                                                             <c:choose>
                                                                 <c:when test="${fn:endsWith(lesson.URLLesson, '.html')}">
@@ -191,37 +233,115 @@
             </div>
         </div>
         <script>
-            function selectLesson(title, url) {
-            var lessonContent = document.querySelector('.lesson-content');
-            var html = '<div class="selected-lesson"><h3>' + title + '</h3>';
-            
-            // 1) HTML bên ngoài (absolute URL ending .html)
+            const contextPath = '${pageContext.request.contextPath}';
+            function selectLesson(el) {
+            const title = el.querySelector('span').textContent;
+            const url = el.getAttribute('data-url');
+            const lessonId = el.getAttribute('data-lesson-id');
+            console.log("📥 Selected lessonId =", lessonId);
+            if (!lessonId) {
+            alert("⚠️ lessonId missing!");
+            return;
+            }
+
+            const lessonContent = document.querySelector('.lesson-content');
+            let html = '<div class="selected-lesson"><h3>' + title + '</h3>';
+            document.querySelectorAll('.lesson').forEach(el => el.classList.remove('active'));
+            el.classList.add('active');
+            if (url.match(/^https?:\/\/.*\.html$/)) {
+            // External .html
+            html += `<iframe id="lesson-frame" src="${url}" frameborder="0" style="width:100%;height:100%;"></iframe>`;
+            html += '</div>';
+            lessonContent.innerHTML = html;
+            // Gọi API sau 30 giây
+            setTimeout(() => {
+            markLessonCompleted(lessonId);
+            }, 30000);
+            } else if (url.endsWith('.html')) {
+            // Internal .html
+            html += `<iframe id="lesson-frame" src="${contextPath + url}" frameborder="0" style="width:100%;height:100%;"></iframe>`;
+            html += '</div>';
+            lessonContent.innerHTML = html;
+            // Gọi API sau 30 giây
+            setTimeout(() => {
+            markLessonCompleted(lessonId);
+            }, 30000);
+            } else {
+            // YouTube video
+            const id = extractYouTubeId(url);
+            html += `<div id="yt-player"></div>`;
+            html += '</div>';
+            lessonContent.innerHTML = html;
+            // Load YouTube iframe API nếu chưa có
+            if (!window.YT) {
+            const tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            document.body.appendChild(tag);
+            }
+
+            // Lưu để gọi sau khi API sẵn sàng
+            window.onYouTubeIframeAPIReady = function () {
+            window.ytPlayer = new YT.Player('yt-player', {
+            height: '315',
+                    width: '560',
+                    videoId: id,
+                    events: {
+                    'onStateChange': function (event) {
+                    if (event.data === YT.PlayerState.ENDED) {
+                    markLessonCompleted(lessonId);
+                    }
+                    }
+                    }
+            });
+            };
+            // Nếu API đã sẵn sàng rồi
+            if (window.YT && YT.Player) {
+            window.onYouTubeIframeAPIReady();
+            }
+            }
+            }
+            function markLessonCompleted(lessonId) {
+            console.log('✅ Marking completed lessonId =', lessonId);
+            fetch(contextPath + '/lesson-progress', {
+            method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: 'lessonId=' + encodeURIComponent(lessonId)
+            })
+                    .then(res => res.text())
+                    .then(text => {
+                    console.log('📨 Response from server:', text);
+                    location.reload(); // Hoặc update progress UI thay vì reload
+                    })
+                    .catch(err => console.error('❌ Error marking complete:', err));
+            }
+
+
+            function selectLessonByData(title, url, lessonId) {
+            const lessonContent = document.querySelector('.lesson-content');
+            let html = '<div class="selected-lesson"><h3>' + title + '</h3>';
             if (url.match(/^https?:\/\//) && url.endsWith('.html')) {
-            html += '<iframe src="' + url +
-                    '" frameborder="0" style="width:100%;height:100%;"></iframe>';
-            }
-            // 2) HTML nội bộ (relative URL ending .html)
-            else if (url.endsWith('.html')) {
-            html += '<iframe src="' + contextPath + url +
-                    '" frameborder="0" style="width:100%;height:100%;"></iframe>';
-            }
-            // 3) Nếu là YouTube
-            else {
-            var id = extractYouTubeId(url);
-            html += '<iframe width="560" height="315" ' +
-                    'src="https://www.youtube.com/embed/' + id +
-                    '" frameborder="0" allowfullscreen></iframe>';
+            html += `<iframe src="${url}" frameborder="0" style="width:100%;height:100%;"></iframe>`;
+            } else if (url.endsWith('.html')) {
+            html += `<iframe src="${contextPath + url}" frameborder="0" style="width:100%;height:100%;"></iframe>`;
+            } else {
+            const id = extractYouTubeId(url);
+            html += `<iframe width="560" height="315" src="https://www.youtube.com/embed/${id}" frameborder="0" allowfullscreen></iframe>`;
             }
 
             html += '</div>';
             lessonContent.innerHTML = html;
-            // Đánh dấu active
-            document.querySelectorAll('.lesson').forEach(function(el){
-            el.classList.remove('active');
-            });
-            event.currentTarget.classList.add('active');
+            fetch(contextPath + '/lesson-progress', {
+            method: 'POST',
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    body: new URLSearchParams({ lessonId })
+            }).then(res => {
+            if (!res.ok) throw new Error('Failed to mark complete');
+            return res.json();
+            }).then(data => {
+            console.log('Marked completed!', data);
+            location.reload();
+            }).catch(console.error);
             }
-
 
             function extractYouTubeId(url) {
             const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
@@ -243,7 +363,6 @@
             });
             });
             });
-            
             function renderListLayout(data) {
             const container = document.querySelector('.course-list-container');
             container.innerHTML = '';
@@ -342,81 +461,69 @@
             closeModal.addEventListener('click', () => {
             modal.style.display = 'none';
             });
-            
-           function renderModalGrid() {
-           modalGrid.innerHTML = '';
-
-  const courseData = [
-    <c:forEach var="section" items="${sectionList}" varStatus="sIndex">
-      {
-        title: "Section ${sIndex.index + 1}",
-        modules: [
-          <c:forEach var="module" items="${section.modules}" varStatus="mIndex">
+            function renderModalGrid() {
+            modalGrid.innerHTML = '';
+            const courseData = [
+            <c:forEach var="section" items="${sectionList}" varStatus="sIndex">
             {
-              title: "Module ${mIndex.index + 1}",
-              lessons: [
-                <c:forEach var="lesson" items="${module.lessons}" varStatus="lIndex">
-                  {
-                    title: "${lesson.lessonTitle}",
-                    url: "${lesson.URLLesson}"
-                  }<c:if test="${!lIndex.last}">,</c:if>
+            title: "Section ${sIndex.index + 1}",
+                    modules: [
+                <c:forEach var="module" items="${section.modules}" varStatus="mIndex">
+                    {
+                    title: "Module ${mIndex.index + 1}",
+                            lessons: [
+                    <c:forEach var="lesson" items="${module.lessons}" varStatus="lIndex">
+                            {
+                            id: "${lesson.lessonID}",
+                                    title: "${lesson.lessonTitle}",
+                                    url: "${lesson.URLLesson}"
+                            }<c:if test="${!lIndex.last}">,</c:if>
+                    </c:forEach>
+                            ]
+                    }<c:if test="${!mIndex.last}">,</c:if>
                 </c:forEach>
-              ]
-            }<c:if test="${!mIndex.last}">,</c:if>
-          </c:forEach>
-        ]
-      }<c:if test="${!sIndex.last}">,</c:if>
-    </c:forEach>
-  ];
-
-  courseData.forEach(section => {
-    section.modules.forEach(module => {
-      module.lessons.forEach(lesson => {
-        const card = document.createElement('div');
-        card.className = 'grid-card';
-
-        const iconDiv = document.createElement('div');
-        iconDiv.className = 'grid-icon';
-        iconDiv.innerHTML = lesson.url.endsWith('.html')
-          ? '<i class="fas fa-file-alt"></i>'
-          : '<i class="fas fa-play-circle"></i>';
-
-        const lessonTitleEl = document.createElement('h4');
-        lessonTitleEl.className = 'grid-title';
-        lessonTitleEl.textContent = lesson.title;
-
-        const infoEl = document.createElement('div');
-        infoEl.className = 'grid-meta';
-
-        const sectionSpan = document.createElement('span');
-        sectionSpan.textContent = section.title;
-
-        const separator = document.createElement('span');
-        separator.textContent = ' • ';
-
-        const moduleSpan = document.createElement('span');
-        moduleSpan.textContent = module.title;
-
-        infoEl.appendChild(sectionSpan);
-        infoEl.appendChild(separator);
-        infoEl.appendChild(moduleSpan);
-
-        card.appendChild(iconDiv);
-        card.appendChild(lessonTitleEl);
-        card.appendChild(infoEl);
-
-        card.onclick = () => {
-          selectLesson(lesson.title, lesson.url);
-          modal.style.display = 'none';
-        };
-
-        modalGrid.appendChild(card);
-      });
-    });
-  });
-}
+                    ]
+            }<c:if test="${!sIndex.last}">,</c:if>
+            </c:forEach>
+            ];
+            courseData.forEach(section => {
+            section.modules.forEach(module => {
+            module.lessons.forEach(lesson => {
+            const card = document.createElement('div');
+            card.className = 'grid-card';
+            const iconDiv = document.createElement('div');
+            iconDiv.className = 'grid-icon';
+            iconDiv.innerHTML = lesson.url.endsWith('.html')
+                    ? '<i class="fas fa-file-alt"></i>'
+                    : '<i class="fas fa-play-circle"></i>';
+            const lessonTitleEl = document.createElement('h4');
+            lessonTitleEl.className = 'grid-title';
+            lessonTitleEl.textContent = lesson.title;
+            const infoEl = document.createElement('div');
+            infoEl.className = 'grid-meta';
+            const sectionSpan = document.createElement('span');
+            sectionSpan.textContent = section.title;
+            const separator = document.createElement('span');
+            separator.textContent = ' • ';
+            const moduleSpan = document.createElement('span');
+            moduleSpan.textContent = module.title;
+            infoEl.appendChild(sectionSpan);
+            infoEl.appendChild(separator);
+            infoEl.appendChild(moduleSpan);
+            card.appendChild(iconDiv);
+            card.appendChild(lessonTitleEl);
+            card.appendChild(infoEl);
+            card.onclick = () => {
+            selectLessonByData(lesson.title, lesson.url, lesson.id);
+            modal.style.display = 'none';
+            };
+            modalGrid.appendChild(card);
             });
-    
+            });
+            });
+            }
+            });
+
         </script>
     </body>
 </html> 
