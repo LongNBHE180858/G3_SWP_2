@@ -58,50 +58,57 @@ public class CourseDetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int courseId = Integer.parseInt(request.getParameter("id"));
-        CourseDAO courseDAO = new CourseDAO();
-        SubjectDAO subjectDAO = new SubjectDAO();
-        SliderDAO sliderDAO = new SliderDAO();
-        LessonDAO lessonDAO = new LessonDAO();
-        
-        Lesson firstLesson = lessonDAO.getFirstLessonByCourseId(courseId);
-        List<Slider> sliders = sliderDAO.getSliderByCourseID(courseId);
-        Course course = courseDAO.getCourseById(courseId);
-        List<Subject> allSubjects = subjectDAO.getAllSubjects();
-        List<Course> featuredCourses = courseDAO.getTopCourses(2); 
-        ReviewDAO reviewDAO = new ReviewDAO();
-        List<Review> reviews = reviewDAO.getReviewsByCourseId(courseId);
-        
-        request.setAttribute("reviews", reviews);
-        request.setAttribute("course", course);
-        request.setAttribute("subjects", allSubjects);
-        request.setAttribute("featuredCourses", featuredCourses);
-        request.setAttribute("sliders", sliders);
-        request.setAttribute("firstLesson", firstLesson);
 
-        request.getRequestDispatcher("/userPages/courseDetail.jsp").forward(request, response);
+        String courseIdParam = request.getParameter("id");
+        if (courseIdParam == null || courseIdParam.isEmpty()) {
+            response.sendRedirect("CourseList");
+            return;
+        }
+
+        try {
+            int courseId = Integer.parseInt(courseIdParam);
+
+            CourseDAO courseDAO = new CourseDAO();
+            PricePackageDAO priceDAO = new PricePackageDAO();
+            SubjectDAO subjectDAO = new SubjectDAO();
+
+            // 1. Lấy thông tin khoá học
+            Course course = courseDAO.getCourseById(courseId);
+            if (course == null) {
+                request.setAttribute("message", "Khoá học không tồn tại.");
+                request.setAttribute("messageType", "danger");
+                return;
+            }
+
+            // 2. Lấy gói có giá rẻ nhất (status = 1)
+            PricePackage lowestPackage = priceDAO.getLowestActivePackageByCourseId(courseId);
+
+            // 3. Lấy tất cả danh mục
+            List<Subject> allSubjects = subjectDAO.getAllSubjects(null, null, null);  // không filter
+            List<String> allCategories = subjectDAO.getAllCategories();
+            // 4. Lấy khoá học nổi bật
+            List<Course> featuredCourses = courseDAO.getHotCourses();
+
+            // lấy list media 
+            List<CourseMedia> mediaList = courseDAO.getAllMediaByCourseId(courseId);
+            request.setAttribute("mediaList", mediaList);
+            System.out.println(mediaList.size());
+            // 5. Set attribute và forward
+
+            // lấy list reivews 
+            ReviewDAO reviewDAO = new ReviewDAO();
+            List<Review> reviews = reviewDAO.getReviewsByCourseId(courseId);
+            request.setAttribute("reviews", reviews);
+            request.setAttribute("course", course);
+            request.setAttribute("lowestPackage", lowestPackage);
+            request.setAttribute("subjects", allSubjects);
+            request.setAttribute("categories", allCategories);
+            request.setAttribute("featuredSubjects", featuredCourses);
+            System.out.println(course);
+            request.getRequestDispatcher("/userPages/courseDetail.jsp").forward(request, response);
+
+        } catch (NumberFormatException e) {
+            response.sendRedirect("CourseList");
+        }
     }
-
-    /** 
-     * Handles the HTTP <code>POST</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /** 
-     * Returns a short description of the servlet.
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }

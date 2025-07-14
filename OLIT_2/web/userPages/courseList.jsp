@@ -580,8 +580,6 @@
                             </c:forEach>
                     </ul>
                     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-                    <!-- ... các phần khác ... -->
-
                     <!-- Nút chỉ hiện với admin -->
                     <c:if test="${sessionScope.roleID == 1}">
                         <div style="margin-bottom: 20px;">

@@ -152,6 +152,45 @@ public class CourseDAO {
         }
         return list;
     }
+    
+    public CourseMedia getFirstImageByCourseId(int courseId) {
+        String sql = "SELECT TOP 1 * FROM CourseMedia WHERE CourseID = ? AND MediaType = 'image'";
+        try (PreparedStatement ps = DBContext.getInstance().getConnection().prepareStatement(sql)) {
+            ps.setInt(1, courseId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                CourseMedia media = new CourseMedia();
+                media.setMediaID(rs.getInt("MediaID"));
+                media.setCourseID(rs.getInt("CourseID"));
+                media.setMediaURL(rs.getString("MediaURL"));
+                media.setMediaType(rs.getString("MediaType"));
+                return media;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<CourseMedia> getAllMediaByCourseId(int courseId) {
+        List<CourseMedia> mediaList = new ArrayList<>();
+        String sql = "SELECT * FROM CourseMedia WHERE CourseID = ? ";
+        try (PreparedStatement ps = DBContext.getInstance().getConnection().prepareStatement(sql)) {
+            ps.setInt(1, courseId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                CourseMedia media = new CourseMedia();
+                media.setMediaID(rs.getInt("MediaID"));
+                media.setCourseID(rs.getInt("CourseID"));
+                media.setMediaURL(rs.getString("MediaURL"));
+                media.setMediaType(rs.getString("MediaType"));
+                mediaList.add(media);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return mediaList;
+    }
 
     public static void main(String[] args) {
         ArrayList<Course> courses = getCourses(); // Gọi hàm tĩnh getCourses()

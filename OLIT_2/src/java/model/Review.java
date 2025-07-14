@@ -7,6 +7,7 @@ package model;
 import java.util.Date;
 
 public class Review {
+
     private int reviewID;
     private int userID;
     private int courseID;
@@ -93,4 +94,14 @@ public class Review {
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
     }
+    private String userFullName;
+
+    public String getUserFullName() {
+        return userFullName;
+    }
+
+    public void setUserFullName(String userFullName) {
+        this.userFullName = userFullName;
+    }
+
 }
