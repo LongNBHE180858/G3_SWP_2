@@ -117,6 +117,75 @@ INSERT INTO Course
 (13, 3, N'Machine Learning Cơ bản', N'ml,ai,python', 'https://vinuni.edu.vn/wp-content/uploads/2024/12/tim-hieu-machine-learning-co-ban-nhung-dieu-can-biet-cho-nguoi-moi-bat-dau-hinh-2.jpg', N'Giới thiệu Machine Learning và thuật toán', N'Intermediate', N'popular', 1, 60),
 (14, 4, N'Training kỹ năng mềm cho lãnh đạo', N'softskills,leadership', 'https://hrcacademy.vn/uploads/anh-banner/thang-08/anh-dang-web/tong-quan.jpg', N'Kỹ năng giao tiếp và lãnh đạo hiệu quả', N'Advanced', N'trending', 1, 20),
 (15, 5, N'Lập trình Node.js và Express', N'nodejs,express,backend', 'https://caodang.fpt.edu.vn/wp-content/uploads/a-9.png', N'Thiết kế backend với Node.js', N'Intermediate', N'featured', 1, 45);
+
+--Thêm dữ liệu vào bảng CourseMedia
+INSERT INTO CourseMedia (CourseID, MediaURL, MediaType)
+VALUES
+(1, 'https://i.ytimg.com/vi/ptOjDnsLOCc/mqdefault.jpg', 'image'),
+(1, 'https://branium.pro/wp-content/uploads/2020/11/java-core-avatar.webp', 'image'),
+(1, 'https://cdn.ngockhuong.com/wp-content/uploads/2017/06/get-started-with-java-programming.png', 'image'),
+(1, 'https://youtu.be/Sb_cEAjHWOk?si=3ntUShyFHLxGrN_F', 'video'),
+
+(2, 'https://image.vietnix.vn/wp-content/uploads/2023/11/thiet-lap-co-so-du-lieu-tu-xa-voi-mysql-tren-ubuntu-20-04.png', 'image'),
+(2, 'https://bkhost.vn/wp-content/uploads/2022/07/mySql-workbench-1.jpg', 'image'),
+(2, 'https://cloud-web-cms-beta.s3.cloud.cmctelecom.vn/cac_loai_data_base_602449a39f.jpeg', 'image'),
+(2, 'https://youtu.be/bnW1forz4Sw?si=9H7dOxx8nfF1omNx', 'video'),
+
+(3, 'https://cdn2.fptshop.com.vn/unsafe/1920x0/filters:format(webp):quality(75)/2023_12_28_638393296838948284_reactjs.jpg', 'image'),
+(3, 'https://d1nzpkv5wwh1xf.cloudfront.net/640/k-577a160c047c994bb7e5b397/20190809-/zendvn04.png', 'image'),
+(3, 'https://khoahocgiare.org/storage/product/reactjs-co-ban-den-nang-cao-1.jpg', 'image'),
+(3, 'https://youtu.be/DJWCeD8h6EA?si=2fkKTAtvC8ySQ51N', 'video'),
+
+(4, 'https://www.creationinfoways.com/blog/uploading/687193083.jpg', 'image'),
+(4, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrZ9VDSXxlPQ2EbNy-9q6e-bbQACdZ4dVk1g&s', 'image'),
+(4, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzkFeJTVpdqTMatKciNSb6Nuvi0y9c99PSeA&s', 'image'),
+(4, 'https://youtu.be/wZZnxXyES80?si=AA71XvJlcvGA1G6d', 'video'),
+
+(5, 'https://miro.medium.com/v2/resize:fit:1024/0*jlUybkZYz6yxWtdk.jpg', 'image'),
+(5, 'https://media.geeksforgeeks.org/wp-content/uploads/20240422183950/Principles-of-Agile-Project-Management.webp', 'image'),
+(5, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWqsyt06Tsj8JlfvV63Or_6QT8kNfK0TN6mw&s', 'image'),
+(5, 'https://youtu.be/q3XnHCB7RNQ?si=hyEcrebAz2eSp_Hi', 'video'),
+
+(6, 'https://s3-sgn09.fptcloud.com/codelearnstorage/files/thumbnails/python-cho-nguoi-moi-bat-dau_f1a0ae13118c411ab7068e248f9f0206.png', 'image'),
+(6, 'https://msita.udn.vn/images/1728266685-850.png', 'image'),
+(6, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPZlY20yTekLCsMyK5I-R613miI2BmD8Jctw&s', 'image'),
+(6, 'https://youtu.be/8BDIkM6a7nE?si=nYPKDxqxngumXMDx', 'video'),
+
+(11, 'https://techvccloud.mediacdn.vn/zoom/600_315/280518386289090560/2024/2/22/spring-boot-1708591158972430464422-0-0-500-890-crop-1708591162385231771559.jpg', 'image'),
+(11, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQPhp2VEfo6ZCl561Il0VEqR8y-sENsSCONQ&s', 'image'),
+(11, 'https://asia-1-fileserver-2.stringee.com/0/asia-1_1_TLNT9GX6H8ENYKZ/1695639037-Java_spring_boot_la_gi.png', 'image'),
+(11, 'https://youtu.be/nqZy30G1wiA?si=qkpQuBhooVpJHpow', 'video'),
+
+(12, 'https://api.careers.saigontechnology.com/storage/blogs/BLOG-HTQnbleYwWTiDLZpwL4fDnjmlNOFhrmdndPWCURk.webp', 'image'),
+(12, 'https://cloud-web-cms-beta.s3.cloud.cmctelecom.vn/aws_faa694b58b.jpg', 'image'),
+(12, 'https://cdn2.fptshop.com.vn/unsafe/1920x0/filters:format(webp):quality(75)/2023_12_27_638393105405931599_aws-la-gi-2.jpg', 'image'),
+(12, 'https://youtu.be/dDajeR6l6UE?si=UI9ZnC5sVCJp4_tr', 'video'),
+
+(13, 'https://vinuni.edu.vn/wp-content/uploads/2024/12/tim-hieu-machine-learning-co-ban-nhung-dieu-can-biet-cho-nguoi-moi-bat-dau-hinh-2.jpg', 'image'),
+(13, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjD8ilgW7En1VfYhaAsZiJ3m68H3L4_jTgcA&s', 'image'),
+(13, 'https://statics.cdn.200lab.io/2024/10/machine-learning-la-gi.jpeg', 'image'),
+(13, 'https://youtu.be/2yFuforZegA?si=pGMkGmP8J99lPScA', 'video'),
+
+(14, 'https://hrcacademy.vn/uploads/anh-banner/thang-08/anh-dang-web/tong-quan.jpg', 'image'),
+(14, 'https://bondtnd.edu.vn/wp-content/uploads/2020/01/ky-nang-mem-la-gi-600x400.jpg', 'image'),
+(14, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSd5UzGAae42aTTyqL_l2xhaqxg2S_5XzCxJA&s', 'image'),
+(14, 'https://youtu.be/f5Q6RxAuos8?si=0nS_dcwfukls-xaW', 'video'),
+
+(15, 'https://caodang.fpt.edu.vn/wp-content/uploads/a-9.png', 'image'),
+(15, 'https://files.fullstack.edu.vn/f8-prod/courses/6.png', 'image'),
+(15, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbSd9iLK6WvXyGT2L2P1x36yrhgQjLdjVANA&s', 'image'),
+(15, 'https://youtu.be/5sLb_qUhXGs?si=9GMOcTEglpMbCHFO', 'video')
+--Thêm dữ liệu vào bảng Review
+INSERT INTO Review (ReviewID, UserID, CourseID, Content, Star, ImageURL) VALUES
+(1, 4, 1, N'Khóa học Java rất hay và dễ hiểu.', 5, 'review-images/java1.jpg'),
+(2, 5, 2, N'MySQL được giảng giải rõ ràng, dễ tiếp cận.', 4, 'review-images/mysql1.png'),
+(3, 6, 3, N'React còn hơi khó với người mới, cần ví dụ thực tế hơn.', 3, 'review-images/react-feedback.jpg'),
+(4, 4, 4, N'Nội dung marketing khá thực tế, áp dụng được.', 4, NULL),
+(5, 5, 5, N'Mô hình Agile giúp tôi cải thiện quy trình làm việc rất nhiều.', 5, 'review-images/agile-review.png'),
+(6, 6, 1, N'Khóa Java quá cơ bản, nên mở rộng thêm.', 3, NULL),
+(7, 5, 3, N'Tôi thích cách truyền đạt của giảng viên React.', 4, 'review-images/react-teacher.jpg'),
+(8, 6, 1, N'Khóa học khá ổn.', 5, NULL);
+
 -- Thêm dữ liệu vào bảng PricePackage
 INSERT INTO PricePackage (PackageID, CourseID, Name, AccessDuration, ListPrice, SalePrice, Status, Description) VALUES
 (1, 1, N'Gói cơ bản', 30, 500000.00, 400000.00, 1, N'Truy cập khóa học trong 30 ngày'),
@@ -359,13 +428,4 @@ INSERT INTO Slider (SliderID, UserID, CourseID, Title, ImageURL, Backlink, Statu
 (2, 1, 2, N'Ưu đãi 50% khóa Database', 'https://vtiacademy.edu.vn/upload/images/data-analyst-26.png', '/course/database-design', 1, N'Slider khuyến mãi', 2, '2024-05-05'),
 (3, 1, 3, N'Khai giảng React Course', 'https://vtiacademy.edu.vn/upload/images/artboard-1-copy-16-100.jpg', '/course/react-beginners', 1, N'Thông báo khai giảng', 3, '2024-05-10');
 
--- Thêm dữ liệu vào bảng Review
-INSERT INTO Review (ReviewID, UserID, CourseID, Content, Star, CreatedAt, Status, ImageURL) VALUES
-(1, 4, 1, N'Khóa học Java rất hay và dễ hiểu.', 5, GETDATE(), 1, NULL),
-(2, 5, 2, N'MySQL được giảng giải rõ ràng, dễ tiếp cận.', 4, GETDATE(), 1, NULL),
-(3, 6, 3, N'React còn hơi khó với người mới, cần ví dụ thực tế hơn.', 3, GETDATE(), 1, NULL),
-(4, 4, 4, N'Nội dung marketing khá thực tế, áp dụng được.', 4, GETDATE(), 1, NULL),
-(5, 5, 5, N'Mô hình Agile giúp tôi cải thiện quy trình làm việc rất nhiều.', 5, GETDATE(), 1, NULL),
-(6, 6, 1, N'Khóa Java quá cơ bản, nên mở rộng thêm.', 3, GETDATE(), 1, NULL),
-(7, 5, 3, N'Tôi thích cách truyền đạt của giảng viên React.', 4, GETDATE(), 1, NULL),
-(8, 6, 1, N'Khóa học khá ổn.', 5, GETDATE(), 1, NULL);
+

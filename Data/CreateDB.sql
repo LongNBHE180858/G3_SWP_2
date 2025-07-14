@@ -104,6 +104,23 @@ CREATE TABLE Course (
     CourseraDuration INT,
 );
 
+CREATE TABLE CourseMedia (
+    MediaID INT PRIMARY KEY IDENTITY(1,1),
+    CourseID INT FOREIGN KEY REFERENCES Course(CourseID),
+    MediaURL NVARCHAR(255) NOT NULL,
+    MediaType NVARCHAR(10) CHECK (MediaType IN ('image', 'video')),
+);
+
+CREATE TABLE Review (
+    ReviewID INT PRIMARY KEY,
+    UserID INT FOREIGN KEY REFERENCES Account(UserID),
+    CourseID INT FOREIGN KEY REFERENCES Course(CourseID),
+    Content NVARCHAR(MAX),
+    Star INT CHECK (Star BETWEEN 1 AND 5),
+    CreatedAt DATETIME DEFAULT GETDATE(),
+    Status BIT NOT NULL DEFAULT 1, -- 1: Hiển thị, 0: Ẩn
+	ImageURL NVARCHAR(255) NULL
+);
 
 CREATE TABLE CourseSection (
     SectionID INT PRIMARY KEY,
@@ -244,13 +261,3 @@ CREATE TABLE Slider (
     ValidFrom DATE
 );
 
-CREATE TABLE Review (
-    ReviewID INT PRIMARY KEY,
-    UserID INT FOREIGN KEY REFERENCES Account(UserID),
-    CourseID INT FOREIGN KEY REFERENCES Course(CourseID),
-    Content NVARCHAR(MAX),
-    Star INT CHECK (Star BETWEEN 1 AND 5),
-    CreatedAt DATETIME DEFAULT GETDATE(),
-    Status BIT NOT NULL DEFAULT 1, -- 1: Hiển thị, 0: Ẩn
-	ImageURL NVARCHAR(255) NULL
-);
