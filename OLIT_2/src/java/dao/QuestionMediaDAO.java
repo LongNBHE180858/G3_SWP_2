@@ -43,27 +43,29 @@ public class QuestionMediaDAO {
         return questionMedias;
     }
 
-    public static boolean createQuestionMedia(int questionID, String mediaURL, String mediaDescription) {
-        DBContext db = DBContext.getInstance();
-
-        try {
-            String sql = """
-                        INSERT INTO QuestionMedia (QuestionID, MediaURL, MediaDescription)
-                        VALUES (?, ?, ?)
-                        """;
-
-            PreparedStatement statement = db.getConnection().prepareStatement(sql);
-            statement.setInt(1, questionID);
-            statement.setString(2, mediaURL);
-            statement.setString(3, mediaDescription);
-
-            int rowsAffected = statement.executeUpdate();
-            return rowsAffected > 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+    public static boolean createQuestionMedia(int questionID,
+                                          String mediaURL,
+                                          int mediaType,
+                                          String mediaDescription) {
+    String sql = """
+        INSERT INTO QuestionMedia
+            (QuestionID, MediaURL, MediaType, MediaDescription)
+        VALUES (?, ?, ?, ?)
+        """;
+    try (PreparedStatement ps = DBContext.getInstance()
+                                         .getConnection()
+                                         .prepareStatement(sql)) {
+        ps.setInt(1, questionID);
+        ps.setString(2, mediaURL);
+        ps.setInt(3, mediaType);
+        ps.setString(4, mediaDescription);
+        return ps.executeUpdate() > 0;
+    } catch (Exception e) {
+        e.printStackTrace();
+        return false;
     }
+}
+
 
     public static boolean changeQuestionMedia(int questionID, int mediaID, String mediaURL, int mediaType, String mediaDescription) {
         DBContext db = DBContext.getInstance();
@@ -78,9 +80,9 @@ public class QuestionMediaDAO {
             PreparedStatement statement = db.getConnection().prepareStatement(sql);
             statement.setString(1, mediaURL);
             statement.setInt(2, mediaType);
-            statement.setString(2, mediaDescription);
-            statement.setInt(3, mediaID);
-            statement.setInt(4, questionID);
+            statement.setString(3, mediaDescription);
+            statement.setInt(4, mediaID);
+            statement.setInt(5, questionID);
 
             int rowsAffected = statement.executeUpdate();
             return rowsAffected > 0;
@@ -109,4 +111,5 @@ public class QuestionMediaDAO {
             return false;
         }
     }
+
 }

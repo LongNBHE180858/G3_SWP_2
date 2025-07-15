@@ -4,8 +4,8 @@ import dal.DBContext;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import model.Question;
 import java.util.List;
+import model.Question;
 
 /**
  *
@@ -15,28 +15,26 @@ public class QuestionDAO extends DBContext {
 
     public List<Question> getAllQuestion() {
         List<Question> questions = new ArrayList<>();
-        DBContext db = DBContext.getInstance();
         try {
-            String sql = """
-                            SELECT * FROM Question
-                         """;
-            PreparedStatement statement = db.getConnection().prepareStatement(sql);
+            String sql = "SELECT * FROM Question";
+            PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Question question = new Question(
-                        rs.getInt("QuestionID"),
-                        rs.getString("QuestionContent"),
-                        rs.getInt("QuestionType"),
-                        rs.getBoolean("Status"),
-                        rs.getInt("QuestionLevel"),
-                        rs.getInt("CreatedBy"),
-                        rs.getString("createdAt"),
-                        rs.getInt("SubjectId"),
-                        rs.getInt("LessonId")
+                    rs.getInt("QuestionID"),
+                    rs.getString("QuestionContent"),
+                    rs.getInt("QuestionType"),
+                    rs.getBoolean("Status"),
+                    rs.getInt("QuestionLevel"),
+                    rs.getInt("CreatedBy"),
+                    rs.getString("createdAt"),
+                    rs.getInt("SubjectId"),
+                    rs.getInt("LessonId")
                 );
                 questions.add(question);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
         return questions;
@@ -46,7 +44,6 @@ public class QuestionDAO extends DBContext {
         List<Question> questions = new ArrayList<>();
         StringBuilder sql = new StringBuilder("SELECT * FROM Question WHERE 1=1");
 
-        // Gắn thêm điều kiện nếu có
         if (searchQuery != null && !searchQuery.trim().isEmpty()) {
             sql.append(" AND QuestionContent LIKE ?");
         }
@@ -73,15 +70,15 @@ public class QuestionDAO extends DBContext {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Question question = new Question(
-                            rs.getInt("QuestionID"),
-                            rs.getString("QuestionContent"),
-                            rs.getInt("QuestionType"),
-                            rs.getBoolean("Status"),
-                            rs.getInt("QuestionLevel"),
-                            rs.getInt("CreatedBy"),
-                            rs.getString("createdAt"),
-                            rs.getInt("SubjectId"),
-                            rs.getInt("LessonId")
+                        rs.getInt("QuestionID"),
+                        rs.getString("QuestionContent"),
+                        rs.getInt("QuestionType"),
+                        rs.getBoolean("Status"),
+                        rs.getInt("QuestionLevel"),
+                        rs.getInt("CreatedBy"),
+                        rs.getString("createdAt"),
+                        rs.getInt("SubjectId"),
+                        rs.getInt("LessonId")
                     );
                     questions.add(question);
                 }
@@ -98,10 +95,10 @@ public class QuestionDAO extends DBContext {
         StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM Question WHERE 1=1");
 
         if (searchQuery != null && !searchQuery.trim().isEmpty()) {
-            sql.append(" AND questionContent LIKE ?");
+            sql.append(" AND QuestionContent LIKE ?");
         }
         if (filter != null && !filter.trim().isEmpty()) {
-            sql.append(" AND questionLevel = ?");
+            sql.append(" AND QuestionLevel = ?");
         }
 
         try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
@@ -125,25 +122,22 @@ public class QuestionDAO extends DBContext {
     }
 
     public static Question getQuesionByID(int questionID) {
-        String sql = """
-                     SELECT * FROM Question WHERE QuestionID = ?
-                     """;
-        try (PreparedStatement ps = DBContext.getInstance().getConnection().prepareCall(sql)) {
+        String sql = "SELECT * FROM Question WHERE QuestionID = ?";
+        try (PreparedStatement ps = DBContext.getInstance().getConnection().prepareStatement(sql)) {
             ps.setInt(1, questionID);
             try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    Question question = new Question(
-                            rs.getInt("QuestionID"),
-                            rs.getString("QuestionContent"),
-                            rs.getInt("QuestionType"),
-                            rs.getBoolean("Status"),
-                            rs.getInt("QuestionLevel"),
-                            rs.getInt("CreatedBy"),
-                            rs.getString("CreatedAt"),
-                            rs.getInt("SubjectID"),
-                            rs.getInt("LessonID")
+                if (rs.next()) {
+                    return new Question(
+                        rs.getInt("QuestionID"),
+                        rs.getString("QuestionContent"),
+                        rs.getInt("QuestionType"),
+                        rs.getBoolean("Status"),
+                        rs.getInt("QuestionLevel"),
+                        rs.getInt("CreatedBy"),
+                        rs.getString("CreatedAt"),
+                        rs.getInt("SubjectID"),
+                        rs.getInt("LessonID")
                     );
-                    return question;
                 }
             }
         } catch (Exception e) {
@@ -152,23 +146,36 @@ public class QuestionDAO extends DBContext {
         return null;
     }
 
-//    public static void main(String[] args) {
-//        QuestionDAO dao = new QuestionDAO();
-//        // Tham số test
-//        String searchQuery = "Java";      // tìm các câu hỏi chứa từ "What", có thể để null
-//        String filterLevel = "Beginner";      // lọc theo Level, có thể để null
-//        int pageSize = 5;                 // số lượng câu hỏi trên mỗi trang
-//        int pageIndex = 1;                // trang số 1
-//
-//        List<Question> questions = dao.getAllQuestionWithParam(searchQuery, filterLevel, pageSize, pageIndex);
-//
-//        // In kết quả
-//        for (Question q : questions) {
-//            System.out.println("ID: " + q.getQuestionID());
-//            System.out.println("Content: " + q.getQuestionContent());
-//            System.out.println("Level: " + q.getQuestionLevel());
-//            System.out.println("Status: " + q.getStatus());
-//            System.out.println("------------------------");
-//        }
-//    }
+    public boolean update(Question q) {
+        String sql = """
+            UPDATE Question
+               SET QuestionContent = ?,
+                   Status          = ?
+             WHERE QuestionID       = ?
+            """;
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, q.getQuestionContent());
+            ps.setBoolean(2, q.isStatus());
+            ps.setInt(3, q.getQuestionID());
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Delete a question by its ID.
+     * Returns true if the deletion was successful.
+     */
+    public boolean deleteQuestionByID(int questionID) {
+        String sql = "DELETE FROM Question WHERE QuestionID = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, questionID);
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

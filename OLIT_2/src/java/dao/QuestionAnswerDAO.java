@@ -91,7 +91,7 @@ public class QuestionAnswerDAO {
         }
     }
 
-    public static boolean deleteQuestionAnswer(int answerID) {
+    public static boolean deleteQuestionAnswerByID(int answerID) {
         DBContext db = DBContext.getInstance();
 
         try {
