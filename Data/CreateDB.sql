@@ -55,7 +55,8 @@ CREATE TABLE Post (
     PostDetails NVARCHAR(MAX),
     Status BIT NOT NULL DEFAULT 0,
     UpdatedDate DATETIME,
-    ThumbnailURL NVARCHAR(255)
+    ThumbnailURL NVARCHAR(255),
+	IsHot         BIT           NOT NULL DEFAULT 0
 );
 
 CREATE TABLE Subject (
@@ -82,11 +83,11 @@ CREATE TABLE ExpertSubject (
 );
 
 CREATE TABLE SubjectMedia (
-    MediaID INT PRIMARY KEY ,
+    MediaID INT IDENTITY(1,1) NOT NULL PRIMARY KEY ,
     SubjectID INT FOREIGN KEY REFERENCES Subject(SubjectID),
     MediaURL NVARCHAR(255) NOT NULL,
     MediaType NVARCHAR(10) CHECK (MediaType IN ('image', 'video')),
-    MediaDescription NVARCHAR(255)
+    MediaName NVARCHAR(255)
 );
 
 
@@ -100,7 +101,25 @@ CREATE TABLE Course (
     CourseLevel NVARCHAR(50),
     FeatureFlag NVARCHAR(50),
     Status BIT NOT NULL DEFAULT 0,
-    CourseraDuration INT
+    CourseraDuration INT,
+);
+
+CREATE TABLE CourseMedia (
+    MediaID INT PRIMARY KEY IDENTITY(1,1),
+    CourseID INT FOREIGN KEY REFERENCES Course(CourseID),
+    MediaURL NVARCHAR(255) NOT NULL,
+    MediaType NVARCHAR(10) CHECK (MediaType IN ('image', 'video')),
+);
+
+CREATE TABLE Review (
+    ReviewID INT PRIMARY KEY,
+    UserID INT FOREIGN KEY REFERENCES Account(UserID),
+    CourseID INT FOREIGN KEY REFERENCES Course(CourseID),
+    Content NVARCHAR(MAX),
+    Star INT CHECK (Star BETWEEN 1 AND 5),
+    CreatedAt DATETIME DEFAULT GETDATE(),
+    Status BIT NOT NULL DEFAULT 1, -- 1: Hiển thị, 0: Ẩn
+	ImageURL NVARCHAR(255) NULL
 );
 
 CREATE TABLE CourseSection (
@@ -145,6 +164,16 @@ CREATE TABLE Lesson (
     Status BIT NOT NULL DEFAULT 0,
     URLLesson NVARCHAR(255) NOT NULL,
     [Order] INT
+);
+
+CREATE TABLE LessonProgress (        -- 1 user 1 lesson 1 dòng
+    UserID     INT      NOT NULL,
+    LessonID   INT      NOT NULL,
+    Completed  BIT      NOT NULL DEFAULT 0,
+    CompletedAt DATETIME NULL,
+    CONSTRAINT PK_LessonProgress PRIMARY KEY (UserID, LessonID),
+    CONSTRAINT FK_LP_User   FOREIGN KEY (UserID)  REFERENCES Account(UserID),
+    CONSTRAINT FK_LP_Lesson FOREIGN KEY (LessonID)REFERENCES Lesson(LessonID)
 );
 
 CREATE TABLE Quiz (
@@ -233,13 +262,3 @@ CREATE TABLE Slider (
     ValidFrom DATE
 );
 
-CREATE TABLE Review (
-    ReviewID INT PRIMARY KEY,
-    UserID INT FOREIGN KEY REFERENCES Account(UserID),
-    CourseID INT FOREIGN KEY REFERENCES Course(CourseID),
-    Content NVARCHAR(MAX),
-    Star INT CHECK (Star BETWEEN 1 AND 5),
-    CreatedAt DATETIME DEFAULT GETDATE(),
-    Status BIT NOT NULL DEFAULT 1, -- 1: Hiển thị, 0: Ẩn
-	ImageURL NVARCHAR(255) NULL
-);

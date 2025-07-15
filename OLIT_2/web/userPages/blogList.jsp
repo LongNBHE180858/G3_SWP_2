@@ -321,9 +321,7 @@
             </div>
         </div>
 
-        <footer>
-            <p>📞 Contact: contact@onlinelearn.vn | ☎ 0123 456 789</p>
-        </footer>
+        <jsp:include page="components/footer.jsp"/>
 
     </body>
 

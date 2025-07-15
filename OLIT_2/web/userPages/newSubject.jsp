@@ -8,9 +8,24 @@
     </head>
     <body>
         <jsp:include page="components/header.jsp"/>
-        
+
         <div class="container mt-5">
             <h2>New Subject</h2>
+
+            <c:if test="${not empty successMessage}">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    ${successMessage}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </c:if>
+
+            <c:if test="${not empty errorMessage}">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    ${errorMessage}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </c:if>
+
             <form action="${pageContext.request.contextPath}/newSubject" method="post" enctype="multipart/form-data">
                 <!-- Subject Name -->
                 <div class="mb-3">
@@ -104,7 +119,7 @@
                 previewList.innerHTML = '';
                 Array.from(mediaInput.files).forEach((file, idx) => {
                     const item = document.createElement('div');
-                    item.className = 'd-flex align-items-center mb-1 list-group-item';
+                    item.className = 'd-flex align-items-center mb-2 list-group-item';
 
                     let thumb;
                     if (file.type.startsWith('image/')) {
@@ -121,6 +136,13 @@
                     const label = document.createElement('span');
                     label.textContent = file.name;
 
+                    // Input nhập tên file tuỳ chỉnh
+                    const customInput = document.createElement('input');
+                    customInput.type = 'text';
+                    customInput.placeholder = 'Custom filename';
+                    customInput.name = 'customFileName';   // servlet sẽ gọi getParameterValues
+                    customInput.className = 'form-control form-control-sm mb-1';
+
                     const btn = document.createElement('button');
                     btn.type = 'button';
                     btn.innerHTML = '&times;';
@@ -134,7 +156,7 @@
                         item.remove();
                     };
 
-                    item.append(thumb, label, btn);
+                    item.append(thumb, label, customInput, btn);
                     previewList.append(item);
                 });
             });

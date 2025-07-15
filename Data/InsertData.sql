@@ -40,12 +40,18 @@ INSERT INTO PostCategory (CategoryID, CategoryName, URL) VALUES
 (20, N'Kỹ năng mềm', 'soft-skills');
 
 -- Thêm dữ liệu vào bảng Post
-INSERT INTO Post (PostID, UserID, CategoryID, BlogTitle, PostDetails, Status, UpdatedDate, ThumbnailURL) VALUES
-(1, 1, 1, N'Xu hướng giáo dục trực tuyến 2024', N'Bài viết về những xu hướng mới trong giáo dục điện tử...', 1, '2024-05-15 10:30:00', 'https://gitiho.com/caches/p_medium_large//uploads/315313/images/image_xu-huong-elearning-1.jpg'),
-(2, 2, 2, N'5 mẹo học hiệu quả', N'Những phương pháp học tập được chứng minh hiệu quả...', 1, '2024-05-10 14:20:00', 'https://edubit.vn/data/blog/photo_1631782135.jpg?v=1631782136'),
-(3, 3, 3, N'AI trong giáo dục', N'Ứng dụng trí tuệ nhân tạo trong việc học và dạy...', 1, '2024-05-08 09:15:00', 'https://askany.com/_next/image?url=https%3A%2F%2Fd2czqxs5dso3qv.cloudfront.net%2Fimages%2Fb16fce83-f812-4b32-802d-7aac6fb27101.png&w=1920&q=75'),
-(4, 2, 4, N'Kinh nghiệm thi chứng chỉ IT', N'Chia sẻ kinh nghiệm chuẩn bị và thi các chứng chỉ IT...', 1, '2024-05-05 16:45:00', 'https://edusa.vn/wp-content/uploads/2023/11/cac-loai-chung-chi-tin-hoc-cho-sinh-vien-1.webp'),
-(5, 1, 5, N'Sự kiện EdTech Vietnam 2024', N'Thông tin về hội thảo công nghệ giáo dục lớn nhất năm...', 1, '2024-05-01 11:00:00', 'https://sp-ao.shortpixel.ai/client/to_webp,q_glossy,ret_img,w_1620,h_1080/https://vku.udn.vn/wp-content/uploads/2024/07/VKU-37-3.jpg');
+INSERT INTO Post (PostID, UserID, CategoryID, BlogTitle, PostDetails, Status, UpdatedDate, ThumbnailURL,IsHot) VALUES
+(1, 1, 1, N'Xu hướng giáo dục trực tuyến 2024', N'Bài viết về những xu hướng mới trong giáo dục điện tử...', 1, '2024-05-15 10:30:00', 'https://gitiho.com/caches/p_medium_large//uploads/315313/images/image_xu-huong-elearning-1.jpg',1),
+(2, 2, 2, N'5 mẹo học hiệu quả', N'Những phương pháp học tập được chứng minh hiệu quả...', 1, '2024-05-10 14:20:00', 'https://edubit.vn/data/blog/photo_1631782135.jpg?v=1631782136',1),
+(3, 3, 3, N'AI trong giáo dục', N'Ứng dụng trí tuệ nhân tạo trong việc học và dạy...', 1, '2024-05-08 09:15:00', 'https://askany.com/_next/image?url=https%3A%2F%2Fd2czqxs5dso3qv.cloudfront.net%2Fimages%2Fb16fce83-f812-4b32-802d-7aac6fb27101.png&w=1920&q=75',1),
+(4, 2, 4, N'Kinh nghiệm thi chứng chỉ IT', N'Chia sẻ kinh nghiệm chuẩn bị và thi các chứng chỉ IT...', 1, '2024-05-05 16:45:00', 'https://edusa.vn/wp-content/uploads/2023/11/cac-loai-chung-chi-tin-hoc-cho-sinh-vien-1.webp',1),
+(5, 1, 5, N'Sự kiện EdTech Vietnam 2024', N'Thông tin về hội thảo công nghệ giáo dục lớn nhất năm...', 1, '2024-05-01 11:00:00', 'https://sp-ao.shortpixel.ai/client/to_webp,q_glossy,ret_img,w_1620,h_1080/https://vku.udn.vn/wp-content/uploads/2024/07/VKU-37-3.jpg',1),
+(6, 4, 1, N'10 xu hướng e-learning cho lập trình viên', N'Khám phá các công nghệ và phương pháp mới nhất giúp lập trình viên học tập hiệu quả hơn...', 1, '2024-05-20 08:00:00', 'https://ocd.vn/wp-content/uploads/2025/03/How-to-Make-Friends-E-Learning-Presentation-1280-x-720-px-compressed.jpg',0),
+(7, 3, 2, N'Học Git và GitHub trong 1 ngày', N'Hướng dẫn nhanh các thao tác cơ bản và nâng cao với Git/GitHub, kèm ví dụ thực tế...', 1, '2024-05-18 13:30:00', 'https://cdn.codegym.vn/wp-content/uploads/2021/12/khoa-hoc-nhap-mon-git-va-github-online-mien-phi-codegym-5.jpg',0),
+(8, 5, 3, N'Tự động hóa kiểm thử với Selenium', N'Hướng dẫn cài đặt, viết test case và chạy song song với Selenium WebDriver...', 1, '2024-05-17 15:45:00', 'https://topdev.vn/blog/wp-content/uploads/2020/12/testing-1.jpg',0),
+(9, 2, 4, N'Chứng chỉ AWS Certified Cloud Practitioner', N'Chi tiết nội dung đề thi, kinh nghiệm ôn luyện và tài liệu tham khảo...', 1, '2024-05-16 10:20:00', 'https://topdev.vn/blog/wp-content/uploads/2024/05/chung-chi-aws-la-gi-1.jpg',0),
+(10, 4, 5, N'Khoá học React.js miễn phí tháng 6/2024', N'Tổng hợp các khoá học, video và dự án mẫu để bạn bắt đầu với React.js...', 1, '2024-05-22 09:15:00', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7X4unDFRGcQRqGGw2xhAn7W6CKbWTT9bKyg&s',0);
+
 
 -- Thêm dữ liệu vào bảng Subject
 INSERT INTO Subject (
@@ -88,26 +94,115 @@ INSERT INTO ExpertSubject (ExpertID, SubjectID) VALUES
 (2, 3); -- Trần Thị Minh là Expert của Web Frontend
 
 -- Thêm dữ liệu vào bảng SubjectMedia
-INSERT INTO SubjectMedia (MediaID, SubjectID, MediaURL, MediaType, MediaDescription) VALUES
-(1, 1, 'https://example.com/java-intro.mp4', 'video', N'Video giới thiệu Java'),
-(2, 2, 'https://example.com/database-diagram.png', 'image', N'Sơ đồ ERD mẫu'),
-(3, 3, 'https://example.com/react-demo.mp4', 'video', N'Video demo React');
+INSERT INTO SubjectMedia ( SubjectID, MediaURL, MediaType, MediaName) VALUES
+( 1, 'https://example.com/java-intro.mp4', 'video', N'Video giới thiệu Java'),
+( 2, 'https://example.com/database-diagram.png', 'image', N'Sơ đồ ERD mẫu'),
+( 3, 'https://example.com/react-demo.mp4', 'video', N'Video demo React');
 
 -- Thêm dữ liệu vào bảng Course
-INSERT INTO Course (CourseID, SubjectID, CourseTitle, CourseTag, URLCourse, CourseDetail, CourseLevel, FeatureFlag, Status, CourseraDuration) VALUES
+INSERT INTO Course 
+(CourseID, SubjectID, CourseTitle, CourseTag, URLCourse, CourseDetail, CourseLevel, FeatureFlag, Status, CourseraDuration) VALUES
 (1, 1, N'Nhập môn Java Programming', N'java,programming,beginner', 'https://i.ytimg.com/vi/ptOjDnsLOCc/mqdefault.jpg', N'Khóa học cơ bản về lập trình Java', N'Beginner', N'featured', 1, 40),
 (2, 2, N'Thiết kế Database với MySQL', N'database,mysql,design', 'https://image.vietnix.vn/wp-content/uploads/2023/11/thiet-lap-co-so-du-lieu-tu-xa-voi-mysql-tren-ubuntu-20-04.png', N'Học cách thiết kế và tối ưu database', N'Intermediate', N'popular', 1, 30),
 (3, 3, N'React.js cho người mới bắt đầu', N'react,javascript,frontend', 'https://cdn2.fptshop.com.vn/unsafe/1920x0/filters:format(webp):quality(75)/2023_12_28_638393296838948284_reactjs.jpg', N'Xây dựng ứng dụng web với React', N'Beginner', N'new', 1, 50),
 (4, 4, N'Digital Marketing Strategy', N'marketing,digital,strategy', 'https://www.creationinfoways.com/blog/uploading/687193083.jpg', N'Chiến lược marketing số hiệu quả', N'Intermediate', N'trending', 1, 35),
-(5, 5, N'Agile Project Management', N'agile,project,management', 'https://miro.medium.com/v2/resize:fit:1024/0*jlUybkZYz6yxWtdk.jpg', N'Quản lý dự án theo phương pháp Agile', N'Advanced', N'featured', 1, 25);
+(5, 5, N'Agile Project Management', N'agile,project,management', 'https://miro.medium.com/v2/resize:fit:1024/0*jlUybkZYz6yxWtdk.jpg', N'Quản lý dự án theo phương pháp Agile', N'Advanced', N'featured', 1, 25),
+(6, 1, N'Python cho người mới bắt đầu', N'python,beginner,programming', 'https://s3-sgn09.fptcloud.com/codelearnstorage/files/thumbnails/python-cho-nguoi-moi-bat-dau_f1a0ae13118c411ab7068e248f9f0206.png', N'Lập trình Python từ cơ bản đến nâng cao', N'Beginner', N'popular', 1, 45),
+(7, 2, N'Lập trình Web với Django', N'django,web,python', 'https://s3.icankid.io/icantech/cms/lap_trinh_web_django_7df5663f23.png', N'Xây dựng web app với Django Framework', N'Intermediate', N'featured', 1, 40),
+(8, 3, N'UI/UX Design Cơ bản', N'design,ui,ux', 'https://vndigitech.com/wp-content/uploads/2024/03/nguyen-tac-thiet-ke-uiux-digitech-e1711471060658.webp', N'Hướng dẫn thiết kế giao diện người dùng', N'Beginner', N'new', 1, 35),
+(9, 4, N'Phân tích dữ liệu với Excel', N'excel,data,analysis', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkrEWVMI81FoAsy5eo7eNzZ0BspQCP9OHf6A&s', N'Kỹ năng Excel nâng cao cho phân tích dữ liệu', N'Intermediate', N'popular', 1, 30),
+(10, 5, N'Lập trình Android với Kotlin', N'android,kotlin,mobile', 'https://cdn-s.hoolacdn.com/daotaotester-18154-1fa76n8o6/sgp1/lib/image/banner-khlt-android_oZ7mnxq8oT7PtjBEo-original.png', N'Tạo ứng dụng Android bằng Kotlin', N'Intermediate', N'trending', 1, 50),
+(11, 1, N'Java nâng cao: Spring Boot', N'java,spring,backend', 'https://techvccloud.mediacdn.vn/zoom/600_315/280518386289090560/2024/2/22/spring-boot-1708591158972430464422-0-0-500-890-crop-1708591162385231771559.jpg', N'Xây dựng API với Spring Boot', N'Advanced', N'featured', 1, 55),
+(12, 2, N'Amazon Web Services (AWS) Cơ bản', N'aws,cloud,devops', 'https://api.careers.saigontechnology.com/storage/blogs/BLOG-HTQnbleYwWTiDLZpwL4fDnjmlNOFhrmdndPWCURk.webp', N'Làm quen với AWS và dịch vụ cloud', N'Beginner', N'new', 1, 30),
+(13, 3, N'Machine Learning Cơ bản', N'ml,ai,python', 'https://vinuni.edu.vn/wp-content/uploads/2024/12/tim-hieu-machine-learning-co-ban-nhung-dieu-can-biet-cho-nguoi-moi-bat-dau-hinh-2.jpg', N'Giới thiệu Machine Learning và thuật toán', N'Intermediate', N'popular', 1, 60),
+(14, 4, N'Training kỹ năng mềm cho lãnh đạo', N'softskills,leadership', 'https://hrcacademy.vn/uploads/anh-banner/thang-08/anh-dang-web/tong-quan.jpg', N'Kỹ năng giao tiếp và lãnh đạo hiệu quả', N'Advanced', N'trending', 1, 20),
+(15, 5, N'Lập trình Node.js và Express', N'nodejs,express,backend', 'https://caodang.fpt.edu.vn/wp-content/uploads/a-9.png', N'Thiết kế backend với Node.js', N'Intermediate', N'featured', 1, 45);
+
+--Thêm dữ liệu vào bảng CourseMedia
+INSERT INTO CourseMedia (CourseID, MediaURL, MediaType)
+VALUES
+(1, 'https://i.ytimg.com/vi/ptOjDnsLOCc/mqdefault.jpg', 'image'),
+(1, 'https://branium.pro/wp-content/uploads/2020/11/java-core-avatar.webp', 'image'),
+(1, 'https://cdn.ngockhuong.com/wp-content/uploads/2017/06/get-started-with-java-programming.png', 'image'),
+(1, 'https://youtu.be/Sb_cEAjHWOk?si=3ntUShyFHLxGrN_F', 'video'),
+
+(2, 'https://image.vietnix.vn/wp-content/uploads/2023/11/thiet-lap-co-so-du-lieu-tu-xa-voi-mysql-tren-ubuntu-20-04.png', 'image'),
+(2, 'https://bkhost.vn/wp-content/uploads/2022/07/mySql-workbench-1.jpg', 'image'),
+(2, 'https://cloud-web-cms-beta.s3.cloud.cmctelecom.vn/cac_loai_data_base_602449a39f.jpeg', 'image'),
+(2, 'https://youtu.be/bnW1forz4Sw?si=9H7dOxx8nfF1omNx', 'video'),
+
+(3, 'https://cdn2.fptshop.com.vn/unsafe/1920x0/filters:format(webp):quality(75)/2023_12_28_638393296838948284_reactjs.jpg', 'image'),
+(3, 'https://d1nzpkv5wwh1xf.cloudfront.net/640/k-577a160c047c994bb7e5b397/20190809-/zendvn04.png', 'image'),
+(3, 'https://khoahocgiare.org/storage/product/reactjs-co-ban-den-nang-cao-1.jpg', 'image'),
+(3, 'https://youtu.be/DJWCeD8h6EA?si=2fkKTAtvC8ySQ51N', 'video'),
+
+(4, 'https://www.creationinfoways.com/blog/uploading/687193083.jpg', 'image'),
+(4, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrZ9VDSXxlPQ2EbNy-9q6e-bbQACdZ4dVk1g&s', 'image'),
+(4, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzkFeJTVpdqTMatKciNSb6Nuvi0y9c99PSeA&s', 'image'),
+(4, 'https://youtu.be/wZZnxXyES80?si=AA71XvJlcvGA1G6d', 'video'),
+
+(5, 'https://miro.medium.com/v2/resize:fit:1024/0*jlUybkZYz6yxWtdk.jpg', 'image'),
+(5, 'https://media.geeksforgeeks.org/wp-content/uploads/20240422183950/Principles-of-Agile-Project-Management.webp', 'image'),
+(5, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWqsyt06Tsj8JlfvV63Or_6QT8kNfK0TN6mw&s', 'image'),
+(5, 'https://youtu.be/q3XnHCB7RNQ?si=hyEcrebAz2eSp_Hi', 'video'),
+
+(6, 'https://s3-sgn09.fptcloud.com/codelearnstorage/files/thumbnails/python-cho-nguoi-moi-bat-dau_f1a0ae13118c411ab7068e248f9f0206.png', 'image'),
+(6, 'https://msita.udn.vn/images/1728266685-850.png', 'image'),
+(6, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPZlY20yTekLCsMyK5I-R613miI2BmD8Jctw&s', 'image'),
+(6, 'https://youtu.be/8BDIkM6a7nE?si=nYPKDxqxngumXMDx', 'video'),
+
+(11, 'https://techvccloud.mediacdn.vn/zoom/600_315/280518386289090560/2024/2/22/spring-boot-1708591158972430464422-0-0-500-890-crop-1708591162385231771559.jpg', 'image'),
+(11, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQPhp2VEfo6ZCl561Il0VEqR8y-sENsSCONQ&s', 'image'),
+(11, 'https://asia-1-fileserver-2.stringee.com/0/asia-1_1_TLNT9GX6H8ENYKZ/1695639037-Java_spring_boot_la_gi.png', 'image'),
+(11, 'https://youtu.be/nqZy30G1wiA?si=qkpQuBhooVpJHpow', 'video'),
+
+(12, 'https://api.careers.saigontechnology.com/storage/blogs/BLOG-HTQnbleYwWTiDLZpwL4fDnjmlNOFhrmdndPWCURk.webp', 'image'),
+(12, 'https://cloud-web-cms-beta.s3.cloud.cmctelecom.vn/aws_faa694b58b.jpg', 'image'),
+(12, 'https://cdn2.fptshop.com.vn/unsafe/1920x0/filters:format(webp):quality(75)/2023_12_27_638393105405931599_aws-la-gi-2.jpg', 'image'),
+(12, 'https://youtu.be/dDajeR6l6UE?si=UI9ZnC5sVCJp4_tr', 'video'),
+
+(13, 'https://vinuni.edu.vn/wp-content/uploads/2024/12/tim-hieu-machine-learning-co-ban-nhung-dieu-can-biet-cho-nguoi-moi-bat-dau-hinh-2.jpg', 'image'),
+(13, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjD8ilgW7En1VfYhaAsZiJ3m68H3L4_jTgcA&s', 'image'),
+(13, 'https://statics.cdn.200lab.io/2024/10/machine-learning-la-gi.jpeg', 'image'),
+(13, 'https://youtu.be/2yFuforZegA?si=pGMkGmP8J99lPScA', 'video'),
+
+(14, 'https://hrcacademy.vn/uploads/anh-banner/thang-08/anh-dang-web/tong-quan.jpg', 'image'),
+(14, 'https://bondtnd.edu.vn/wp-content/uploads/2020/01/ky-nang-mem-la-gi-600x400.jpg', 'image'),
+(14, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSd5UzGAae42aTTyqL_l2xhaqxg2S_5XzCxJA&s', 'image'),
+(14, 'https://youtu.be/f5Q6RxAuos8?si=0nS_dcwfukls-xaW', 'video'),
+
+(15, 'https://caodang.fpt.edu.vn/wp-content/uploads/a-9.png', 'image'),
+(15, 'https://files.fullstack.edu.vn/f8-prod/courses/6.png', 'image'),
+(15, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbSd9iLK6WvXyGT2L2P1x36yrhgQjLdjVANA&s', 'image'),
+(15, 'https://youtu.be/5sLb_qUhXGs?si=9GMOcTEglpMbCHFO', 'video')
+--Thêm dữ liệu vào bảng Review
+INSERT INTO Review (ReviewID, UserID, CourseID, Content, Star, ImageURL) VALUES
+(1, 4, 1, N'Khóa học Java rất hay và dễ hiểu.', 5, 'review-images/java1.jpg'),
+(2, 5, 2, N'MySQL được giảng giải rõ ràng, dễ tiếp cận.', 4, 'review-images/mysql1.png'),
+(3, 6, 3, N'React còn hơi khó với người mới, cần ví dụ thực tế hơn.', 3, 'review-images/react-feedback.jpg'),
+(4, 4, 4, N'Nội dung marketing khá thực tế, áp dụng được.', 4, NULL),
+(5, 5, 5, N'Mô hình Agile giúp tôi cải thiện quy trình làm việc rất nhiều.', 5, 'review-images/agile-review.png'),
+(6, 6, 1, N'Khóa Java quá cơ bản, nên mở rộng thêm.', 3, NULL),
+(7, 5, 3, N'Tôi thích cách truyền đạt của giảng viên React.', 4, 'review-images/react-teacher.jpg'),
+(8, 6, 1, N'Khóa học khá ổn.', 5, NULL);
 
 -- Thêm dữ liệu vào bảng PricePackage
 INSERT INTO PricePackage (PackageID, CourseID, Name, AccessDuration, ListPrice, SalePrice, Status, Description) VALUES
 (1, 1, N'Gói cơ bản', 30, 500000.00, 400000.00, 1, N'Truy cập khóa học trong 30 ngày'),
-(2, 1, N'Gói mở rộng', 90, 1200000.00, 1000000.00, 1, N'Truy cập khóa học trong 90 ngày + tài liệu'),
+(2, 5, N'Gói mở rộng', 90, 1200000.00, 1000000.00, 1, N'Truy cập khóa học trong 90 ngày + tài liệu'),
 (3, 2, N'Gói tiêu chuẩn', 60, 800000.00, 650000.00, 1, N'Truy cập khóa học trong 60 ngày'),
 (4, 3, N'Gói cơ bản', 45, 700000.00, 600000.00, 1, N'Truy cập khóa học trong 45 ngày'),
-(5, 4, N'Gói premium', 120, 1500000.00, 1200000.00, 1, N'Truy cập không giới hạn + mentor support');
+(5, 4, N'Gói premium', 120, 1500000.00, 1200000.00, 1, N'Truy cập không giới hạn + mentor support'),
+(6, 6, N'Gói cơ bản', 30, 500000.00, 400000.00, 1, N'Truy cập khóa học trong 30 ngày'),
+(7, 7, N'Gói mở rộng', 90, 1200000.00, 1000000.00, 1, N'Truy cập khóa học trong 90 ngày + tài liệu'),
+(8, 8, N'Gói tiêu chuẩn', 60, 800000.00, 650000.00, 1, N'Truy cập khóa học trong 60 ngày'),
+(9, 9, N'Gói cơ bản', 45, 700000.00, 600000.00, 1, N'Truy cập khóa học trong 45 ngày'),
+(10, 10, N'Gói premium', 120, 1500000.00, 1200000.00, 1, N'Truy cập không giới hạn + mentor support'),
+(11, 12, N'Gói cơ bản', 30, 500000.00, 400000.00, 1, N'Truy cập khóa học trong 30 ngày'),
+(12, 11, N'Gói mở rộng', 90, 1200000.00, 1000000.00, 1, N'Truy cập khóa học trong 90 ngày + tài liệu'),
+(13, 14, N'Gói tiêu chuẩn', 60, 800000.00, 650000.00, 1, N'Truy cập khóa học trong 60 ngày'),
+(14, 13, N'Gói cơ bản', 45, 700000.00, 600000.00, 1, N'Truy cập khóa học trong 45 ngày'),
+(15, 15, N'Gói premium', 120, 1500000.00, 1200000.00, 1, N'Truy cập không giới hạn + mentor support');
 
 -- Thêm dữ liệu vào bảng Registration
 INSERT INTO Registration (RegistrationID, UserID, CourseID, PackageID, ApprovedBy, Status, ValidFrom, ValidTo) VALUES
@@ -173,7 +268,7 @@ INSERT INTO Lesson (LessonID, ModuleID, LessonTitle, LessonDetails, Status, URLL
 (2, 1, N'Bài 2: Mục tiêu học tập', N'Những điều bạn sẽ học được sau khóa học', 1, 'https://www.youtube.com/watch?v=pTB0EiLXUC8', 2),
 (3, 2, N'Bài 1: Hướng dẫn học hiệu quả', N'Cách tận dụng khóa học tối đa', 1, 'https://www.youtube.com/watch?v=8uGv2DZR1z4', 1),
 (4, 2, N'Bài 2: Kế hoạch học tập', N'Hướng dẫn lập kế hoạch học tập hiệu quả', 1, 'https://www.youtube.com/watch?v=3gtOAlcovoQ', 2),
-(5, 2, N'Bài 3: Tài nguyên hỗ trợ', N'Tổng hợp tài liệu và công cụ học Java', 1, 'http://localhost:8080/G3_SWP/userPages/java/2-3.html', 3),
+(5, 2, N'Bài 3: Tài nguyên hỗ trợ', N'Tổng hợp tài liệu và công cụ học Java', 1, 'https://www.tutorialspoint.com/java/java_resources.html', 3),
 (6, 3, N'Bài 1: Hàm main và cú pháp cơ bản', N'Giới thiệu hàm main()', 1, 'https://www.youtube.com/watch?v=grEKMHGYyns', 1),
 (7, 3, N'Bài 2: Tệp .java và .class', N'Cách chương trình Java được biên dịch', 1, 'https://www.youtube.com/watch?v=OoudRzH7oVA', 2),
 (8, 4, N'Bài 1: Kiểu dữ liệu cơ bản', N'int, float, String...', 1, 'https://www.youtube.com/watch?v=Qgl81fPcLc8', 1),
@@ -185,7 +280,7 @@ INSERT INTO Lesson (LessonID, ModuleID, LessonTitle, LessonDetails, Status, URLL
 (14, 6, N'Bài 2: Nhập từ bàn phím', N'Scanner class', 1, 'https://www.youtube.com/watch?v=2OLV3T3OQCk', 2),
 (15, 7, N'Bài 1: FileWriter và FileReader', N'Đọc ghi file văn bản đơn giản', 1, 'https://www.youtube.com/watch?v=Y5imlvOjBzI', 1),
 (16, 7, N'Bài 2: BufferedReader và BufferedWriter', N'Cách dùng BufferedReader/BufferedWriter để đọc ghi file nhanh', 1, 'https://www.youtube.com/watch?v=1tI5Kb_C1Mw', 2),
-(17, 7, N'Bài 3: Xử lý File CSV', N'Hướng dẫn đọc/viết định dạng CSV trong Java', 1, 'http://localhost:8080/G3_SWP/userPages/java/13-3.html', 3),
+(17, 7, N'Bài 3: Xử lý File CSV', N'Hướng dẫn đọc/viết định dạng CSV trong Java', 1, 'https://www.tutorialspoint.com/java/java_csv.html', 3),
 (18, 8, N'Bài 1: Lịch sử và ứng dụng của MySQL', N'Tại sao MySQL phổ biến', 1, 'https://www.youtube.com/watch?v=7S_tz1z_5bA', 1),
 (19, 8, N'Bài 2: Ưu điểm và Nhược điểm của MySQL', N'Phân tích ưu và nhược điểm khi sử dụng MySQL', 1, 'https://www.youtube.com/watch?v=Ke90Tje7VS0', 2),
 (20, 8, N'Bài 3: Tối ưu truy vấn', N'Kỹ thuật tối ưu câu lệnh SELECT và Indexing', 1, 'http://localhost:8080/G3_SWP/userPages/mysql/1-3.html', 3),
@@ -193,7 +288,7 @@ INSERT INTO Lesson (LessonID, ModuleID, LessonTitle, LessonDetails, Status, URLL
 (22, 9, N'Bài 2: Cấu hình ban đầu', N'Tạo user, cấp quyền', 1, 'https://www.youtube.com/watch?v=3yYrpBS_fcc', 2),
 (23, 10, N'Bài 1: Các kiểu dữ liệu phổ biến', N'VARCHAR, INT, DATE...', 1, 'https://www.youtube.com/watch?v=9ylj9NR0Lcg', 1),
 (24, 10, N'Bài 2: Ràng buộc bảng (Constraints)', N'Tìm hiểu các loại ràng buộc: PRIMARY, UNIQUE, CHECK,…', 1, 'https://www.youtube.com/watch?v=ENrzD9HAZK4', 2),
-(25, 10, N'Bài 3: Thiết kế ERD cơ bản', N'Hướng dẫn vẽ sơ đồ quan hệ thực thể với ERD tool', 1, 'http://localhost:8080/G3_SWP/userPages/mysql/4-3.html', 3),
+(25, 10, N'Bài 3: Thiết kế ERD cơ bản', N'Hướng dẫn vẽ sơ đồ quan hệ thực thể với ERD tool', 1, 'https://www.tutorialspoint.com/erd/erd_overview.html', 3),
 (26, 11, N'Bài 1: Primary Key & Foreign Key', N'Tạo mối quan hệ giữa bảng', 1, 'https://www.youtube.com/watch?v=1tI5Kb_C1Mw', 1),
 (27, 11, N'Bài 2: Cascade và JOIN', N'Áp dụng cascade khi xoá/sửa khoá và cách dùng JOIN nâng cao', 1, 'https://www.youtube.com/watch?v=I6ypD7qv3Z8', 2),
 (28, 11, N'Bài 3: Transactions và Locking', N'Quản lý transaction và locking trong MySQL', 1, 'http://localhost:8080/G3_SWP/userPages/mysql/5-3.html', 3),
@@ -202,18 +297,18 @@ INSERT INTO Lesson (LessonID, ModuleID, LessonTitle, LessonDetails, Status, URLL
 (31, 12, N'Bài 3: Stored Procedures', N'Viết và gọi Stored Procedure trong MySQL', 1, 'http://localhost:8080/G3_SWP/userPages/mysql/7-3.html', 3),
 (32, 13, N'Bài 1: Giới thiệu ReactJS', N'Lịch sử và ưu điểm của React', 1, 'https://www.youtube.com/watch?v=Ke90Tje7VS0', 1),
 (33, 13, N'Bài 2: Virtual DOM và JSX', N'Giải thích cơ chế Virtual DOM và cách viết JSX trong React', 1, 'https://www.youtube.com/watch?v=Ke90Tje7VS0', 2),
-(34, 13, N'Bài 3: Thiết lập React Router', N'Cấu hình điều hướng SPA với React Router', 1, 'http://localhost:8080/G3_SWP/userPages/react/1-3.html', 3),
+(34, 13, N'Bài 3: Thiết lập React Router', N'Cấu hình điều hướng SPA với React Router', 1, 'https://www.tutorialspoint.com/reactjs/reactjs_router.html', 3),
 (35, 14, N'Bài 1: Cài đặt NodeJS & npm', N'Thiết lập môi trường cho React', 1, 'https://www.youtube.com/watch?v=ENrzD9HAZK4', 1),
 (36, 14, N'Bài 2: Thiết lập IDE và Extension', N'Hướng dẫn cấu hình VSCode/WebStorm, cài extension cần thiết', 1, 'https://www.youtube.com/watch?v=ENrzD9HAZK4', 2),
-(37, 14, N'Bài 3: Tích hợp ESLint & Prettier', N'Cấu hình linting và định dạng code tự động', 1, 'http://localhost:8080/G3_SWP/userPages/react/2-3.html', 3),
+(37, 14, N'Bài 3: Tích hợp ESLint & Prettier', N'Cấu hình linting và định dạng code tự động', 1, 'https://www.digitalocean.com/community/tutorials/js-eslint-prettier', 3),
 (38, 15, N'Bài 1: Tạo component đầu tiên', N'Dùng function component', 1, 'https://www.youtube.com/watch?v=I6ypD7qv3Z8', 1),
 (39, 15, N'Bài 2: Props là gì?', N'Truyền dữ liệu giữa component', 1, 'https://www.youtube.com/watch?v=0mYOSjWc0-M', 2),
 (40, 16, N'Bài 1: Xử lý sự kiện', N'onClick, onChange...', 1, 'https://www.youtube.com/watch?v=dd7XkO8YM98', 1),
 (41, 16, N'Bài 2: Truyền Props nâng cao', N'Kỹ thuật truyền Props sâu và validate với PropTypes', 1, 'https://www.youtube.com/watch?v=I6ypD7qv3Z8', 2),
-(42, 16, N'Bài 3: Context API cơ bản', N'Sử dụng Context để chia sẻ state toàn ứng dụng', 1, 'http://localhost:8080/G3_SWP/userPages/react/5-3.html', 3),
+(42, 16, N'Bài 3: Context API cơ bản', N'Sử dụng Context để chia sẻ state toàn ứng dụng', 1, 'https://reactjs.org/docs/context.html', 3),
 (43, 17, N'Bài 1: useState Hook', N'Tạo state trong function component', 1, 'https://www.youtube.com/watch?v=O6P86uwfdR0', 1),
 (44, 17, N'Bài 2: Quản lý state với nhiều biến', N'Kỹ thuật tách state thành nhiều biến con hiệu quả', 1, 'https://www.youtube.com/watch?v=9ylj9NR0Lcg', 2),
-(45, 17, N'Bài 3: useReducer Hook', N'Sử dụng useReducer để quản lý state phức tạp', 1, 'http://localhost:8080/G3_SWP/userPages/react/6-3.html', 3),
+(45, 17, N'Bài 3: useReducer Hook', N'Sử dụng useReducer để quản lý state phức tạp', 1, 'https://reactjs.org/docs/hooks-reference.html#usereducer', 3),
 (46, 18, N'Bài 1: useEffect Hook', N'Thực hiện hành động khi render', 1, 'https://www.youtube.com/watch?v=0ZJgIjIuY7U', 1),
 (47, 19, N'Bài 1: So sánh mô hình cũ và mới', N'Phân biệt hai phương pháp', 1, 'https://www.youtube.com/watch?v=YQGzXHUSOY8', 1),
 (48, 20, N'Bài 1: Marketing trên TikTok', N'Chiến lược nội dung video ngắn', 1, 'https://www.youtube.com/watch?v=rEgN4vycvTY', 1),
@@ -336,13 +431,4 @@ INSERT INTO Slider (SliderID, UserID, CourseID, Title, ImageURL, Backlink, Statu
 (2, 1, 2, N'Ưu đãi 50% khóa Database', 'https://vtiacademy.edu.vn/upload/images/data-analyst-26.png', '/course/database-design', 1, N'Slider khuyến mãi', 2, '2024-05-05'),
 (3, 1, 3, N'Khai giảng React Course', 'https://vtiacademy.edu.vn/upload/images/artboard-1-copy-16-100.jpg', '/course/react-beginners', 1, N'Thông báo khai giảng', 3, '2024-05-10');
 
--- Thêm dữ liệu vào bảng Review
-INSERT INTO Review (ReviewID, UserID, CourseID, Content, Star, CreatedAt, Status, ImageURL) VALUES
-(1, 4, 1, N'Khóa học Java rất hay và dễ hiểu.', 5, GETDATE(), 1, NULL),
-(2, 5, 2, N'MySQL được giảng giải rõ ràng, dễ tiếp cận.', 4, GETDATE(), 1, NULL),
-(3, 6, 3, N'React còn hơi khó với người mới, cần ví dụ thực tế hơn.', 3, GETDATE(), 1, NULL),
-(4, 4, 4, N'Nội dung marketing khá thực tế, áp dụng được.', 4, GETDATE(), 1, NULL),
-(5, 5, 5, N'Mô hình Agile giúp tôi cải thiện quy trình làm việc rất nhiều.', 5, GETDATE(), 1, NULL),
-(6, 6, 1, N'Khóa Java quá cơ bản, nên mở rộng thêm.', 3, GETDATE(), 1, NULL),
-(7, 5, 3, N'Tôi thích cách truyền đạt của giảng viên React.', 4, GETDATE(), 1, NULL),
-(8, 6, 1, N'Khóa học khá ổn.', 5, GETDATE(), 1, NULL);
+

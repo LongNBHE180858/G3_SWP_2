@@ -165,10 +165,11 @@
     <body>
         <!-- Header -->
         <div class="header">
-            <div class="logo">ONLINE LEARN</div>
+            <div class="logo">CourseAura</div>
             <div class="nav">
                 <a href="${pageContext.request.contextPath}/HomeServlet">Home</a>
-                <a href="${pageContext.request.contextPath}/MyRegistration">Courses</a>
+                <a href="${pageContext.request.contextPath}/CourseListServlet">Courses</a>
+                <a href="${pageContext.request.contextPath}/MyRegistration">Registration</a>
                 <a href="${pageContext.request.contextPath}/BlogListServlet">Blog</a>
             </div>
         </div>
@@ -184,7 +185,7 @@
                                 <div class="content">
                                     <h3>${course.getCourseTitle()}</h3>
                                     <p>${course.getCourseDetail()}</p>
-                                    <a href="${pageContext.request.contextPath}/CourseDetail?id=${course.getCourseID()}">View Course</a>
+                                    <a href="${pageContext.request.contextPath}/LessonView?id=${course.getCourseID()}">View Course</a>
                                 </div>
                             </div>
                         </c:forEach>
@@ -195,5 +196,7 @@
                 </c:choose>
             </div>
         </div>
+        
     </body>
+    <jsp:include page="components/footer.jsp"/>
 </html>
