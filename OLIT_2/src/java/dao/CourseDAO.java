@@ -66,7 +66,7 @@ public class CourseDAO {
                 course.setCourseTitle(rs.getString("CourseTitle"));
                 course.setCourseDetail(rs.getString("CourseDetail"));
                 course.setUrlCourse(rs.getString("URLCourse"));
-                
+                course.setCourseTag(rs.getString("CourseTag")); 
                 return course;
             }
         } catch (Exception e) {

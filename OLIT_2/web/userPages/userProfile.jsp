@@ -273,8 +273,8 @@
             <div class="logo">Online Course</div>
             <div class="nav">
                 <a href="${pageContext.request.contextPath}/HomeServlet">Home</a>
-                <a href="${pageContext.request.contextPath}/MyRegistration">Course</a>
-                <a href="${pageContext.request.contextPath}/BlogListServlet">Blog</a>
+                <a href="${pageContext.request.contextPath}/MyRegistration">Registration</a>
+                <a href="${pageContext.request.contextPath}/MyCourseServlet">My Course</a>
                 <c:choose>
                     <c:when test="${not empty sessionScope.userID}">
                         <a href="${pageContext.request.contextPath}/Logout">Logout</a>
@@ -305,8 +305,8 @@
                     <div class="left-panel">
                         <img src="${empty userInfor.urlAvatar ? 'https://i.pravatar.cc/150' : userInfor.urlAvatar}" 
                              alt="Avatar" class="avatar" id="avatarImg" />
-                        <br />
-                        <button type="button" class="btn-change-1" onclick="openModal()">Edit Information</button>
+                        <button type="button" class="btn-change-1" onclick="openModal()" style="margin-top:18px;">Edit Information</button>
+                        <button type="button" class="btn-change-1" onclick="openAvatarModal()" style="margin-top:14px;">Change Avatar</button>
                     </div>
 
                     <div class="right-panel">
@@ -377,6 +377,22 @@
             </div>
           </div>
 
+        <!-- Modal đổi avatar -->
+        <div id="avatarModal" class="modal">
+          <div class="modal-content">
+            <span class="close" onclick="closeAvatarModal()">&times;</span>
+            <form action="${pageContext.request.contextPath}/EditUserProfile" method="post" enctype="multipart/form-data">
+              <div class="form-group" style="text-align:center;">
+                <img id="avatarPreview" src="${empty userInfor.urlAvatar ? 'https://i.pravatar.cc/150' : userInfor.urlAvatar}" alt="Preview" style="width:120px; height:120px; border-radius:50%; object-fit:cover; margin-bottom:16px; border:3px solid #eee;" />
+                <input type="file" name="avatar" accept="image/*" id="avatarInputModal" style="display:block; margin:auto; margin-bottom:16px;" onchange="previewAvatarModal(event)" required />
+              </div>
+              <div style="text-align:center;">
+                <button type="submit" class="btn-change">Save Avatar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
                 <script>
                     function openModal() {
                         document.getElementById("editModal").style.display = "block";
@@ -424,6 +440,42 @@
             e.preventDefault();
         }
     });
+</script>
+<script>
+    function previewAvatar(event) {
+        const input = event.target;
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('avatarImg').src = e.target.result;
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+<script>
+    function openAvatarModal() {
+        document.getElementById('avatarModal').style.display = 'block';
+    }
+    function closeAvatarModal() {
+        document.getElementById('avatarModal').style.display = 'none';
+    }
+    function previewAvatarModal(event) {
+        const input = event.target;
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('avatarPreview').src = e.target.result;
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    window.onclick = function(event) {
+        const modal = document.getElementById('avatarModal');
+        if (event.target == modal) {
+            closeAvatarModal();
+        }
+    }
 </script>
 
     </body>
