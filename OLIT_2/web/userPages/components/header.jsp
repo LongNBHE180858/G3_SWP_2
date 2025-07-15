@@ -24,13 +24,13 @@
         gap: 16px; /* khoảng cách giữa logo và chữ */
     }
     .logo-img {
-        height: 54px;       /* chiều cao logo */
-        width: auto;
-        padding: 4px;       /* khoảng trắng quanh icon */
-        border-radius: 8px;
-        background: rgba(255,255,255,0.15);
-        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-        display: block;
+        height: 40px !important;   /* reduce from 54px */
+        width: auto !important;     /* maintain aspect ratio */
+        max-width: 100%;            /* never overflow its container */
+        padding: 2px !important;    /* you can dial this back too */
+        border-radius: 6px !important;
+        background: rgba(255,255,255,0.15) !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important;
     }
     .logo-text {
         font-size: 2.1em;

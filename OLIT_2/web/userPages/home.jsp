@@ -335,8 +335,10 @@
                     <div class="grid-container">
                         <c:forEach var="post" items="${hotPost}">
                             <div class="card">
-                                <img src="${post.thumbnailURL}" alt="${post.blogTitle}">
-                                <h3><a href="#">${post.blogTitle}</a></h3>
+                                <a href="${pageContext.request.contextPath}/BlogDetailsServlet?postID=${post.postID}">
+                                    <img src="${post.thumbnailURL}" alt="${post.blogTitle}"/>
+                                </a>
+                                <h3><a href="${pageContext.request.contextPath}/BlogDetailsServlet?postID=${post.postID}">${post.blogTitle}</a></h3>
                                 <div class="date">${post.updatedDate}</div>
                             </div>
                         </c:forEach>
@@ -349,7 +351,9 @@
                     <div class="grid-container">
                         <c:forEach var="course" items="${hotCourse}">
                             <div class="card">
-                                <img src="${course.urlCourse}" alt="${course.courseTitle}">
+                                <a href="${pageContext.request.contextPath}/CourseDetail?id=${course.getCourseID()}">
+                                    <img src="${course.urlCourse}" alt="${course.courseTitle}">
+                                </a>
                                 <h3><a href="${pageContext.request.contextPath}/CourseDetail?id=${course.getCourseID()}">${course.courseTitle}</a></h3>
                             </div>
                         </c:forEach>

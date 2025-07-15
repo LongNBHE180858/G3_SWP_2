@@ -15,7 +15,7 @@
         <meta charset="UTF-8">
         <title>Danh sách Blog</title>
         <style>
-            
+
             * {
                 box-sizing: border-box;
             }
@@ -227,103 +227,129 @@
                     margin-right: 20px;
                 }
                 .logo-img {
-        height: 54px;       /* chiều cao logo */
-        width: auto;
-        padding: 4px;       /* khoảng trắng quanh icon */
-        border-radius: 8px;
-        background: rgba(255,255,255,0.15);
-        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-        display: block;
-    }
-    .logo-text {
-        font-size: 2.1em;
-        font-weight: 700;
-        color: #fff;
-        letter-spacing: 1.5px;
-        font-family: inherit;
-        line-height: 1;
-    }
+                    height: 54px;       /* chiều cao logo */
+                    width: auto;
+                    padding: 4px;       /* khoảng trắng quanh icon */
+                    border-radius: 8px;
+                    background: rgba(255,255,255,0.15);
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+                    display: block;
+                }
+                .logo-text {
+                    font-size: 2.1em;
+                    font-weight: 700;
+                    color: #fff;
+                    letter-spacing: 1.5px;
+                    font-family: inherit;
+                    line-height: 1;
+                }
             }
         </style>
-        <header>
-            <div class="logo">Course Aura</div>
-            <div class="nav-links">
-                <a href="${pageContext.request.contextPath}/HomeServlet">Home</a>
-                <a href="${pageContext.request.contextPath}/MyCourseServlet">Course List</a>
-                <a href="${pageContext.request.contextPath}/SubjectList">Subject List</a>
-                <a href="${pageContext.request.contextPath}/QuestionListServlet">Question List</a>
-                
-            </div>
-        </header>
-    </head>
+    <header>
+        <div class="logo">Course Aura</div>
+        <div class="nav-links">
+            <a href="${pageContext.request.contextPath}/HomeServlet">Home</a>
+            <a href="${pageContext.request.contextPath}/MyCourseServlet">Course List</a>
+            <a href="${pageContext.request.contextPath}/SubjectList">Subject List</a>
+            <a href="${pageContext.request.contextPath}/QuestionListServlet">Question List</a>
 
-    <body>       
+        </div>
+    </header>
+</head>
 
-        <div class="container">
+<body>       
 
-            <!-- Phần hiển thị danh sách blog -->
-            <div class="left" id="blog-list">
-                <c:choose>
-                    <c:when test="${not empty blogList}">
-                        <c:forEach var="blog" items="${blogList}">
-                            <div class="blog-card">
-                                <img src="${blog.thumbnailURL}" alt="Blog Image">
-                                <div class="blog-info">
-                                    <h3>${blog.blogTitle}</h3>
-                                    <p>Tác giả: <strong>${blog.getAccount().getFullName()}</strong></p> <!-- Bạn có thể sửa userID thành tên nếu truy vấn SQL có -->
-                                    <p>Ngày đăng: ${blog.updatedDate}</p>
-                                    <p>Thể loại: <strong>${blog.getPostCategory().getCategoryName()}</strong></p> <!-- Tương tự categoryID có thể đổi tên thể loại -->
-                                </div>
-                            </div>
-                        </c:forEach>
-                    </c:when>
-                    <c:otherwise>
-                        <p>Không có blog nào được tìm thấy.</p>
-                    </c:otherwise>
-                </c:choose>
+    <div class="container">
 
-                <!-- Bạn có thể thêm nhiều blog-card ở đây -->
-            </div>
-
-            <!-- Phần sidebar: tìm kiếm, thể loại, blog mới -->
-            <div class="right">
-                <div class="search-box">
-                    <form action="BlogListServlet" method="get"> <!-- hoặc method="post" nếu Servlet xử lý POST -->
-                        <input type="text" name="search" placeholder="🔍 Tìm kiếm blog..." id="search-input" />
-                        <button type="submit">Tìm kiếm</button>
-                    </form>
-                </div>
-
-
-                <form action="BlogListServlet" method="get">
-                    <label for="category-select">Thể loại:</label>
-                    <select class="category-select" id="category-select" name="categoryId">
-                        <option value="">-- Chọn thể loại --</option>
-                        <option value="1">Tin tức giáo dục</option>
-                        <option value="2">Hướng dẫn học tập</option>
-                        <option value="3">Công nghệ</option>
-                        <option value="4">Kinh nghiệm học tập</option>
-                        <option value="5">Sự kiện</option>
-                    </select>
-                    <button type="submit" class="filter-btn">Lọc</button>
-                </form>
-
-                <div class="latest-blogs">
-                    <h3>🆕 Blog mới nhất</h3>
-                    <c:forEach var="post" items="${newestPosts}">
+        <!-- Phần hiển thị danh sách blog -->
+        <div class="left" id="blog-list">
+            <c:choose>
+                <c:when test="${not empty blogList}">
+                    <c:forEach var="blog" items="${blogList}">
                         <div class="blog-card">
-                            <img src="${post.thumbnailURL}" alt="Latest Blog">
-                            <h4>${post.blogTitle}</h4>
-                            <p>${post.updatedDate} - ${post.postCategory.categoryName}</p>
+                            <a href="${pageContext.request.contextPath}/BlogDetailsServlet?postID=${blog.postID}">
+                                <img src="${blog.thumbnailURL}" alt="Blog Image">
+                            </a>
+                            <div class="blog-info">
+                                <h3>
+                                    <a href="${pageContext.request.contextPath}/BlogDetailsServlet?postID=${blog.postID}">                                      
+                                        ${blog.blogTitle}</a></h3>
+                                <p>Tác giả: <strong>${blog.getAccount().getFullName()}</strong></p> <!-- Bạn có thể sửa userID thành tên nếu truy vấn SQL có -->
+                                <p>Ngày đăng: ${blog.updatedDate}</p>
+                                <p>Thể loại: <strong>${blog.getPostCategory().getCategoryName()}</strong></p> <!-- Tương tự categoryID có thể đổi tên thể loại -->
+                            </div>
                         </div>
                     </c:forEach>
-                </div>
-            </div>
+                </c:when>
+                <c:otherwise>
+                    <p>Không có blog nào được tìm thấy.</p>
+                </c:otherwise>
+            </c:choose>
+
+            <!-- Bạn có thể thêm nhiều blog-card ở đây -->
         </div>
 
-        <jsp:include page="components/footer.jsp"/>
+        <!-- Phần sidebar: tìm kiếm, thể loại, blog mới -->
+        <div class="right">
 
-    </body>
+            <!-- Search box -->
+            <div class="search-box">
+                <form action="${pageContext.request.contextPath}/BlogListServlet" method="get">
+                    <input
+                        type="text"
+                        name="search"
+                        placeholder="🔍 Tìm kiếm blog..."
+                        value="${param.search}"
+                        />
+                    <button type="submit">Tìm kiếm</button>
+                </form>
+            </div>
+
+            <!-- Category filter -->
+            <form action="${pageContext.request.contextPath}/BlogListServlet" method="get" class="filter-form">
+                <label for="category-select">Category:</label>
+                <select id="category-select" name="categoryId" class="category-select">
+                    <option value="">-- Pick a Category --</option>
+                    <c:forEach var="cat" items="${categories}">
+                        <option
+                            value="${cat.categoryID}"
+                            <c:if test="${param.categoryId == cat.categoryID}">selected</c:if>
+                                >
+                            ${cat.categoryName}
+                        </option>
+                    </c:forEach>
+                </select>
+                <button type="submit" class="filter-btn">Lọc</button>
+            </form>
+
+            <!-- …rest of your widgets (latest posts, contacts…)… -->
+
+
+
+            <div class="latest-blogs">
+                <h3>🆕 Blog mới nhất</h3>
+                <c:forEach var="post" items="${newestPosts}">
+                    <div class="blog-card">
+                        <a href="${pageContext.request.contextPath}/BlogDetailsServlet?postID=${post.postID}">
+                            <img src="${post.thumbnailURL}" alt="Latest Blog">
+                        </a>
+                        <div class="blog-info">
+                            <h4>
+                                <a href="${pageContext.request.contextPath}/BlogDetailsServlet?postID=${post.postID}">
+                                    ${post.blogTitle}
+                                </a>
+                            </h4>
+                            <p>${post.updatedDate} – ${post.postCategory.categoryName}</p>
+                        </div>
+                    </div>
+                </c:forEach>
+            </div>
+        </div>
+    </div>
+
+    <jsp:include page="components/footer.jsp"/>
+
+</body>
 
 </html>
 
