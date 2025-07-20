@@ -269,6 +269,13 @@
             <h1>📊 Course Registration</h1>
         </div>
         <div class="content">
+            <!-- Thông báo -->
+            <c:if test="${not empty message}">
+                <div class="success-message">${message}</div>
+            </c:if>
+            <c:if test="${not empty error}">
+                <div class="error-message">${error}</div>
+            </c:if>
             <!-- Thống kê -->
             <div class="stats">
                 <div class="stat-card">
@@ -317,9 +324,27 @@
                                 <td class="package-info">📦 ${reg.pricePackage.name}</td>
                                 <td class="cost-info">💰 ${reg.pricePackage.salePrice} VNĐ</td>
                                 <td>
-                                    <span class="status status-${reg.status.toLowerCase()}">
-                                        ${reg.status}
-                                    </span>
+                                    <c:choose>
+                                        <c:when test="${reg.status eq 'Pending'}">
+                                            <form method="post" style="display:inline;">
+                                                <input type="hidden" name="action" value="updateStatus" />
+                                                <input type="hidden" name="registrationID" value="${reg.registrationID}" />
+                                                <select name="newStatus" required>
+                                                    <option value="Approved">Approved</option>
+                                                    <option value="NotApproved">NotApproved</option>
+                                                </select>
+                                                <button type="submit">Update</button>
+                                            </form>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <span class="status status-${reg.status.toLowerCase()}">
+                                                <c:choose>
+                                                    <c:when test="${reg.status eq 'Rejected'}">NotApproved</c:when>
+                                                    <c:otherwise>${reg.status}</c:otherwise>
+                                                </c:choose>
+                                            </span>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </td>
                                 <td>
                                     <div class="date-info">

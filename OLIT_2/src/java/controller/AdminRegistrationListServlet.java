@@ -48,4 +48,36 @@ public class AdminRegistrationListServlet extends HttpServlet {
         // Forward tới JSP
         request.getRequestDispatcher("/adminPages/adminRegistrationList.jsp").forward(request, response);
     }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
+        if ("updateStatus".equals(action)) {
+            String regIdStr = request.getParameter("registrationID");
+            String newStatus = request.getParameter("newStatus");
+            if (regIdStr != null && newStatus != null && (newStatus.equals("Approved") || newStatus.equals("NotApproved"))) {
+                try {
+                    int regId = Integer.parseInt(regIdStr);
+                    RegistrationDAO dao = new RegistrationDAO();
+                    // Chỉ cho phép cập nhật nếu trạng thái hiện tại là Pending
+                    List<Registration> regs = dao.getAllRegistrationsForAdmin();
+                    Registration reg = regs.stream().filter(r -> r.getRegistrationID() == regId).findFirst().orElse(null);
+                    if (reg != null && "Pending".equals(reg.getStatus())) {
+                        // Nếu chọn NotApproved thì lưu là NotApproved trong DB
+                        String dbStatus = newStatus.equals("NotApproved") ? "NotApproved" : "Approved";
+                        dao.updateRegistrationStatus(regId, dbStatus);
+                        request.setAttribute("message", "Status updated successfully!");
+                    } else {
+                        request.setAttribute("error", "Only registrations in Pending status can be approved.");
+                    }
+                } catch (NumberFormatException e) {
+                    request.setAttribute("error", "Invalid ID.");
+                }
+            } else {
+                request.setAttribute("error", "Missing information or invalid status.Missing information or invalid status.");
+            }
+        }
+        // Sau khi xử lý, load lại danh sách
+        doGet(request, response);
+    }
 } 

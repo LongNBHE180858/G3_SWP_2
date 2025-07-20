@@ -742,7 +742,7 @@
             </div>
 
         </div>
-        <jsp:include page="components/footer.jsp"/>
+        
         <script>
             function togglePopup() {
                 const popup = document.getElementById("popup");

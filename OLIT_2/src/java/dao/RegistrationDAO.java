@@ -220,4 +220,66 @@ public class RegistrationDAO extends DBContext {
 
         return list;
     }
+
+    public boolean deleteRegistrationById(int registrationId) {
+        String sql = "DELETE FROM Registration WHERE RegistrationID = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, registrationId);
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updateRegistrationStatus(int registrationId, String status) {
+        String sql = "UPDATE Registration SET Status = ? WHERE RegistrationID = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, status);
+            ps.setInt(2, registrationId);
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public List<Registration> getApprovedRegistrationsByUserID(int userID) {
+        Connection conn = DBContext.getInstance().getConnection();
+        List<Registration> list = new ArrayList<>();
+        String sql = "SELECT r.RegistrationID, r.UserID, r.CourseID, r.PackageID, r.ApprovedBy, "
+                + "r.Status, r.ValidFrom, r.ValidTo, "
+                + "c.CourseTitle, "
+                + "pp.Name AS PackageName, pp.SalePrice "
+                + "FROM Registration r "
+                + "JOIN Course c ON r.CourseID = c.courseID "
+                + "JOIN PricePackage pp ON r.PackageID = pp.PackageID "
+                + "WHERE r.UserID = ? AND r.Status = 'Approved'";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userID);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Registration r = new Registration();
+                r.setRegistrationID(rs.getInt("RegistrationID"));
+                r.setUserID(rs.getInt("UserID"));
+                r.setCourseID(rs.getInt("CourseID"));
+                r.setPackageID(rs.getInt("PackageID"));
+                r.setApprovedBy(rs.getInt("ApprovedBy"));
+                r.setStatus(rs.getString("Status"));
+                r.setValidFrom(rs.getString("ValidFrom"));
+                r.setValidTo(rs.getString("ValidTo"));
+                Course course = new Course();
+                course.setCourseTitle(rs.getString("courseTitle"));
+                r.setCourse(course);
+                PricePackage pp = new PricePackage();
+                pp.setName(rs.getString("PackageName"));
+                pp.setSalePrice(rs.getInt("SalePrice"));
+                r.setPricePackage(pp);
+                list.add(r);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }

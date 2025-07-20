@@ -37,36 +37,80 @@
                 /* chừa chỗ cho button cố định */
             }
 
-            header {
-                background: linear-gradient(to right, #4a90e2, #0077cc);
+ 
+           /* Header */
+            .header {
+                background-color: #1e88e5;
                 color: white;
                 padding: 15px 40px;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                position: sticky;
-                top: 0;
-                z-index: 10;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             }
 
-            .logo {
+            .header .logo {
                 font-size: 24px;
                 font-weight: bold;
+                text-transform: uppercase;
+                letter-spacing: 1px;
             }
 
-            .nav-links a {
+            .header .nav {
+                display: flex;
+                gap: 20px;
+            }
+
+            .header .nav a {
                 color: white;
-                margin-left: 20px;
                 text-decoration: none;
-                font-weight: 500;
-                transition: opacity 0.2s ease;
+                font-size: 16px;
+                transition: color 0.3s;
             }
 
-            .nav-links a:hover {
-                opacity: 0.8;
+            .header .nav a:hover {
+                color: #bbdefb;
+            }
+            .header {
+                background-color: #1E88E5;
+                color: white;
+                padding: 15px 40px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
             }
 
+            /* Phần logo và tên (từ header-left gốc) */
+            .header-left {
+                display: flex;
+                align-items: center;
+                gap: 16px; /* khoảng cách giữa logo và chữ */
+            }
+            .logo-img {
+                height: 54px;       /* chiều cao logo */
+                width: auto;
+                padding: 4px;       /* khoảng trắng quanh icon */
+                border-radius: 8px;
+                background: rgba(255,255,255,0.15);
+                box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+                display: block;
+            }
+            .logo-text {
+                font-size: 2.1em;
+                font-weight: 700;
+                color: #fff;
+                letter-spacing: 1.5px;
+                font-family: inherit;
+                line-height: 1;
+            }
+
+  .header .nav {
+                    gap: 10px;
+                }
+
+                .header .nav a {
+                    font-size: 16px;
+                }
             h3 {
                 color: #0d6efd;
                 font-weight: bold;
@@ -154,25 +198,11 @@
             .bottom-right-btn:hover {
                 background-color: #0b5ed7;
             }
-
-            footer {
-                background-color: #f0f0f0;
-                padding: 15px 40px;
-                text-align: center;
-                font-size: 14px;
-                color: #333;
-                box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
-            }
-
             @media (max-width: 768px) {
                 header {
                     flex-direction: column;
                     align-items: flex-start;
                     gap: 10px;
-                }
-
-                .nav-links a {
-                    margin: 5px 0;
                 }
 
                 .bottom-left-btn,
@@ -188,13 +218,19 @@
 
     <body>
         <header>
-            <div class="logo">Online Learn</div>
-            <div class="nav-links">
+
+            <div class="header">
+                <!-- Logo + tên -->
+                <div class="header-left">
+                    <img class="logo-img" src="images/HeaderIcon.png" alt="Logo">
+                    <span class="logo-text">CourseAura</span>
+                </div>
+                            <div class="nav">
                 <a href="${pageContext.request.contextPath}/HomeServlet">Home</a>
-                <a href="${pageContext.request.contextPath}/MyCourseServlet">My Course</a>
-                <a href="${pageContext.request.contextPath}/BlogListServlet">Blog List</a>
-                <a href="#">Quiz List</a>
-                <a href="${pageContext.request.contextPath}/LogoutServlet">Log out</a>
+                <a href="${pageContext.request.contextPath}/MyCourseServlet">Courses</a>
+                <a href="${pageContext.request.contextPath}/MyRegistration">Registration</a>
+                <a href="${pageContext.request.contextPath}/BlogListServlet">Blog</a>
+                <a href="${pageContext.request.contextPath}/LogoutServlet">Logout</a>
             </div>
         </header>
 
@@ -239,7 +275,11 @@
                                     <td><%= r.getValidTo() %></td>
                                     <td>
                                         <% if ("Pending".equals(r.getStatus())) { %>
-                                        <button class="btn btn-danger btn-sm cancel-btn">Cancel</button>
+                                        <form method="post" action="MyRegistration" style="display:inline;" onsubmit="return confirmCancel();">
+                                            <input type="hidden" name="registrationID" value="<%= r.getRegistrationID() %>" />
+                                            <input type="hidden" name="action" value="cancel" />
+                                            <button type="submit" class="btn btn-danger btn-sm cancel-btn">Cancel</button>
+                                        </form>
                                         <% } %>
                                     </td>
                                 </tr>
@@ -303,10 +343,6 @@
             </div>
         </main>
 
-        <!-- Footer -->
-        <footer>
-            <p>📞 Contact: contact@onlinelearn.vn | ☎ 0123 456 789</p>
-        </footer>
 
         <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -334,7 +370,12 @@
                 searchInput.addEventListener('input', filterTable);
                 subjectFilter.addEventListener('change', filterTable);
             });
+
+            function confirmCancel() {
+                return confirm('Are you sure to Register this account?');
+            }
         </script>
+        <jsp:include page="components/footer.jsp"/>
     </body>
 
 </html>

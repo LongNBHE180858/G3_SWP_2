@@ -53,4 +53,51 @@ public class MyRegistration extends HttpServlet {
         request.setAttribute("totalPages", totalPages);
         request.getRequestDispatcher("userPages/myRegistration.jsp").forward(request, response);
     }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String action = request.getParameter("action");
+        if ("cancel".equals(action)) {
+            String regIdStr = request.getParameter("registrationID");
+            if (regIdStr != null) {
+                try {
+                    int regId = Integer.parseInt(regIdStr);
+                    RegistrationDAO dao = new RegistrationDAO();
+                    dao.deleteRegistrationById(regId);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+            }
+            response.sendRedirect("MyRegistration");
+            return;
+        }
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("userID") == null) {
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
+            return;
+        }
+        int userID = (int) session.getAttribute("userID");
+        RegistrationDAO dao = new RegistrationDAO();
+        // Lấy page từ URL, mặc định là 1
+        int page = 1;
+        int recordsPerPage = 5;
+        String pageParam = request.getParameter("page");
+        if (pageParam != null) {
+            try {
+                page = Integer.parseInt(pageParam);
+            } catch (NumberFormatException e) {
+                page = 1;
+            }
+        }
+        int offset = (page - 1) * recordsPerPage;
+        // Lấy danh sách đăng ký có phân trang
+        List<Registration> registrations = dao.getRegistrationsByUserIDWithPaging(userID, offset, recordsPerPage);
+        int totalRecords = dao.countRegistrationsByUserID(userID);
+        int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
+        request.setAttribute("registrations", registrations);
+        request.setAttribute("currentPage", Integer.valueOf(page));
+        request.setAttribute("totalPages", totalPages);
+        request.getRequestDispatcher("userPages/myRegistration.jsp").forward(request, response);
+    }
 }
