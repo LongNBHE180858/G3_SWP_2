@@ -108,4 +108,49 @@ public class PricePackageDAO extends DBContext {
         return null;
     }
 
+    public List<PricePackage> getAllPricePackages() {
+        List<PricePackage> list = new ArrayList<>();
+        String sql = "SELECT * FROM PricePackage WHERE Status = 1";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                PricePackage p = new PricePackage();
+                p.setPackageID(rs.getInt("PackageID"));
+                p.setCourseID(rs.getInt("CourseID"));
+                p.setName(rs.getString("Name"));
+                p.setAccessDuration(rs.getInt("AccessDuration"));
+                p.setListPrice(rs.getInt("ListPrice"));
+                p.setSalePrice(rs.getInt("SalePrice"));
+                p.setStatus(rs.getInt("Status"));
+                p.setDescription(rs.getString("Description"));
+                list.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<PricePackage> getTop5PricePackages() {
+        List<PricePackage> list = new ArrayList<>();
+        String sql = "SELECT * FROM PricePackage WHERE PackageID BETWEEN 1 AND 5 AND Status = 1 ORDER BY PackageID ASC";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                PricePackage p = new PricePackage();
+                p.setPackageID(rs.getInt("PackageID"));
+                p.setCourseID(rs.getInt("CourseID"));
+                p.setName(rs.getString("Name"));
+                p.setAccessDuration(rs.getInt("AccessDuration"));
+                p.setListPrice(rs.getInt("ListPrice"));
+                p.setSalePrice(rs.getInt("SalePrice"));
+                p.setStatus(rs.getInt("Status"));
+                p.setDescription(rs.getString("Description"));
+                list.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }

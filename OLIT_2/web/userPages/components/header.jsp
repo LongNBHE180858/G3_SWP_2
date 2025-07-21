@@ -9,7 +9,7 @@
 
 <style>
     .header {
-        background-color: #1E88E5;
+        background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
         color: white;
         padding: 15px 40px;
         display: flex;
@@ -51,6 +51,7 @@
         color: white;
         text-decoration: none;
         font-size: 16px;
+        font-weight:bold;
     }
     .header .nav a:hover {
         text-decoration: underline;

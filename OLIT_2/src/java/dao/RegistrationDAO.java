@@ -197,6 +197,7 @@ public class RegistrationDAO extends DBContext {
 
                 // Tạo Course object
                 Course course = new Course();
+                course.setCourseID(rs.getInt("CourseID"));
                 course.setCourseTitle(rs.getString("CourseTitle"));
                 r.setCourse(course);
 
@@ -281,5 +282,113 @@ public class RegistrationDAO extends DBContext {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public Registration getLatestRegistrationByUserAndCourse(int userID, int courseID) {
+        String sql = "SELECT TOP 1 r.RegistrationID, r.UserID, r.CourseID, r.PackageID, r.ApprovedBy, r.Status, r.ValidFrom, r.ValidTo, "
+                + "c.CourseTitle, pp.Name AS PackageName, pp.SalePrice "
+                + "FROM Registration r "
+                + "JOIN Course c ON r.CourseID = c.courseID "
+                + "JOIN PricePackage pp ON r.PackageID = pp.PackageID "
+                + "WHERE r.UserID = ? AND r.CourseID = ? "
+                + "ORDER BY r.RegistrationID DESC";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, userID);
+            ps.setInt(2, courseID);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Registration r = new Registration();
+                r.setRegistrationID(rs.getInt("RegistrationID"));
+                r.setUserID(rs.getInt("UserID"));
+                r.setCourseID(rs.getInt("CourseID"));
+                r.setPackageID(rs.getInt("PackageID"));
+                r.setApprovedBy(rs.getInt("ApprovedBy"));
+                r.setStatus(rs.getString("Status"));
+                r.setValidFrom(rs.getString("ValidFrom"));
+                r.setValidTo(rs.getString("ValidTo"));
+                Course course = new Course();
+                course.setCourseTitle(rs.getString("CourseTitle"));
+                r.setCourse(course);
+                PricePackage pp = new PricePackage();
+                pp.setName(rs.getString("PackageName"));
+                pp.setSalePrice(rs.getInt("SalePrice"));
+                r.setPricePackage(pp);
+                return r;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Registration getRegistrationById(int registrationId) {
+        String sql = "SELECT r.RegistrationID, r.UserID, r.CourseID, r.PackageID, r.ApprovedBy, r.Status, r.ValidFrom, r.ValidTo, "
+                + "c.CourseTitle, pp.Name AS PackageName, pp.SalePrice "
+                + "FROM Registration r "
+                + "JOIN Course c ON r.CourseID = c.courseID "
+                + "JOIN PricePackage pp ON r.PackageID = pp.PackageID "
+                + "WHERE r.RegistrationID = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, registrationId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Registration r = new Registration();
+                r.setRegistrationID(rs.getInt("RegistrationID"));
+                r.setUserID(rs.getInt("UserID"));
+                r.setCourseID(rs.getInt("CourseID"));
+                r.setPackageID(rs.getInt("PackageID"));
+                r.setApprovedBy(rs.getInt("ApprovedBy"));
+                r.setStatus(rs.getString("Status"));
+                r.setValidFrom(rs.getString("ValidFrom"));
+                r.setValidTo(rs.getString("ValidTo"));
+                Course course = new Course();
+                course.setCourseTitle(rs.getString("CourseTitle"));
+                r.setCourse(course);
+                PricePackage pp = new PricePackage();
+                pp.setName(rs.getString("PackageName"));
+                pp.setSalePrice(rs.getInt("SalePrice"));
+                r.setPricePackage(pp);
+                return r;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Registration getLatestRegistrationByUser(int userID) {
+        String sql = "SELECT TOP 1 r.RegistrationID, r.UserID, r.CourseID, r.PackageID, r.ApprovedBy, r.Status, r.ValidFrom, r.ValidTo, "
+                + "c.CourseTitle, pp.Name AS PackageName, pp.SalePrice "
+                + "FROM Registration r "
+                + "JOIN Course c ON r.CourseID = c.courseID "
+                + "JOIN PricePackage pp ON r.PackageID = pp.PackageID "
+                + "WHERE r.UserID = ? "
+                + "ORDER BY r.RegistrationID DESC";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, userID);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Registration r = new Registration();
+                r.setRegistrationID(rs.getInt("RegistrationID"));
+                r.setUserID(rs.getInt("UserID"));
+                r.setCourseID(rs.getInt("CourseID"));
+                r.setPackageID(rs.getInt("PackageID"));
+                r.setApprovedBy(rs.getInt("ApprovedBy"));
+                r.setStatus(rs.getString("Status"));
+                r.setValidFrom(rs.getString("ValidFrom"));
+                r.setValidTo(rs.getString("ValidTo"));
+                Course course = new Course();
+                course.setCourseTitle(rs.getString("CourseTitle"));
+                r.setCourse(course);
+                PricePackage pp = new PricePackage();
+                pp.setName(rs.getString("PackageName"));
+                pp.setSalePrice(rs.getInt("SalePrice"));
+                r.setPricePackage(pp);
+                return r;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
