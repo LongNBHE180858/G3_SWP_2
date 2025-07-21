@@ -84,7 +84,7 @@ public class RegisterCourseServlet extends HttpServlet {
 
     try {
         // Lấy thông tin từ form
-        int courseId = Integer.parseInt(request.getParameter("courseID"));
+        int courseId = Integer.parseInt(request.getParameter("course"));
         int packageId = Integer.parseInt(request.getParameter("package"));
         String fullName = request.getParameter("fullName");
         String email = request.getParameter("email");
@@ -93,7 +93,7 @@ public class RegisterCourseServlet extends HttpServlet {
 
         // Tạo đối tượng Registration
         Registration registration = new Registration();
-        registration.setUserID(user.getUserID()); // Giả sử Account có getUserID()
+        registration.setUserID(user.getUserID());
         registration.setCourseID(courseId);
         registration.setPackageID(packageId);
         registration.setStatus("Pending");
@@ -103,21 +103,20 @@ public class RegisterCourseServlet extends HttpServlet {
         boolean success = registrationDAO.registerCourse(registration);
 
         if (success) {
-            // Đăng ký thành công
-            session.setAttribute("message", "Đăng ký khóa học thành công! Chúng tôi sẽ liên hệ với bạn sớm.");
+            session.setAttribute("message", "Registration successful please pay");
             session.setAttribute("messageType", "success");
+            response.sendRedirect("MyRegistration");
+            return;
         } else {
-            // Đăng ký thất bại
-            session.setAttribute("message", "Đăng ký khóa học thất bại. Vui lòng thử lại.");
+            session.setAttribute("message", "Course registration failed. Please try again.");
             session.setAttribute("messageType", "error");
+            response.sendRedirect("MyRegistration");
+            return;
         }
-        
-        // Chuyển hướng về trang chi tiết khóa học
-        response.sendRedirect("CourseDetail?id=" + courseId);
         
     } catch (Exception e) {
         e.printStackTrace();
-        session.setAttribute("message", "Có lỗi xảy ra: " + e.getMessage());
+        session.setAttribute("message", "An error occurred: " + e.getMessage());
         session.setAttribute("messageType", "error");
         response.sendRedirect("CourseDetail?id=" + request.getParameter("courseID"));
     }

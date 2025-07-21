@@ -15,6 +15,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Registration;
+import dao.CourseDAO;
+import model.Course;
+import dao.PricePackageDAO;
+import model.PricePackage;
+import dao.AccountDAO;
+import model.Account;
 
 /**
  *
@@ -34,7 +40,7 @@ public class MyRegistration extends HttpServlet {
         RegistrationDAO dao = new RegistrationDAO();
         // Lấy page từ URL, mặc định là 1
         int page = 1;
-        int recordsPerPage = 5;
+        int recordsPerPage = 6;
         String pageParam = request.getParameter("page");
         if (pageParam != null) {
             try {
@@ -48,9 +54,20 @@ public class MyRegistration extends HttpServlet {
         List<Registration> registrations = dao.getRegistrationsByUserIDWithPaging(userID, offset, recordsPerPage);
         int totalRecords = dao.countRegistrationsByUserID(userID);
         int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
+        // Lấy danh sách khoá học
+        CourseDAO courseDAO = new CourseDAO();
+        List<Course> courses = courseDAO.getCourses();
+        // Lấy toàn bộ package
+        PricePackageDAO pricePackageDAO = new PricePackageDAO();
+        List<PricePackage> allPackages = pricePackageDAO.getAllPricePackages();
+        // Lấy thông tin tài khoản user
+        Account account = AccountDAO.getAccountByID(userID);
         request.setAttribute("registrations", registrations);
         request.setAttribute("currentPage", Integer.valueOf(page));
         request.setAttribute("totalPages", totalPages);
+        request.setAttribute("courses", courses);
+        request.setAttribute("allPackages", allPackages);
+        request.setAttribute("account", account);
         request.getRequestDispatcher("userPages/myRegistration.jsp").forward(request, response);
     }
 
@@ -81,7 +98,7 @@ public class MyRegistration extends HttpServlet {
         RegistrationDAO dao = new RegistrationDAO();
         // Lấy page từ URL, mặc định là 1
         int page = 1;
-        int recordsPerPage = 5;
+        int recordsPerPage = 6;
         String pageParam = request.getParameter("page");
         if (pageParam != null) {
             try {
@@ -95,9 +112,20 @@ public class MyRegistration extends HttpServlet {
         List<Registration> registrations = dao.getRegistrationsByUserIDWithPaging(userID, offset, recordsPerPage);
         int totalRecords = dao.countRegistrationsByUserID(userID);
         int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
+        // Lấy danh sách khoá học
+        CourseDAO courseDAO = new CourseDAO();
+        List<Course> courses = courseDAO.getCourses();
+        // Lấy toàn bộ package
+        PricePackageDAO pricePackageDAO = new PricePackageDAO();
+        List<PricePackage> allPackages = pricePackageDAO.getAllPricePackages();
+        // Lấy thông tin tài khoản user
+        Account account = AccountDAO.getAccountByID(userID);
         request.setAttribute("registrations", registrations);
         request.setAttribute("currentPage", Integer.valueOf(page));
         request.setAttribute("totalPages", totalPages);
+        request.setAttribute("courses", courses);
+        request.setAttribute("allPackages", allPackages);
+        request.setAttribute("account", account);
         request.getRequestDispatcher("userPages/myRegistration.jsp").forward(request, response);
     }
 }

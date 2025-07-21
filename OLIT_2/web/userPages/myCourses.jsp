@@ -49,6 +49,7 @@
                 text-decoration: none;
                 font-size: 16px;
                 transition: color 0.3s;
+                font-weight: bold;
             }
 
             .header .nav a:hover {

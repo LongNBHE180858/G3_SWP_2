@@ -58,6 +58,7 @@
                 text-decoration: none;
                 font-size: 16px;
                 transition: color 0.3s;
+                font-weight: bold;
             }
 
             .header .nav a:hover {
@@ -330,7 +331,7 @@
             </div>
             <div class="nav">
                 <a href="${pageContext.request.contextPath}/HomeServlet">Home</a>
-                <a href="${pageContext.request.contextPath}/MyCourseServlet">My Courses</a>
+                <a href="${pageContext.request.contextPath}/MyCourseServlet">MyCourses</a>
                 <a href="${pageContext.request.contextPath}/MyRegistration">Registration</a>
                 <a href="${pageContext.request.contextPath}/BlogListServlet">Blog</a>
                 <a href="${pageContext.request.contextPath}/LogoutServlet">Logout</a>
