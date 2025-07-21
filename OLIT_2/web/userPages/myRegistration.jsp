@@ -271,11 +271,15 @@
                                     int recordsPerPage = 6; // Cần đảm bảo giá trị này khớp với servlet
                                     int startingStt = (currentPage - 1) * recordsPerPage + 1;
 
-                                    // Sắp xếp danh sách theo registrationID giảm dần
+                                    // Sắp xếp danh sách: Pending lên đầu, sau đó theo registrationID giảm dần
                                     if (registrations != null) {
                                         Collections.sort(registrations, new Comparator<Registration>() {
                                             @Override
                                             public int compare(Registration r1, Registration r2) {
+                                                boolean isPending1 = "Pending".equalsIgnoreCase(r1.getStatus());
+                                                boolean isPending2 = "Pending".equalsIgnoreCase(r2.getStatus());
+                                                if (isPending1 && !isPending2) return -1;
+                                                if (!isPending1 && isPending2) return 1;
                                                 return Integer.compare(r2.getRegistrationID(), r1.getRegistrationID());
                                             }
                                         });

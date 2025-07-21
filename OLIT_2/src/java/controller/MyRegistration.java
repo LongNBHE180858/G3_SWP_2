@@ -50,10 +50,22 @@ public class MyRegistration extends HttpServlet {
             }
         }
         int offset = (page - 1) * recordsPerPage;
-        // Lấy danh sách đăng ký có phân trang
-        List<Registration> registrations = dao.getRegistrationsByUserIDWithPaging(userID, offset, recordsPerPage);
-        int totalRecords = dao.countRegistrationsByUserID(userID);
+        // Lấy toàn bộ danh sách đăng ký
+        List<Registration> allRegistrations = dao.getRegistrationsByUserID(userID);
+        // Sắp xếp: Pending lên đầu, sau đó theo RegistrationID giảm dần
+        allRegistrations.sort((r1, r2) -> {
+            boolean isPending1 = "Pending".equalsIgnoreCase(r1.getStatus());
+            boolean isPending2 = "Pending".equalsIgnoreCase(r2.getStatus());
+            if (isPending1 && !isPending2) return -1;
+            if (!isPending1 && isPending2) return 1;
+            return Integer.compare(r2.getRegistrationID(), r1.getRegistrationID());
+        });
+        // Phân trang thủ công
+        int totalRecords = allRegistrations.size();
         int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
+        int fromIndex = Math.min(offset, totalRecords);
+        int toIndex = Math.min(offset + recordsPerPage, totalRecords);
+        List<Registration> registrations = allRegistrations.subList(fromIndex, toIndex);
         // Lấy danh sách khoá học
         CourseDAO courseDAO = new CourseDAO();
         List<Course> courses = courseDAO.getCourses();

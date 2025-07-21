@@ -85,7 +85,7 @@ public class RegisterCourseServlet extends HttpServlet {
     try {
         // Lấy thông tin từ form
         int courseId = Integer.parseInt(request.getParameter("course"));
-        int packageId = Integer.parseInt(request.getParameter("package"));
+        int packageId = Integer.parseInt(request.getParameter("packageID"));
         String fullName = request.getParameter("fullName");
         String email = request.getParameter("email");
         String phoneNumber = request.getParameter("phoneNumber");

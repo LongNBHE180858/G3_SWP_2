@@ -164,7 +164,7 @@
 
             .header {
                 width: 100%;
-                background: linear-gradient(90deg, #458ee8 0%, #3a71c1 100%);
+                background: #1e88e5;
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
@@ -173,7 +173,7 @@
                 box-shadow: 0 2px 8px rgba(40,100,200,0.07);
                 border-radius: 0 0 22px 22px;
                 position: relative;
-                box-sizing: border-box;   /* QUAN TRỌNG: giúp padding không vượt width */
+                box-sizing: border-box;
             }
 
             .header-left {

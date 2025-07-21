@@ -9,7 +9,7 @@
 
 <style>
     .header {
-        background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+        background: #1e88e5;
         color: white;
         padding: 15px 40px;
         display: flex;

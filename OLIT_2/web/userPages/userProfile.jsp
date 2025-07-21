@@ -32,47 +32,13 @@
 
             /* Header */
             .header {
-                background-color: #1e88e5;
-                color: white;
-                padding: 15px 40px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            }
-
-            .header .logo {
-                font-size: 24px;
-                font-weight: bold;
-                text-transform: uppercase;
-                letter-spacing: 1px;
-            }
-
-            .header .nav {
-                display: flex;
-                gap: 20px;
-            }
-
-            .header .nav a {
-                color: white;
-                text-decoration: none;
-                font-size: 16px;
-                transition: color 0.3s;
-                font-weight: bold;
-            }
-
-            .header .nav a:hover {
-                color: #bbdefb;
-            }
-            .header {
-                background-color: #1E88E5;
+                background: #1e88e5;
                 color: white;
                 padding: 15px 40px;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
             }
-
             /* Phần logo và tên (từ header-left gốc) */
             .header-left {
                 display: flex;
@@ -80,13 +46,13 @@
                 gap: 16px; /* khoảng cách giữa logo và chữ */
             }
             .logo-img {
-                height: 54px;       /* chiều cao logo */
-                width: auto;
-                padding: 4px;       /* khoảng trắng quanh icon */
-                border-radius: 8px;
-                background: rgba(255,255,255,0.15);
-                box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-                display: block;
+                height: 40px !important;
+                width: auto !important;
+                max-width: 100%;
+                padding: 2px !important;
+                border-radius: 6px !important;
+                background: rgba(255,255,255,0.15) !important;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important;
             }
             .logo-text {
                 font-size: 2.1em;
@@ -96,17 +62,26 @@
                 font-family: inherit;
                 line-height: 1;
             }
-
             .header .nav {
-                gap: 10px;
+                display: flex;
+                align-items: center;
+                gap: 20px;
             }
-
             .header .nav a {
+                color: white;
+                text-decoration: none;
                 font-size: 16px;
+                font-weight:bold;
             }
-
             .header .nav a:hover {
                 text-decoration: underline;
+            }
+            .header .nav .avatar {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                cursor: pointer;
+                object-fit: cover;
             }
 
             .profile-container {
