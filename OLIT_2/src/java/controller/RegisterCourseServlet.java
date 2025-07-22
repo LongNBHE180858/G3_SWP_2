@@ -98,8 +98,18 @@ public class RegisterCourseServlet extends HttpServlet {
         registration.setPackageID(packageId);
         registration.setStatus("Pending");
 
-        // Thực hiện đăng ký
+        // Kiểm tra đã có đăng ký Pending chưa
         RegistrationDAO registrationDAO = new RegistrationDAO();
+        List<Registration> userRegs = registrationDAO.getRegistrationsByUserID(user.getUserID());
+        boolean hasPending = userRegs.stream().anyMatch(r -> r.getCourseID() == courseId && "Pending".equalsIgnoreCase(r.getStatus()));
+        if (hasPending) {
+            session.setAttribute("message", "You already have a pending registration for this course. Please complete or cancel it before registering again.");
+            session.setAttribute("messageType", "error");
+            response.sendRedirect("MyRegistration");
+            return;
+        }
+
+        // Thực hiện đăng ký
         boolean success = registrationDAO.registerCourse(registration);
 
         if (success) {

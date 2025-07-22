@@ -241,12 +241,19 @@
         <main>
             <div class="container-fluid">
                 <h3 class="mb-4">My Registration</h3>
-                <% if (session.getAttribute("message") != null) { %>
-    <div class="alert alert-success" style="margin-bottom:18px; text-align:center; font-weight:500;">
-        <%= session.getAttribute("message") %>
-    </div>
-    <% session.removeAttribute("message"); %>
-<% } %>
+                <% if (session.getAttribute("message") != null) { 
+   String type = (String)session.getAttribute("messageType"); 
+   String alertClass = "alert-success";
+   String customStyle = "background-color:#e6f9ed;color:#155724;";
+   if ("error".equals(type)) {
+       alertClass = "alert-danger";
+       customStyle = "background-color:#ffeaea;color:#b71c1c;";
+   }
+%>
+<div class="alert <%= alertClass %>" style="margin-bottom:18px; text-align:center; font-weight:500; <%= customStyle %>">
+    <%= session.getAttribute("message") %>
+</div>
+<% session.removeAttribute("message"); session.removeAttribute("messageType"); } %>
                 <div class="row">
                     <!-- Left Section: Course List -->
                     <div class="col-md-9">
@@ -364,220 +371,13 @@
                         </div>
                         <div>
                             <!-- Fixed Buttons -->
-                            <button class="bottom-right-btn" style="border-radius: 8px;" onclick="openRegisterModal()">➕ Course Register</button>
+                            <a href="CourseRegisterServlet" class="bottom-right-btn" style="border-radius: 8px; display: inline-block; text-align: center; line-height: 40px; text-decoration: none;">➕ Course Register</a>
                         </div>
                     </div>
                 </div>
             </div>
         </main>
 
-        <!-- Register Course Modal (ẩn mặc định) -->
-        <style>
-            #registerModal.overlay {
-                position: fixed;
-                top: 0; left: 0;
-                width: 100vw; height: 100vh;
-                background: rgba(0,0,0,0.35);
-                display: none;
-                align-items: center;
-                justify-content: center;
-                z-index: 9999;
-            }
-            #registerModal .popup {
-                background: #fff;
-                border-radius: 18px;
-                box-shadow: 0 8px 32px rgba(30,136,229,0.18);
-                padding: 32px 28px 24px 28px;
-                max-width: 420px;
-                width: 95vw;
-                position: relative;
-                animation: fadeInScale 0.25s;
-            }
-            #registerModal .close-btn {
-                position: absolute;
-                top: 12px;
-                right: 16px;
-                background: none;
-                border: none;
-                font-size: 1.5rem;
-                color: #888;
-                cursor: pointer;
-                transition: color 0.2s;
-            }
-            #registerModal .close-btn:hover { color: #e53935; }
-            #registerModal h2 {
-                text-align: center;
-                color: #1e88e5;
-                margin-bottom: 22px;
-                font-size: 1.5rem;
-                font-weight: 700;
-                letter-spacing: 1px;
-            }
-            #registerModal .form-group {
-                margin-bottom: 18px;
-            }
-            #registerModal label {
-                font-weight: 600;
-                color: #1e88e5;
-                margin-bottom: 6px;
-                display: block;
-                letter-spacing: 0.2px;
-            }
-            #registerModal input[type="text"],
-            #registerModal input[type="email"],
-            #registerModal input[type="tel"],
-            #registerModal select {
-                width: 100%;
-                padding: 11px 14px 11px 38px;
-                border: 1px solid #cbe3fa;
-                border-radius: 8px;
-                font-size: 15px;
-                background: #f5faff;
-                color: #222;
-                transition: border-color 0.2s;
-                margin-top: 2px;
-            }
-            #registerModal input[readonly] {
-                background: #e3f0fc;
-                color: #888;
-                cursor: not-allowed;
-            }
-            #registerModal .input-icon {
-                position: absolute;
-                left: 12px;
-                top: 50%;
-                transform: translateY(-50%);
-                color: #1e88e5;
-                font-size: 1.1em;
-                pointer-events: none;
-            }
-            #registerModal .input-wrap {
-                position: relative;
-            }
-            #registerModal .gender-group {
-                display: flex;
-                gap: 18px;
-                margin-top: 4px;
-            }
-            #registerModal .gender-group label {
-                font-weight: 500;
-                color: #444;
-                margin-bottom: 0;
-                display: flex;
-                align-items: center;
-                gap: 4px;
-            }
-            #registerModal .gender-group input[type="radio"] {
-                accent-color: #1e88e5;
-                width: 16px; height: 16px;
-            }
-            #registerModal .button-group {
-                display: flex;
-                gap: 12px;
-                margin-top: 18px;
-            }
-            #registerModal .btn-register {
-                background: linear-gradient(90deg, #1e88e5 0%, #42a5f5 100%);
-                color: #fff;
-                font-weight: 600;
-                border: none;
-                border-radius: 8px;
-                padding: 11px 0;
-                font-size: 1.08em;
-                flex: 1;
-                transition: background 0.2s, box-shadow 0.2s;
-                box-shadow: 0 2px 8px rgba(30,136,229,0.08);
-                cursor: pointer;
-            }
-            #registerModal .btn-register:hover {
-                background: linear-gradient(90deg, #1565c0 0%, #1e88e5 100%);
-                box-shadow: 0 4px 16px rgba(30,136,229,0.15);
-            }
-            #registerModal .btn-cancel {
-                background: #e0e0e0;
-                color: #333;
-                border: none;
-                border-radius: 8px;
-                padding: 11px 0;
-                font-size: 1.08em;
-                flex: 1;
-                font-weight: 600;
-                cursor: pointer;
-                transition: background 0.2s;
-            }
-            #registerModal .btn-cancel:hover {
-                background: #bdbdbd;
-            }
-            @keyframes fadeInScale {
-                from { opacity: 0; transform: scale(0.92); }
-                to   { opacity: 1; transform: scale(1); }
-            }
-            @media (max-width: 600px) {
-                #registerModal .popup { padding: 14px 2vw 10px 2vw; }
-                #registerModal h2 { font-size: 1.1rem; }
-            }
-        </style>
-        <div id="registerModal" class="overlay">
-            <div class="popup">
-                <button class="close-btn" onclick="closeRegisterModal()">&times;</button>
-                <h2><i class="fa-solid fa-user-plus"></i> Register Course</h2>
-                <form action="RegisterCourse" method="post">
-                    <div class="form-group">
-                        <label for="course">Choose Course</label>
-                        <div class="input-wrap">
-                            <i class="fa-solid fa-book input-icon"></i>
-                            <select id="course" name="course" required onchange="updatePackages()">
-                                <text value="" selected disabled style="color:#888;">-- Select Course --</text>
-                                <c:forEach var="c" items="${courses}">
-                                    <option value="${c.courseID}">${c.courseTitle}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="package">Choose Price Package</label>
-                        <div class="input-wrap">
-                            <i class="fa-solid fa-box input-icon"></i>
-                            <select id="package" name="package" required>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="fullName">Full Name</label>
-                        <div class="input-wrap">
-                            <i class="fa-solid fa-user input-icon"></i>
-                            <input type="text" id="fullName" name="fullName" value="${account.fullName}" readonly required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <div class="input-wrap">
-                            <i class="fa-solid fa-envelope input-icon"></i>
-                            <input type="email" id="email" name="email" value="${account.email}" readonly required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="phoneNumber">Phone Number</label>
-                        <div class="input-wrap">
-                            <i class="fa-solid fa-phone input-icon"></i>
-                            <input type="tel" id="phoneNumber" name="phoneNumber" value="${account.phoneNumber}" readonly required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Gender</label>
-                        <div class="gender-group">
-                            <label><input type="radio" name="gender" value="Male" ${account.gender == 'Male' ? 'checked' : ''} disabled> Male</label>
-                            <label><input type="radio" name="gender" value="Female" ${account.gender == 'Female' ? 'checked' : ''} disabled> Female</label>
-                            <label><input type="radio" name="gender" value="Other" ${account.gender != 'Male' && account.gender != 'Female' ? 'checked' : ''} disabled> Other</label>
-                        </div>
-                    </div>
-                    <div class="button-group">
-                        <button type="submit" class="btn btn-register"><i class="fa-solid fa-paper-plane"></i> Register</button>
-                        <button type="button" class="btn btn-cancel" onclick="closeRegisterModal()">Cancel</button>
-                    </div>
-                </form>
-            </div>
-        </div>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 const searchInput = document.getElementById('search');
@@ -611,20 +411,6 @@
 
             function confirmCancel() {
                 return confirm('Are you sure to Register this account?');
-            }
-
-            function openRegisterModal() {
-                document.getElementById('registerModal').style.display = 'flex';
-            }
-            function closeRegisterModal() {
-                document.getElementById('registerModal').style.display = 'none';
-            }
-            // Đóng modal khi click ra ngoài popup
-            window.onclick = function(event) {
-                var modal = document.getElementById('registerModal');
-                if (event.target === modal) {
-                    closeRegisterModal();
-                }
             }
 
             // Tạo object: courseID -> list package

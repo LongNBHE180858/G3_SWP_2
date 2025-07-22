@@ -178,9 +178,26 @@
     <div class="overlay">
         <div class="popup">
             <h2>Register Course</h2>
+            <form action="${pageContext.request.contextPath}/CourseRegisterServlet" method="get" id="courseSelectForm">
+                <c:if test="${empty param.courseID}">
+                    <div class="form-group">
+                        <label for="courseID">Choose Course</label>
+                        <select id="courseID" name="courseID" required onchange="document.getElementById('courseSelectForm').submit();">
+                            <option value="" disabled selected style="color:#888;">-- Select Course --</option>
+                            <c:forEach var="c" items="${courses}">
+                                <option value="${c.courseID}">${c.courseTitle}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                </c:if>
+            </form>
+            <c:if test="${not empty param.courseID}">
             <form action="${pageContext.request.contextPath}/RegisterCourse" method="post">
                 <input type="hidden" name="course" value="${param.courseID}" />
-
+                <div class="form-group">
+                    <label for="courseName">Course Name</label>
+                    <input type="text" id="courseName" name="courseName" value="${courseName}" readonly>
+                </div>
                 <div class="form-group">
                     <label for="package">Choose Price Package</label>
                     <select id="package" name="packageID" required>
@@ -196,28 +213,24 @@
                         </c:forEach>
                     </select>
                 </div>
-
                 <div class="form-group">
                     <label for="fullName">Full Name</label>
                     <input type="text" id="fullName" name="fullName"
                            value="${sessionScope.fullAccount != null ? sessionScope.fullAccount.fullName : ''}"
                            ${sessionScope.fullAccount != null ? 'readonly' : ''} required>
                 </div>
-
                 <div class="form-group">
                     <label for="email">Email</label>
                     <input type="email" id="email" name="email"
                            value="${sessionScope.fullAccount != null ? sessionScope.fullAccount.email : ''}"
                            ${sessionScope.fullAccount != null ? 'readonly' : ''} required>
                 </div>
-
                 <div class="form-group">
                     <label for="phoneNumber">Phone Number</label>
                     <input type="tel" id="phoneNumber" name="phoneNumber"
                            value="${not empty sessionScope.fullAccount ? sessionScope.fullAccount.phoneNumber : ''}"
                            ${not empty sessionScope.fullAccount ? 'readonly' : ''} required>
                 </div>
-
                 <div class="form-group">
                     <label>Gender</label>
                     <div class="gender-group">
@@ -243,12 +256,12 @@
                         </c:choose>
                     </div>
                 </div>
-
                 <div class="button-group">
                     <button type="submit" class="btn btn-register">Register</button>
                     <button type="button" class="btn btn-cancel" onclick="window.location.href = 'CourseDetail?id=${param.courseID}'">Cancel</button>
                 </div>
             </form>
+            </c:if>
         </div>
     </div>
 </body>
