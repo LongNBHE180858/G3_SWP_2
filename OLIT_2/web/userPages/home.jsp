@@ -369,7 +369,7 @@
                     <div class="latest-post">
                         <img src="${post.thumbnailURL}" alt="${post.blogTitle}">
                         <div>
-                            <h4><a href="#">${post.blogTitle}</a></h4>
+                            <h4><a href="${pageContext.request.contextPath}/BlogDetailsServlet?postID=${post.postID}">${post.blogTitle}</a></h4>
                             <div class="date">${post.updatedDate}</div>
                         </div>
                     </div>

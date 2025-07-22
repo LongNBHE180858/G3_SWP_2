@@ -40,17 +40,119 @@ INSERT INTO PostCategory (CategoryID, CategoryName, URL) VALUES
 (20, N'Kỹ năng mềm', 'soft-skills');
 
 -- Thêm dữ liệu vào bảng Post
-INSERT INTO Post (PostID, UserID, CategoryID, BlogTitle, PostDetails, Status, UpdatedDate, ThumbnailURL,IsHot) VALUES
-(1, 1, 1, N'Xu hướng giáo dục trực tuyến 2024', N'Bài viết về những xu hướng mới trong giáo dục điện tử...', 1, '2024-05-15 10:30:00', 'https://gitiho.com/caches/p_medium_large//uploads/315313/images/image_xu-huong-elearning-1.jpg',1),
-(2, 2, 2, N'5 mẹo học hiệu quả', N'Những phương pháp học tập được chứng minh hiệu quả...', 1, '2024-05-10 14:20:00', 'https://edubit.vn/data/blog/photo_1631782135.jpg?v=1631782136',1),
-(3, 3, 3, N'AI trong giáo dục', N'Ứng dụng trí tuệ nhân tạo trong việc học và dạy...', 1, '2024-05-08 09:15:00', 'https://askany.com/_next/image?url=https%3A%2F%2Fd2czqxs5dso3qv.cloudfront.net%2Fimages%2Fb16fce83-f812-4b32-802d-7aac6fb27101.png&w=1920&q=75',1),
-(4, 2, 4, N'Kinh nghiệm thi chứng chỉ IT', N'Chia sẻ kinh nghiệm chuẩn bị và thi các chứng chỉ IT...', 1, '2024-05-05 16:45:00', 'https://edusa.vn/wp-content/uploads/2023/11/cac-loai-chung-chi-tin-hoc-cho-sinh-vien-1.webp',1),
-(5, 1, 5, N'Sự kiện EdTech Vietnam 2024', N'Thông tin về hội thảo công nghệ giáo dục lớn nhất năm...', 1, '2024-05-01 11:00:00', 'https://sp-ao.shortpixel.ai/client/to_webp,q_glossy,ret_img,w_1620,h_1080/https://vku.udn.vn/wp-content/uploads/2024/07/VKU-37-3.jpg',1),
-(6, 4, 1, N'10 xu hướng e-learning cho lập trình viên', N'Khám phá các công nghệ và phương pháp mới nhất giúp lập trình viên học tập hiệu quả hơn...', 1, '2024-05-20 08:00:00', 'https://ocd.vn/wp-content/uploads/2025/03/How-to-Make-Friends-E-Learning-Presentation-1280-x-720-px-compressed.jpg',0),
-(7, 3, 2, N'Học Git và GitHub trong 1 ngày', N'Hướng dẫn nhanh các thao tác cơ bản và nâng cao với Git/GitHub, kèm ví dụ thực tế...', 1, '2024-05-18 13:30:00', 'https://cdn.codegym.vn/wp-content/uploads/2021/12/khoa-hoc-nhap-mon-git-va-github-online-mien-phi-codegym-5.jpg',0),
-(8, 5, 3, N'Tự động hóa kiểm thử với Selenium', N'Hướng dẫn cài đặt, viết test case và chạy song song với Selenium WebDriver...', 1, '2024-05-17 15:45:00', 'https://topdev.vn/blog/wp-content/uploads/2020/12/testing-1.jpg',0),
-(9, 2, 4, N'Chứng chỉ AWS Certified Cloud Practitioner', N'Chi tiết nội dung đề thi, kinh nghiệm ôn luyện và tài liệu tham khảo...', 1, '2024-05-16 10:20:00', 'https://topdev.vn/blog/wp-content/uploads/2024/05/chung-chi-aws-la-gi-1.jpg',0),
-(10, 4, 5, N'Khoá học React.js miễn phí tháng 6/2024', N'Tổng hợp các khoá học, video và dự án mẫu để bạn bắt đầu với React.js...', 1, '2024-05-22 09:15:00', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7X4unDFRGcQRqGGw2xhAn7W6CKbWTT9bKyg&s',0);
+INSERT INTO Post 
+  (PostID, UserID, CategoryID, BlogTitle, PostDetails, Status, UpdatedDate, ThumbnailURL, IsHot)
+VALUES
+(1, 1, 1, N'Xu hướng giáo dục trực tuyến 2024',
+ N'Trong năm 2024, giáo dục trực tuyến tiếp tục bứt phá với nhiều xu hướng nổi bật:
+- Cá nhân hóa học tập: Ứng dụng AI và phân tích dữ liệu giúp tùy chỉnh lộ trình, nội dung và tốc độ học phù hợp với từng học viên.
+- Học tập kết hợp (Blended Learning): Kết hợp linh hoạt giữa các buổi học trực tiếp và trực tuyến, tận dụng ưu điểm của cả hai hình thức.
+- Microlearning: Học theo các đoạn ngắn, tập trung vào từng kỹ năng cụ thể, dễ tiếp thu và phù hợp với nhịp sống bận rộn.
+- Gamification: Áp dụng yếu tố trò chơi để tăng tính tương tác, động lực và trải nghiệm người học.
+- Công nghệ thực tế ảo (VR/AR): Mang đến trải nghiệm thực hành sinh động, giúp học viên dễ hình dung và ghi nhớ kiến thức.',
+ 1, '2024-05-15 10:30:00', 'https://gitiho.com/caches/p_medium_large//uploads/315313/images/image_xu-huong-elearning-1.jpg', 1),
+
+(2, 2, 2, N'5 mẹo học hiệu quả',
+ N'Để tối ưu hóa hiệu suất học tập, bạn có thể áp dụng 5 phương pháp sau:
+1. Pomodoro Technique: Chia thời gian học thành các phiên 25 phút, xen kẽ nghỉ 5 phút để duy trì sự tập trung.
+2. Active Recall: Thường xuyên tự kiểm tra kiến thức bằng cách tóm tắt, đặt câu hỏi và trả lời mà không đọc lại tài liệu.
+3. Spaced Repetition: Lặp lại nội dung theo khoảng cách thời gian tăng dần để chuyển kiến thức từ ngắn hạn sang dài hạn.
+4. Mind Mapping: Vẽ sơ đồ tư duy để liên kết các khái niệm, giúp nhớ lâu và hiểu sâu hơn về mối quan hệ giữa các ý.
+5. Teaching Others: Giải thích lại kiến thức cho bạn bè hoặc ghi lại video giảng dạy; việc này giúp bạn củng cố và phát hiện lỗ hổng kiến thức.',
+ 1, '2024-05-10 14:20:00', 'https://edubit.vn/data/blog/photo_1631782135.jpg?v=1631782136', 1),
+
+(3, 3, 3, N'AI trong giáo dục',
+ N'Trí tuệ nhân tạo (AI) đang được ứng dụng mạnh mẽ trong giáo dục với các giải pháp:
+- Chatbot giảng dạy và hỗ trợ 24/7, trả lời câu hỏi và hướng dẫn học viên tức thì.
+- Hệ thống đánh giá tự động: AI chấm điểm bài tập, đề xuất phản hồi cá nhân cho người học.
+- Phân tích dữ liệu học tập: Xác định điểm mạnh, điểm yếu và đưa ra lộ trình ôn luyện tối ưu.
+- Tạo nội dung động: AI có thể tự sinh đề ôn, bài tập và video giảng dựa trên nhu cầu từng học viên.
+- Học tập tương tác: Ứng dụng VR/AR điều khiển AI giúp tạo môi trường học tập mô phỏng, tăng tính thực hành và trải nghiệm.',
+ 1, '2024-05-08 09:15:00', 'https://askany.com/_next/image?url=https%3A%2F%2Fd2czqxs5dso3qv.cloudfront.net%2Fimages%2Fb16fce83-f812-4b32-802d-7aac6fb27101.png&w=1920&q=75', 1),
+
+(4, 2, 4, N'Kinh nghiệm thi chứng chỉ IT',
+ N'Chia sẻ kinh nghiệm chuẩn bị và thi các chứng chỉ IT:
+- Xác định chứng chỉ phù hợp: Microsoft, Cisco, CompTIA hay Oracle tùy mục tiêu nghề nghiệp.
+- Lập kế hoạch học tập: chia nhỏ chủ đề, đặt deadline hàng tuần.
+- Tài liệu tham khảo: sách chính thức, video hướng dẫn và khóa học online.
+- Thực hành lab: cài đặt môi trường ảo, giải các bài tập mẫu.
+- Thi thử: làm đề mẫu, phân tích đáp án để rút kinh nghiệm.
+- Quản lý thời gian trong phòng thi: ưu tiên phần dễ ghi điểm trước.
+- Mẹo vượt vũ môn: đọc kỹ hướng dẫn đề, không bỏ câu nào, dùng kỹ thuật loại trừ.',
+ 1, '2024-05-05 16:45:00', 'https://edusa.vn/wp-content/uploads/2023/11/cac-loai-chung-chi-tin-hoc-cho-sinh-vien-1.webp', 1),
+
+(5, 1, 5, N'Sự kiện EdTech Vietnam 2024',
+ N'Thông tin về hội thảo công nghệ giáo dục lớn nhất năm:
+- Thời gian: 12–14/06/2024 tại TP. Hồ Chí Minh.
+- Địa điểm: Trung tâm Hội nghị Quốc Gia, Q.7.
+- Diễn giả: chuyên gia từ Google for Education, Microsoft Education, các startup và trường đại học.
+- Chủ đề chính: AI trong giảng dạy, học tập cá nhân hóa, VR/AR trong đào tạo.
+- Workshop kèm theo: thiết kế khóa học trực tuyến, phân tích dữ liệu học viên.
+- Cách đăng ký: truy cập www.edtechvietnam.vn, nhận vé Early Bird trước 01/05.',
+ 1, '2024-05-01 11:00:00', 'https://vku.udn.vn/wp-content/uploads/2024/07/VKU-37-3.jpg', 1),
+
+(6, 4, 1, N'10 xu hướng e-learning cho lập trình viên',
+ N'Khám phá các công nghệ và phương pháp mới nhất giúp lập trình viên học tập hiệu quả hơn:
+- Microlearning: bài học ngắn 5–10 phút, dễ theo dõi.
+- Gamification: cấp độ, huy hiệu và bảng xếp hạng tăng tính hứng thú.
+- Adaptive Learning: hệ thống tự điều chỉnh nội dung dựa trên kết quả.
+- Mobile-first: học mọi lúc mọi nơi qua điện thoại.
+- Podcasts & livestream: cập nhật kiến thức nhanh qua audio.
+- AI Tutor: trợ lý ảo gợi ý tài liệu và giải đáp thắc mắc.
+- Project-based: học qua làm dự án thực tế.
+- Interactive Code Sandbox: luyện tập trực tiếp trên trình duyệt.
+- VR Labs: mô phỏng môi trường lập trình động.
+- Community Learning: học nhóm, pair programming và code review.',
+ 1, '2024-05-20 08:00:00', 'https://ocd.vn/wp-content/uploads/2025/03/How-to-Make-Friends-E-Learning-Presentation-1280-x-720-px-compressed.jpg', 0),
+
+(7, 3, 2, N'Học Git và GitHub trong 1 ngày',
+ N'Hướng dẫn nhanh các thao tác cơ bản và nâng cao với Git/GitHub, kèm ví dụ thực tế:
+- Cài đặt Git và tạo tài khoản GitHub.
+- Khởi tạo repo: git init, git clone.
+- Làm việc với nhánh: git branch, git checkout, git merge.
+- Commit & push: git add, git commit, git push.
+- Quản lý xung đột merge và rebase.
+- Tạo Pull Request trên GitHub.
+- Sử dụng GitHub Actions để tự động hoá CI/CD.
+- Viết file README, LICENSE và .gitignore chuẩn.',
+ 1, '2024-05-18 13:30:00', 'https://cdn.codegym.vn/wp-content/uploads/2021/12/khoa-hoc-nhap-mon-git-va-github-online-mien-phi-codegym-5.jpg', 0),
+
+(8, 5, 3, N'Tự động hóa kiểm thử với Selenium',
+ N'Hướng dẫn cài đặt, viết test case và chạy song song với Selenium WebDriver:
+- Cài đặt Java, Maven/Gradle và thêm dependency Selenium.
+- Download Driver (ChromeDriver, GeckoDriver) và cấu hình PATH.
+- Tạo project mẫu: Page Object Model để tổ chức code.
+- Viết test case: findElement, click, sendKeys, assertion.
+- Sử dụng TestNG/JUnit để quản lý test suite.
+- Chạy song song (parallel) với thread pool.
+- Báo cáo kết quả: ExtentReports hoặc Allure.
+- Tích hợp CI (Jenkins/GitHub Actions) để tự động chạy khi push code.',
+ 1, '2024-05-17 15:45:00', 'https://topdev.vn/blog/wp-content/uploads/2020/12/testing-1.jpg', 0),
+
+(9, 2, 4, N'Chứng chỉ AWS Certified Cloud Practitioner',
+ N'Chi tiết nội dung đề thi, kinh nghiệm ôn luyện và tài liệu tham khảo:
+- Domains: Cloud Concepts, AWS Services, Security, Billing & Pricing.
+- Tài liệu chính thức: AWS Whitepapers và FAQs.
+- Khóa học miễn phí trên AWS Skill Builder.
+- Thực hành: tạo tài khoản Free Tier, deploy EC2, S3, IAM.
+- Đề thi thử: Tutorial Dojo, Whizlabs.
+- Chiến lược làm bài: ưu tiên câu dễ, đọc kỹ dịch vụ trước khi trả lời.
+- Lưu ý: cập nhật dịch vụ mới nhất trên console.',
+ 1, '2024-05-16 10:20:00', 'https://topdev.vn/blog/wp-content/uploads/2024/05/chung-chi-aws-la-gi-1.jpg', 0),
+
+(10, 4, 5, N'Khoá học React.js miễn phí tháng 6/2024',
+ N'Tổng hợp các khoá học, video và dự án mẫu để bạn bắt đầu với React.js:
+- React Official Tutorial trên reactjs.org.
+- FreeCodeCamp: full-course 8 giờ trên YouTube.
+- Khóa “React Basics” của Codecademy.
+- React Router: làm project Blog SPA.
+- Hooks nâng cao: useReducer, useContext.
+- Dự án mẫu: Todo App, Weather App, Chat App.
+- Tài liệu: React Docs, CSS-in-JS với styled-components.
+- Community: tham gia các nhóm trên Discord, StackOverflow.',
+ 1, '2024-05-22 09:15:00', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7X4unDFRGcQRqGGw2xhAn7W6CKbWTT9bKyg&s', 0
+);
+
 
 
 -- Thêm dữ liệu vào bảng Subject

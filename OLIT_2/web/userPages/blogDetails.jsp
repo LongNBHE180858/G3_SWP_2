@@ -6,6 +6,10 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+/>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -19,11 +23,11 @@
 
         <!-- Breadcrumb -->
         <nav class="breadcrumb">
-            <a href="${pageContext.request.contextPath}/Home">Home</a> /
-            <a href="${pageContext.request.contextPath}/BlogListServlet">Blog</a> /
+            <a href="${pageContext.request.contextPath}/Home">Home</a> 
+            <a href="${pageContext.request.contextPath}/BlogListServlet">Blog</a> 
             <a href="${pageContext.request.contextPath}/BlogListServlet?categoryId=${post.postCategory.categoryID}">
                 ${post.postCategory.categoryName}
-            </a> /
+            </a> 
             <span>${post.blogTitle}</span>
         </nav>
 
@@ -66,7 +70,7 @@
                 <form action="${pageContext.request.contextPath}/BlogListServlet" method="get" class="filter-form">
                     <label for="category-select">Category:</label>
                     <select id="category-select" name="categoryId" class="category-select">
-                        <option value="">-- Chọn thể loại --</option>
+                        <option value="">-- Pick a category --</option>
                         <c:forEach var="category" items="${categories}">
                             <option
                                 value="${category.categoryID}"
@@ -76,7 +80,7 @@
                             </option>
                         </c:forEach>
                     </select>
-                    <button type="submit" class="filter-btn">Lọc</button>
+                    <button type="submit" class="filter-btn">Search</button>
                 </form>
 
 
@@ -106,7 +110,6 @@
                             </div>
                         </c:forEach>
                     </div>
-                </section>
 
                 <!-- Contact & Links -->
                  <h3>Contact &amp; Links</h3>
@@ -128,6 +131,8 @@
                         <a href="${pageContext.request.contextPath}${contactPage}">Contact Page</a>
                     </li>
                 </ul>
+                    </br>
+                </section>    
             </aside>
         </div>
 

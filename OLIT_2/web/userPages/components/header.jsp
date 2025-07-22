@@ -92,7 +92,14 @@
             <a href="${pageContext.request.contextPath}/HomeServlet">Home</a>
             <a href="${pageContext.request.contextPath}/CourseListServlet">Courses</a>
             <a href="${pageContext.request.contextPath}/BlogListServlet">Blog</a>
-
+            <!-- only show for ADMINs -->
+            <c:if test="${not empty sessionScope.userID
+                          and sessionScope.roleID == 1}">
+                  <a href="${pageContext.request.contextPath}/SubjectList"
+                     class="admin-btn">
+                      Admin Dashboard
+                  </a>
+            </c:if>
             <c:choose>
                 <c:when test="${not empty sessionScope.userID}">
                     <a href="${pageContext.request.contextPath}/LogoutServlet">Logout</a>

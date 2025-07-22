@@ -35,11 +35,14 @@ public class UserProfile extends HttpServlet {
         }
         //lấy dữ liệu từ DB
         int userId = (int) session.getAttribute("userID");
+        int roleID = (int) session.getAttribute("roleID");
+
         Account account = accountDAO.getAccountByID(userId);
         System.out.println("Account from DB: " + account);
         int roleId = (int) session.getAttribute("roleID");
         String userEmail = (String) session.getAttribute("userEmail");
 
+        request.setAttribute("roleID", roleID);
         request.setAttribute("userID", userId);
         request.setAttribute("roleID", roleId);
         request.setAttribute("userEmail", userEmail);
