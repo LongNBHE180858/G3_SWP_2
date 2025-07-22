@@ -801,5 +801,5 @@
         </script>
 
     </body>  
-    <jsp:include page="components/footer.jsp"/>
+    <jsp:include page="components/footer.jsp" />
 </html>
