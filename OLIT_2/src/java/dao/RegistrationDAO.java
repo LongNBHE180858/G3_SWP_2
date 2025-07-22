@@ -167,7 +167,7 @@ public class RegistrationDAO extends DBContext {
         }
         return 0;
     }
-    
+
     public List<Registration> getAllRegistrationsForAdmin() {
         List<Registration> list = new ArrayList<>();
         String sql = "SELECT r.RegistrationID, r.UserID, r.CourseID, r.PackageID, r.ApprovedBy, "
