@@ -202,20 +202,18 @@ public class AdminRegistrationListServlet extends HttpServlet {
 
         // Thống kê
         int totalRegistrations = registrationList.size();
-        int pendingCount = 0, approvedCount = 0, rejectedCount = 0, cancelledCount = 0;
+        int pendingCount = 0, approvedCount = 0, notApprovedCount = 0;
         for (Registration reg : registrationList) {
             switch (reg.getStatus()) {
                 case "Pending": pendingCount++; break;
                 case "Approved": approvedCount++; break;
-                case "Rejected": rejectedCount++; break;
-                case "Cancelled": cancelledCount++; break;
+                case "NotApproved": notApprovedCount++; break;
             }
         }
         request.setAttribute("totalRegistrations", totalRegistrations);
         request.setAttribute("pendingCount", pendingCount);
         request.setAttribute("approvedCount", approvedCount);
-        request.setAttribute("rejectedCount", rejectedCount);
-        request.setAttribute("cancelledCount", cancelledCount);
+        request.setAttribute("notApprovedCount", notApprovedCount);
 
         // Forward tới JSP
         request.getRequestDispatcher("/adminPages/adminRegistrationList.jsp").forward(request, response);

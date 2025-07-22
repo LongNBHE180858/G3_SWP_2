@@ -298,8 +298,8 @@
                     <div class="stat-label">Accepted</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">${rejectedCount + cancelledCount}</div>
-                    <div class="stat-label">Rejected/Cancelled</div>
+                    <div class="stat-number">${notApprovedCount}</div>
+                    <div class="stat-label">Not Approved</div>
                 </div>
             </div>
             <!-- Bảng đăng ký -->
