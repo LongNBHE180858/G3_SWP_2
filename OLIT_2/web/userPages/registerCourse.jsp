@@ -189,6 +189,9 @@
                             </c:forEach>
                         </select>
                     </div>
+                    <div class="button-group">
+                        <button type="button" class="btn btn-cancel" onclick="window.history.back();">Cancel</button>
+                    </div>
                 </c:if>
             </form>
             <c:if test="${not empty param.courseID}">
@@ -258,7 +261,7 @@
                 </div>
                 <div class="button-group">
                     <button type="submit" class="btn btn-register">Register</button>
-                    <button type="button" class="btn btn-cancel" onclick="window.location.href = 'CourseDetail?id=${param.courseID}'">Cancel</button>
+                    <button type="button" class="btn btn-cancel" onclick="window.history.back();">Cancel</button>
                 </div>
             </form>
             </c:if>

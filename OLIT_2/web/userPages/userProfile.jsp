@@ -360,7 +360,7 @@
                             <c:if test="${sessionScope.roleID == 1}">
                                 <a href="${pageContext.request.contextPath}/AdminUserListServlet" class="btn-change" style="    margin-left: 10px;
                                    background: white;
-                                   color: #3f77ff;">Manage Users</a>
+                                   color: #3f77ff;">Users List</a>
                             </c:if>
                         </div>
                     </div>
