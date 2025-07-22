@@ -9,7 +9,7 @@
 
 <style>
     .header {
-        background-color: #1E88E5;
+        background: #1e88e5;
         color: white;
         padding: 15px 40px;
         display: flex;
@@ -51,6 +51,7 @@
         color: white;
         text-decoration: none;
         font-size: 16px;
+        font-weight:bold;
     }
     .header .nav a:hover {
         text-decoration: underline;

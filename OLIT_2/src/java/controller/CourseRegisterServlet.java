@@ -16,6 +16,8 @@ import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Account;
 import model.PricePackage;
+import dao.CourseDAO;
+import model.Course;
 
 /**
  *
@@ -24,11 +26,13 @@ import model.PricePackage;
 @WebServlet("/CourseRegisterServlet")
 public class CourseRegisterServlet extends HttpServlet {
     private PricePackageDAO pricePackageDAO;
+    private CourseDAO courseDAO;
     
     @Override
     public void init() throws ServletException {
         super.init();
         pricePackageDAO = new PricePackageDAO();
+        courseDAO = new CourseDAO();
     }
 
     /**
@@ -69,9 +73,18 @@ public class CourseRegisterServlet extends HttpServlet {
                 
                 // Set the pricePackages as request attribute
                 request.setAttribute("pricePackages", pricePackages);
+                // Lấy tên khóa học
+                Course course = courseDAO.getCourseById(courseId);
+                if (course != null) {
+                    request.setAttribute("courseName", course.getCourseTitle());
+                }
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
+        } else {
+            // Nếu không có courseID, truyền danh sách khoá học để chọn
+            List<Course> courses = CourseDAO.getCourses();
+            request.setAttribute("courses", courses);
         }
         
         HttpSession session = request.getSession();

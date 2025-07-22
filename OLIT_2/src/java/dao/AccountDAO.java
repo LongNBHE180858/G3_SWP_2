@@ -233,6 +233,20 @@ public class AccountDAO {
         }
     }
 
+    public static boolean updateAvatar(int userID, String urlAvatar) {
+        DBContext db = DBContext.getInstance();
+        String sql = "UPDATE Account SET URLAvatar = ? WHERE UserID = ?";
+        try {
+            PreparedStatement stmt = db.getConnection().prepareStatement(sql);
+            stmt.setString(1, urlAvatar);
+            stmt.setInt(2, userID);
+            return stmt.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public static Account getAccountByPhone(String phone) {
         DBContext db = DBContext.getInstance();
         try {

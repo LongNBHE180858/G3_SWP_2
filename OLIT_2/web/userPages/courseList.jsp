@@ -560,7 +560,23 @@
     </head>
     <body>
         <jsp:include page="components/header.jsp"  />
-
+        <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+                    <!-- Nút chỉ hiện với admin -->
+                    <c:if test="${sessionScope.roleID == 1 || sessionScope.roleID == 2 }">
+                        <div style="margin-bottom: 20px;">
+                            <a href="${pageContext.request.contextPath}/ManageStudentCourseServlet"
+                               style="
+                               color: white;
+                               padding: 10px 20px;
+                               border-radius: 6px;
+                               text-decoration: none;
+                               font-weight: bolder;
+                               background: blue;
+                               float: right">
+                                Manage Student Course
+                            </a>
+                        </div>
+                    </c:if>
         <div class="content-wrapper">
             <!-- Sidebar -->
             <div class="sidebar">
@@ -626,8 +642,23 @@
                 </div>
 
                 <!-- Page Title -->
-                <div class="page-title">
+                <div class="page-title" style="position: relative;">
                     <h2>Course List</h2>
+                    <c:if test="${sessionScope.roleID == 1 || sessionScope.roleID == 2}">
+                        <a href="${pageContext.request.contextPath}/AddCourseServlet" 
+                           style="
+                               position: absolute;
+                               right: 0;
+                               top: 0;
+                               color: white;
+                               padding: 10px 20px;
+                               border-radius: 6px;
+                               text-decoration: none;
+                               font-weight: bolder;
+                               background: #00b4d8;">
+                            <i class="fas fa-plus"></i> Add Course
+                        </a>
+                    </c:if>
                 </div>
 
                 <!-- Empty State or Course Grid -->
@@ -742,7 +773,7 @@
             </div>
 
         </div>
-        <jsp:include page="components/footer.jsp"/>
+        
         <script>
             function togglePopup() {
                 const popup = document.getElementById("popup");
