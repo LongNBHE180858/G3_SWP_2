@@ -277,7 +277,18 @@ footer {
 
     </style>
     <header>
+<<<<<<< HEAD
         <jsp:include page="components/header.jsp"/>
+=======
+        <div class="logo">Course Aura</div>
+        <div class="nav-links">
+            <a href="${pageContext.request.contextPath}/HomeServlet">Home</a>
+            <a href="${pageContext.request.contextPath}/CourseListServlet">Course</a>
+            <a href="${pageContext.request.contextPath}/SubjectList">Subject List</a>
+            <a href="${pageContext.request.contextPath}/QuestionListServlet">Question List</a>
+
+        </div>
+>>>>>>> d19f96338f6874bbbae4c293d99685ebe0738059
     </header>
 
 

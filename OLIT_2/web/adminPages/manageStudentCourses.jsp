@@ -253,5 +253,6 @@
                 </table>
             </div>
         </div>
+        <jsp:include page="../userPages/components/footer.jsp" />
     </body>
 </html> 

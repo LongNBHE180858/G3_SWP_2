@@ -177,6 +177,7 @@
 <body>
     <div class="overlay">
         <div class="popup">
+            <button class="close-btn" onclick="window.history.back();">&times;</button>
             <h2>Register Course</h2>
             <form action="${pageContext.request.contextPath}/CourseRegisterServlet" method="get" id="courseSelectForm">
                 <c:if test="${empty param.courseID}">
@@ -189,78 +190,94 @@
                             </c:forEach>
                         </select>
                     </div>
+                    <div class="button-group">
+                        <button type="button" class="btn btn-cancel" onclick="window.history.back();">Cancel</button>
+                    </div>
                 </c:if>
             </form>
             <c:if test="${not empty param.courseID}">
-            <form action="${pageContext.request.contextPath}/RegisterCourse" method="post">
-                <input type="hidden" name="course" value="${param.courseID}" />
-                <div class="form-group">
-                    <label for="courseName">Course Name</label>
-                    <input type="text" id="courseName" name="courseName" value="${courseName}" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="package">Choose Price Package</label>
-                    <select id="package" name="packageID" required>
-                        <option value="">-- Select Package --</option>
-                        <c:forEach items="${pricePackages}" var="pkg">
-                            <option value="${pkg.packageID}">
-                                <c:out value="${pkg.name}"/> - $${pkg.salePrice}
-                                <c:if test="${pkg.listPrice > pkg.salePrice}">
-                                    (was $${pkg.listPrice})
-                                </c:if>
-                                - ${pkg.accessDuration} months access
-                            </option>
-                        </c:forEach>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="fullName">Full Name</label>
-                    <input type="text" id="fullName" name="fullName"
-                           value="${sessionScope.fullAccount != null ? sessionScope.fullAccount.fullName : ''}"
-                           ${sessionScope.fullAccount != null ? 'readonly' : ''} required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email"
-                           value="${sessionScope.fullAccount != null ? sessionScope.fullAccount.email : ''}"
-                           ${sessionScope.fullAccount != null ? 'readonly' : ''} required>
-                </div>
-                <div class="form-group">
-                    <label for="phoneNumber">Phone Number</label>
-                    <input type="tel" id="phoneNumber" name="phoneNumber"
-                           value="${not empty sessionScope.fullAccount ? sessionScope.fullAccount.phoneNumber : ''}"
-                           ${not empty sessionScope.fullAccount ? 'readonly' : ''} required>
-                </div>
-                <div class="form-group">
-                    <label>Gender</label>
-                    <div class="gender-group">
-                        <c:choose>
-                            <c:when test="${sessionScope.fullAccount != null}">
-                                <c:choose>
-                                    <c:when test="${sessionScope.fullAccount.gender == 'Male'}">
-                                        <label><input type="radio" name="gender" value="Male" checked disabled> Male</label>
-                                    </c:when>
-                                    <c:when test="${sessionScope.fullAccount.gender == 'Female'}">
-                                        <label><input type="radio" name="gender" value="Female" checked disabled> Female</label>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <label><input type="radio" name="gender" value="Other" checked disabled> Other</label>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:when>
-                            <c:otherwise>
-                                <label><input type="radio" name="gender" value="Male"> Male</label>
-                                <label><input type="radio" name="gender" value="Female"> Female</label>
-                                <label><input type="radio" name="gender" value="Other"> Other</label>
-                            </c:otherwise>
-                        </c:choose>
-                    </div>
-                </div>
-                <div class="button-group">
-                    <button type="submit" class="btn btn-register">Register</button>
-                    <button type="button" class="btn btn-cancel" onclick="window.location.href = 'CourseDetail?id=${param.courseID}'">Cancel</button>
-                </div>
-            </form>
+                <c:choose>
+                    <c:when test="${sessionScope.fullAccount == null}">
+                        <div style="color: red; text-align: center; font-weight: bold; margin: 20px 0;">
+                            Please login or register an account to register for the course.
+                        </div>
+                        <div class="button-group" style="justify-content: center;">
+                            <a href="${pageContext.request.contextPath}/login.jsp" class="btn btn-register" style="text-decoration:none; text-align:center;">Log in</a>
+                            <a href="${pageContext.request.contextPath}/signUp.jsp" class="btn btn-cancel" style="text-decoration:none; text-align:center;">Sign up</a>
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <form action="${pageContext.request.contextPath}/RegisterCourse" method="post">
+                            <input type="hidden" name="course" value="${param.courseID}" />
+                            <div class="form-group">
+                                <label for="courseName">Course Name</label>
+                                <input type="text" id="courseName" name="courseName" value="${courseName}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="package">Choose Price Package</label>
+                                <select id="package" name="packageID" required>
+                                    <option value="">-- Select Package --</option>
+                                    <c:forEach items="${pricePackages}" var="pkg">
+                                        <option value="${pkg.packageID}">
+                                            <c:out value="${pkg.name}"/> - $${pkg.salePrice}
+                                            <c:if test="${pkg.listPrice > pkg.salePrice}">
+                                                (was $${pkg.listPrice})
+                                            </c:if>
+                                            - ${pkg.accessDuration} months access
+                                        </option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="fullName">Full Name</label>
+                                <input type="text" id="fullName" name="fullName"
+                                       value="${sessionScope.fullAccount != null ? sessionScope.fullAccount.fullName : ''}"
+                                       ${sessionScope.fullAccount != null ? 'readonly' : ''} required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email"
+                                       value="${sessionScope.fullAccount != null ? sessionScope.fullAccount.email : ''}"
+                                       ${sessionScope.fullAccount != null ? 'readonly' : ''} required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phoneNumber">Phone Number</label>
+                                <input type="tel" id="phoneNumber" name="phoneNumber"
+                                       value="${not empty sessionScope.fullAccount ? sessionScope.fullAccount.phoneNumber : ''}"
+                                       ${not empty sessionScope.fullAccount ? 'readonly' : ''} required>
+                            </div>
+                            <div class="form-group">
+                                <label>Gender</label>
+                                <div class="gender-group">
+                                    <c:choose>
+                                        <c:when test="${sessionScope.fullAccount != null}">
+                                            <c:choose>
+                                                <c:when test="${sessionScope.fullAccount.gender == 'Male'}">
+                                                    <label><input type="radio" name="gender" value="Male" checked disabled> Male</label>
+                                                </c:when>
+                                                <c:when test="${sessionScope.fullAccount.gender == 'Female'}">
+                                                    <label><input type="radio" name="gender" value="Female" checked disabled> Female</label>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <label><input type="radio" name="gender" value="Other" checked disabled> Other</label>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <label><input type="radio" name="gender" value="Male"> Male</label>
+                                            <label><input type="radio" name="gender" value="Female"> Female</label>
+                                            <label><input type="radio" name="gender" value="Other"> Other</label>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
+                            </div>
+                            <div class="button-group">
+                                <button type="submit" class="btn btn-register">Register</button>
+                                <button type="button" class="btn btn-cancel" onclick="window.history.back();">Cancel</button>
+                            </div>
+                        </form>
+                    </c:otherwise>
+                </c:choose>
             </c:if>
         </div>
     </div>

@@ -23,8 +23,12 @@ import java.util.Map;
 public class AdminRegistrationListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        // Đã loại bỏ kiểm tra quyền admin - cho phép tất cả người dùng truy cập
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("roleID") == null || (int) session.getAttribute("roleID") != 1) {
+            response.sendRedirect(request.getContextPath() + "/userPages/accessDenied.jsp");
+            return;
+        }
+        
 
         RegistrationDAO registrationDAO = new RegistrationDAO();
         List<Registration> registrationList = registrationDAO.getAllRegistrationsForAdmin();

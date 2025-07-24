@@ -324,6 +324,53 @@ public class AccountDAO {
     }
     
 
+    public static boolean updateAccount(Account acc) {
+        DBContext db = DBContext.getInstance();
+        String sql = """
+            UPDATE Account SET
+                FullName = ?,
+                Gender = ?,
+                Email = ?,
+                PhoneNumber = ?,
+                RoleID = ?,
+                Status = ?,
+                Address = ?,
+                Birthday = ?,
+                URLAvatar = ?
+            WHERE UserID = ?
+        """;
+        try {
+            PreparedStatement stmt = db.getConnection().prepareStatement(sql);
+            stmt.setString(1, acc.getFullName());
+            stmt.setString(2, acc.getGender());
+            stmt.setString(3, acc.getEmail());
+            stmt.setString(4, acc.getPhoneNumber());
+            stmt.setInt(5, acc.getRoleID());
+            stmt.setString(6, acc.getStatus());
+            stmt.setString(7, acc.getAddress());
+            stmt.setString(8, acc.getBirthday());
+            stmt.setString(9, acc.getUrlAvatar());
+            stmt.setInt(10, acc.getUserID());
+            return stmt.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean deleteAccount(int userID) {
+        DBContext db = DBContext.getInstance();
+        String sql = "DELETE FROM Account WHERE UserID = ?";
+        try {
+            PreparedStatement stmt = db.getConnection().prepareStatement(sql);
+            stmt.setInt(1, userID);
+            return stmt.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public static void main(String[] args) {
         System.out.println(updatePasswordAndActivate("longnbhe180858@fpt.edu.vn", "123"));
     }

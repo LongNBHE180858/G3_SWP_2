@@ -212,6 +212,33 @@ public class CourseDAO {
         }
     }
 
+    public Integer addCourseReturnID(int subjectID, String courseTitle, String courseTag, String urlCourse, String courseDetail, String courseLevel, String featureFlag, int status, int courseraDuration) {
+        String sql = "INSERT INTO Course (SubjectID, CourseTitle, CourseTag, URLCourse, CourseDetail, CourseLevel, FeatureFlag, Status, CourseraDuration) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try {
+            java.sql.PreparedStatement ps = DBContext.getInstance().getConnection().prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, subjectID);
+            ps.setString(2, courseTitle);
+            ps.setString(3, courseTag);
+            ps.setString(4, urlCourse);
+            ps.setString(5, courseDetail);
+            ps.setString(6, courseLevel);
+            ps.setString(7, featureFlag);
+            ps.setInt(8, status);
+            ps.setInt(9, courseraDuration);
+            int affectedRows = ps.executeUpdate();
+            if (affectedRows == 0) return null;
+            java.sql.ResultSet generatedKeys = ps.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                return generatedKeys.getInt(1);
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static void main(String[] args) {
         ArrayList<Course> courses = getCourses(); // Gọi hàm tĩnh getCourses()
 
