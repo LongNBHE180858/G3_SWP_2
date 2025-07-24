@@ -1,7 +1,7 @@
 <%-- 
     Document   : myRegistration
     Created on : Jun 2, 2025, 10:25:29 PM
-    Author     : Admin
+    Author     : Nam
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -216,6 +216,9 @@
                     padding: 8px 14px;
                     font-size: 14px;
                 }
+                .mb-3-filter{
+                    display: none;
+                }
             }
         </style>
     </head>
@@ -261,7 +264,7 @@
                             <thead class="table-dark">
                                 <tr>
                                     <th>STT</th>
-                                    <th>Subject</th>
+                                    <th>Course</th>
                                     <th>Registration Time</th>
                                     <th>Package</th>
                                     <th>Total Cost</th>
@@ -358,15 +361,12 @@
                     <div class="col-md-3">
                         <div class="mb-3">
                             <label for="search" class="form-label">Search</label>
-                            <input type="text" id="search" class="form-control" placeholder="Search subject...">
+                            <input type="text" id="search" class="form-control" placeholder="Search course...">
                         </div>
-                        <div class="mb-3">
-                            <label for="subjectFilter" class="form-label">Filter by Subject</label>
+                        <div class="mb-3-filter">
+                            <label for="subjectFilter" class="form-label"></label>
                             <select id="subjectFilter" class="form-select">
-                                <option value="">-- All Subjects --</option>
-                                <option value="Java Web">Java Web</option>
-                                <option value="Python Backend">Python Backend</option>
-                                <option value="React Frontend">React Frontend</option>
+                                
                             </select>
                         </div>
                         <div>
