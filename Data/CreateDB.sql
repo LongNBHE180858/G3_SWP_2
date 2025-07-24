@@ -261,4 +261,10 @@ CREATE TABLE Slider (
     DisplayOrder INT,
     ValidFrom DATE
 );
+ALTER TABLE Registration
+DROP CONSTRAINT CK__Registrat__Statu__787EE5A0;
+GO
+ALTER TABLE Registration
+ADD CONSTRAINT CK_Registration_Status
+CHECK (Status IN ('Pending', 'Approved', 'NotApproved', 'Paid'));
 

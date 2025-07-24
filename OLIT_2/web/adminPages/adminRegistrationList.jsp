@@ -375,19 +375,20 @@
                                     <td class="cost-info">💰 ${reg.pricePackage.salePrice} VNĐ</td>
                                     <td>
                                         <c:choose>
-                                            <c:when test="${reg.status eq 'Pending'}">
+                                            <c:when test="${reg.status eq 'Paid'}">
+                                                <div style="margin-bottom: 4px; color: #2563eb; font-weight: 600;">Paid</div>
                                                 <form method="post" style="display:inline;">
                                                     <input type="hidden" name="action" value="updateStatus" />
                                                     <input type="hidden" name="registrationID" value="${reg.registrationID}" />
                                                     <select name="newStatus" required>
-                                                        <option value="Approved">Approved</option>
-                                                        <option value="NotApproved">NotApproved</option>
+                                                        <option value="Approved" style="color: #059669;">Approved</option>
+                                                        <option value="NotApproved" style="color: #dc2626;">NotApproved</option>
                                                     </select>
                                                     <button type="submit">Update</button>
                                                 </form>
                                             </c:when>
                                             <c:otherwise>
-                                                <span class="status status-${reg.status.toLowerCase()}">
+                                                <span class="status status-${reg.status.toLowerCase()}" style="<c:if test='${reg.status eq "NotApproved" || reg.status eq "Rejected"}'>color: #dc2626;</c:if>">
                                                     <c:choose>
                                                         <c:when test="${reg.status eq 'Rejected'}">NotApproved</c:when>
                                                         <c:otherwise>${reg.status}</c:otherwise>

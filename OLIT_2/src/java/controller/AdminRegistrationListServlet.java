@@ -236,13 +236,13 @@ public class AdminRegistrationListServlet extends HttpServlet {
                     // Chỉ cho phép cập nhật nếu trạng thái hiện tại là Pending
                     List<Registration> regs = dao.getAllRegistrationsForAdmin();
                     Registration reg = regs.stream().filter(r -> r.getRegistrationID() == regId).findFirst().orElse(null);
-                    if (reg != null && "Pending".equals(reg.getStatus())) {
+                    if (reg != null && "Paid".equals(reg.getStatus())) {
                         // Nếu chọn NotApproved thì lưu là NotApproved trong DB
                         String dbStatus = newStatus.equals("NotApproved") ? "NotApproved" : "Approved";
                         dao.updateRegistrationStatus(regId, dbStatus);
                         request.setAttribute("message", "Status updated successfully!");
                     } else {
-                        request.setAttribute("error", "Only registrations in Pending status can be approved.");
+                        request.setAttribute("error", "Only registrations in Paid status can be approved.");
                     }
                 } catch (NumberFormatException e) {
                     request.setAttribute("error", "Invalid ID.");
