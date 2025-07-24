@@ -106,7 +106,7 @@
                             </a>
                         </li>
                         <li><a href="#" class="nav-link"><i class="bi bi-gear me-2"></i>Settings List</a></li>
-                        <li><a href="#" class="nav-link"><i class="bi bi-journal-check me-2"></i>Registrations List</a></li>
+                        <li><a href="${pageContext.request.contextPath}/AdminUserListServlet" class="nav-link"><i class="bi bi-journal-check me-2"></i>User List</a></li>
                         <li><a href="${pageContext.request.contextPath}/SubjectList" class="nav-link"><i class="bi bi-card-list me-2"></i>Subject List</a></li>
                         <li><a href="#" class="nav-link"><i class="bi bi-journal-check me-2"></i>Slider List</a></li>
                         <li><a href="${pageContext.request.contextPath}/AdminRegistrationListServlet" class="nav-link"><i class="bi bi-journal-check me-2"></i>Registrations List</a></li>
