@@ -5,6 +5,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import dal.DBContext;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import model.DashboardStatsDTO.TrendPoint;
 
 public class RegistrationDAO extends DBContext {
 
@@ -391,4 +396,108 @@ public class RegistrationDAO extends DBContext {
         }
         return null;
     }
+    public long countByStatus(String status, LocalDateTime from, LocalDateTime to) {
+        String sql = """
+            SELECT COUNT(*) 
+              FROM Registration 
+             WHERE Status = ? 
+               AND ValidFrom BETWEEN ? AND ?
+        """;
+        try (PreparedStatement ps = DBContext.getInstance()
+                                             .getConnection()
+                                             .prepareStatement(sql)) {
+            ps.setString(1, status);
+            ps.setObject(2, from);
+            ps.setObject(3, to);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() ? rs.getLong(1) : 0;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("DB error in countByStatus", e);
+        }
+    }
+
+    // Tổng doanh thu dựa trên ValidFrom
+    public BigDecimal totalRevenue(LocalDateTime from, LocalDateTime to) {
+        String sql = """
+            SELECT COALESCE(SUM(pp.SalePrice),0)
+              FROM Registration r
+              JOIN PricePackage pp ON r.PackageID = pp.PackageID
+             WHERE r.Status = 'Approved'
+               AND r.ValidFrom BETWEEN ? AND ?
+        """;
+        try (PreparedStatement ps = DBContext.getInstance()
+                                             .getConnection()
+                                             .prepareStatement(sql)) {
+            ps.setObject(1, from);
+            ps.setObject(2, to);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() ? rs.getBigDecimal(1) : BigDecimal.ZERO;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("DB error in totalRevenue", e);
+        }
+    }
+
+    // Xu hướng đơn hàng theo ngày ValidFrom
+    public List<TrendPoint> findOrderTrend(LocalDateTime from, LocalDateTime to) {
+        String sql = """
+            SELECT CAST(ValidFrom AS date) AS d,
+                   COUNT(*) AS total,
+                   SUM(CASE WHEN Status='Approved' THEN 1 ELSE 0 END) AS success
+              FROM Registration
+             WHERE ValidFrom BETWEEN ? AND ?
+             GROUP BY CAST(ValidFrom AS date)
+             ORDER BY CAST(ValidFrom AS date)
+        """;
+        List<TrendPoint> list = new ArrayList<>();
+        try (PreparedStatement ps = DBContext.getInstance()
+                                             .getConnection()
+                                             .prepareStatement(sql)) {
+            ps.setObject(1, from);
+            ps.setObject(2, to);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    list.add(new TrendPoint(
+                        rs.getDate("d").toLocalDate(),
+                        rs.getLong("total"),
+                        rs.getLong("success")
+                    ));
+                }
+            }
+            return list;
+        } catch (SQLException e) {
+            throw new RuntimeException("DB error in findOrderTrend", e);
+        }
+    }
+
+    // Doanh thu theo chuyên mục dựa trên ValidFrom
+    public Map<String, BigDecimal> revenueByCategory(LocalDateTime from, LocalDateTime to) {
+        String sql = """
+            SELECT s.Category, COALESCE(SUM(pp.SalePrice),0) AS rev
+              FROM Registration r
+              JOIN PricePackage pp ON r.PackageID = pp.PackageID
+              JOIN Course c ON pp.CourseID = c.CourseID
+              JOIN Subject s ON c.SubjectID = s.SubjectID
+             WHERE r.Status = 'Approved'
+               AND r.ValidFrom BETWEEN ? AND ?
+             GROUP BY s.Category
+        """;
+        Map<String, BigDecimal> map = new LinkedHashMap<>();
+        try (PreparedStatement ps = DBContext.getInstance()
+                                             .getConnection()
+                                             .prepareStatement(sql)) {
+            ps.setObject(1, from);
+            ps.setObject(2, to);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    map.put(rs.getString("Category"), rs.getBigDecimal("rev"));
+                }
+            }
+            return map;
+        } catch (SQLException e) {
+            throw new RuntimeException("DB error in revenueByCategory", e);
+        }
+    }
+
 }

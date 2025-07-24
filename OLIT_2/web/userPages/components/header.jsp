@@ -96,7 +96,7 @@
             <!-- only show for ADMINs -->
             <c:if test="${not empty sessionScope.userID
                           and sessionScope.roleID == 1}">
-                  <a href="${pageContext.request.contextPath}/SubjectList"
+                  <a href="${pageContext.request.contextPath}/admin/dashboard"
                      class="admin-btn">
                       Admin Dashboard
                   </a>

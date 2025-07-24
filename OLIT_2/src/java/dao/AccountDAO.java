@@ -7,6 +7,7 @@ package dao;
 import dal.DBContext;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import model.Account;
@@ -281,6 +282,47 @@ public class AccountDAO {
         }
         return list;
     }
+    
+    public long countNewCustomers(LocalDateTime from, LocalDateTime to) {
+        String sql = """
+            SELECT COUNT(DISTINCT UserID)
+              FROM Registration
+             WHERE ValidFrom BETWEEN ? AND ?
+        """;
+        try (PreparedStatement ps = DBContext.getInstance()
+                                             .getConnection()
+                                             .prepareStatement(sql)) {
+            ps.setObject(1, from);
+            ps.setObject(2, to);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() ? rs.getLong(1) : 0;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("DB error in countNewCustomers", e);
+        }
+    }
+
+    // Đếm những người mua lần đầu cũng dựa trên ValidFrom
+    public long countNewBuyingCustomers(LocalDateTime from, LocalDateTime to) {
+        String sql = """
+            SELECT COUNT(DISTINCT UserID)
+              FROM Registration
+             WHERE Status = 'Approved'
+               AND ValidFrom BETWEEN ? AND ?
+        """;
+        try (PreparedStatement ps = DBContext.getInstance()
+                                             .getConnection()
+                                             .prepareStatement(sql)) {
+            ps.setObject(1, from);
+            ps.setObject(2, to);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() ? rs.getLong(1) : 0;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("DB error in countNewBuyingCustomers", e);
+        }
+    }
+    
 
     public static void main(String[] args) {
         System.out.println(updatePasswordAndActivate("longnbhe180858@fpt.edu.vn", "123"));

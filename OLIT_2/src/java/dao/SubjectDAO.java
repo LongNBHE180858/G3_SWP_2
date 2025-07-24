@@ -2,6 +2,7 @@ package dao;
 
 import dal.DBContext;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.*;
 import model.Subject;
 
@@ -309,6 +310,25 @@ public class SubjectDAO {
             e.printStackTrace();
         }
         return subject;
+    }
+    
+    /** Trả về tổng số môn (dùng làm New Subjects luôn > tránh dùng createdDate) */
+    public long countNewSubjects(java.time.LocalDateTime from, java.time.LocalDateTime to) {
+        // Nếu bạn muốn khác biệt, có thể đặt newSubjects = 0
+        return countAllSubjects();
+    }
+
+    /** Trả về tổng số môn */
+    public long countAllSubjects() {
+        String sql = "SELECT COUNT(*) FROM Subject";
+        try (
+            PreparedStatement ps = DBContext.getInstance().getConnection().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()
+        ) {
+            return rs.next() ? rs.getLong(1) : 0;
+        } catch (SQLException e) {
+            throw new RuntimeException("DB error in countAllSubjects", e);
+        }
     }
 
 }
