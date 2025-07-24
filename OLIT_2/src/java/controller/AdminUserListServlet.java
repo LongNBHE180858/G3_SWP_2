@@ -4,15 +4,16 @@ import dao.AccountDAO;
 import dao.RoleDAO;
 import model.Account;
 import model.Role;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,14 +23,17 @@ public class AdminUserListServlet extends HttpServlet {
     private static final int PAGE_SIZE = 10;
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("roleID") == null || !session.getAttribute("roleID").toString().equals("1")) {
+        if (session == null || session.getAttribute("roleID") == null
+                || !"1".equals(session.getAttribute("roleID").toString())) {
             response.sendRedirect(request.getContextPath() + "/userPages/accessDenied.jsp");
             return;
         }
 
-        // Parameters
+        // Get parameters
         String search = request.getParameter("search");
         String gender = getStringAttributeOrParameter(request, "gender");
         String role = getStringAttributeOrParameter(request, "role");
@@ -39,48 +43,48 @@ public class AdminUserListServlet extends HttpServlet {
         int currentPage = 1;
         try {
             currentPage = Integer.parseInt(request.getParameter("page"));
-        } catch (NumberFormatException ignored) {}
+        } catch (NumberFormatException ignored) {
+        }
 
-        // Fetch users
+        // Fetch user list
         List<Account> userList = AccountDAO.getAccounts();
         if (userList == null) userList = new ArrayList<>();
 
         // Filter
         if (gender != null && !gender.isEmpty()) {
-            String g = gender.toLowerCase();
             userList = userList.stream()
-                .filter(u -> u.getGender() != null && u.getGender().equalsIgnoreCase(g))
-                .collect(Collectors.toList());
+                    .filter(u -> gender.equalsIgnoreCase(u.getGender()))
+                    .collect(Collectors.toList());
         }
 
         if (role != null && !role.isEmpty()) {
             try {
                 int roleId = Integer.parseInt(role);
                 userList = userList.stream()
-                    .filter(u -> u.getRoleID() == roleId)
-                    .collect(Collectors.toList());
-            } catch (NumberFormatException ignored) {}
+                        .filter(u -> u.getRoleID() == roleId)
+                        .collect(Collectors.toList());
+            } catch (NumberFormatException ignored) {
+            }
         }
 
         if (status != null && !status.isEmpty()) {
             userList = userList.stream()
-                .filter(u -> status.equalsIgnoreCase(u.getStatus()))
-                .collect(Collectors.toList());
+                    .filter(u -> status.equalsIgnoreCase(u.getStatus()))
+                    .collect(Collectors.toList());
         }
 
         // Search
         if (search != null && !search.isEmpty()) {
             String keyword = search.toLowerCase();
             userList = userList.stream()
-                .filter(u ->
-                    (u.getFullName() != null && u.getFullName().toLowerCase().contains(keyword)) ||
-                    (u.getEmail() != null && u.getEmail().toLowerCase().contains(keyword)) ||
-                    (u.getPhoneNumber() != null && u.getPhoneNumber().toLowerCase().contains(keyword))
-                )
-                .collect(Collectors.toList());
+                    .filter(u ->
+                            (u.getFullName() != null && u.getFullName().toLowerCase().contains(keyword)) ||
+                            (u.getEmail() != null && u.getEmail().toLowerCase().contains(keyword)) ||
+                            (u.getPhoneNumber() != null && u.getPhoneNumber().toLowerCase().contains(keyword)))
+                    .collect(Collectors.toList());
         }
 
-        // Paging
+        // Pagination
         int totalRecords = userList.size();
         int totalPages = (int) Math.ceil((double) totalRecords / PAGE_SIZE);
         int fromIndex = Math.min((currentPage - 1) * PAGE_SIZE, totalRecords);
@@ -106,17 +110,21 @@ public class AdminUserListServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("roleID") == null || !session.getAttribute("roleID").toString().equals("1")) {
+        if (session == null || session.getAttribute("roleID") == null
+                || !"1".equals(session.getAttribute("roleID").toString())) {
             response.sendRedirect(request.getContextPath() + "/userPages/accessDenied.jsp");
             return;
         }
 
         String action = request.getParameter("action");
+
         try {
             switch (action) {
-                case "save" -> {
+                case "save":
                     int userID = Integer.parseInt(request.getParameter("userID"));
                     Account acc = AccountDAO.getAccountByID(userID);
                     if (acc != null) {
@@ -128,22 +136,24 @@ public class AdminUserListServlet extends HttpServlet {
                         acc.setStatus(request.getParameter("status"));
                         AccountDAO.updateAccount(acc);
                     }
-                }
-                case "delete" -> {
-                    int userID = Integer.parseInt(request.getParameter("userID"));
-                    AccountDAO.deleteAccount(userID);
-                }
-                case "add" -> {
+                    break;
+
+                case "delete":
+                    int deleteID = Integer.parseInt(request.getParameter("userID"));
+                    AccountDAO.deleteAccount(deleteID);
+                    break;
+
+                case "add":
                     String email = request.getParameter("email");
                     if (AccountDAO.getAccountByMail(email) != null) {
                         request.setAttribute("errorAddUser", "Email already exists. Cannot create new user.");
                         request.setAttribute("addUserData", new String[]{
-                            request.getParameter("fullName"),
-                            request.getParameter("gender"),
-                            email,
-                            request.getParameter("phoneNumber"),
-                            request.getParameter("roleID"),
-                            request.getParameter("status")
+                                request.getParameter("fullName"),
+                                request.getParameter("gender"),
+                                email,
+                                request.getParameter("phoneNumber"),
+                                request.getParameter("roleID"),
+                                request.getParameter("status")
                         });
                         request.setAttribute("showAddUserModal", true);
                         doGet(request, response);
@@ -162,10 +172,9 @@ public class AdminUserListServlet extends HttpServlet {
 
                     response.sendRedirect(request.getContextPath() + "/AdminUserListServlet");
                     return;
-                }
             }
         } catch (Exception e) {
-            e.printStackTrace(); // hoặc dùng Logger nếu cần
+            e.printStackTrace(); // Hoặc dùng Logger nếu cần
         }
 
         doGet(request, response);

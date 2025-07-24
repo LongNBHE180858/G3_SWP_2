@@ -288,11 +288,11 @@
                 function closeAddUserModal() {
                     document.getElementById('addUserModal').style.display = 'none';
                 }
-            // Tự động mở lại modal nếu có lỗi
+                // Tự động mở lại modal nếu có lỗi
             <c:if test="${showAddUserModal}">
                 openAddUserModal();
             </c:if>
-            // Validate phone 10 digits
+                // Validate phone 10 digits
                 const addUserForm = document.querySelector('#addUserModal form');
                 if (addUserForm) {
                     addUserForm.addEventListener('submit', function (e) {
