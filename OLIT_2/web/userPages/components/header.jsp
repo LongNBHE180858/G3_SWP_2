@@ -94,8 +94,10 @@
             <a href="${pageContext.request.contextPath}/HomeServlet">Home</a>
             <a href="${pageContext.request.contextPath}/CourseListServlet">Courses</a>
             <a href="${pageContext.request.contextPath}/BlogListServlet">Blog</a>
-            <c:if test="${sessionScope.roleID == 2}">
+            <c:if test="${not empty sessionScope.userID
+                          and sessionScope.roleID == 2}">
                 <a href="${pageContext.request.contextPath}/QuestionListServlet">Questions</a>
+            </c:if>
             <!-- only show for ADMINs -->
             <c:if test="${not empty sessionScope.userID
                           and sessionScope.roleID == 1}">
