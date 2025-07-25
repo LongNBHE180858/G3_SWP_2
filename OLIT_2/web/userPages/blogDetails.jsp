@@ -23,7 +23,7 @@
 
         <!-- Breadcrumb -->
         <nav class="breadcrumb">
-            <a href="${pageContext.request.contextPath}/Home">Home</a> 
+            <a href="${pageContext.request.contextPath}/HomeServlet">Home</a> 
             <a href="${pageContext.request.contextPath}/BlogListServlet">Blog</a> 
             <a href="${pageContext.request.contextPath}/BlogListServlet?categoryId=${post.postCategory.categoryID}">
                 ${post.postCategory.categoryName}

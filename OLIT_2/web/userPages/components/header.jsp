@@ -84,7 +84,8 @@
     <div class="header">
         <!-- Logo + tên -->
         <div class="header-left">
-            <img class="logo-img" src="images/HeaderIcon.png" alt="Logo">
+            <img class="logo-img" src="${pageContext.request.contextPath}/images/HeaderIcon.png" alt="Logo">
+
             <span class="logo-text">CourseAura</span>
         </div>
 

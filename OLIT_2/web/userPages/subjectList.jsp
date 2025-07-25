@@ -356,6 +356,8 @@
             <a href="#" title="Next">Next &raquo;</a>
         </div>
     </div>
+                            <jsp:include page="components/footer.jsp"/>
+
 </body>
 </html>
 

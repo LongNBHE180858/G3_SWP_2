@@ -1,4 +1,4 @@
-﻿USE master;
+﻿﻿USE master;
 IF EXISTS (SELECT * FROM sys.databases WHERE name = 'OLIT')
 BEGIN
     ALTER DATABASE OLIT SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
@@ -197,7 +197,7 @@ CREATE TABLE QuizAttempt (
 );
 
 CREATE TABLE Question (
-    QuestionID INT PRIMARY KEY,
+    QuestionID INT IDENTITY(1,1) PRIMARY KEY,
     QuestionContent NVARCHAR(MAX) NOT NULL,
     QuestionType INT NOT NULL,
     Status BIT NOT NULL DEFAULT 0,
@@ -267,4 +267,3 @@ GO
 ALTER TABLE Registration
 ADD CONSTRAINT CK_Registration_Status
 CHECK (Status IN ('Pending', 'Approved', 'NotApproved', 'Paid'));
-
