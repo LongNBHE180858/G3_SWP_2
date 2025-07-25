@@ -17,7 +17,7 @@
                 <input type="password" name="newPassword" class="input-field" placeholder="New Password" required>
                 <div class="password-hint">
                     • At least 8 characters<br>
-                    • Includes uppercase, lowercase, number and special character
+                    • Includes letters number and special character
                 </div>
                 <input type="password" name="confirmPassword" class="input-field" placeholder="Confirm Password" required>
                 <a href="${pageContext.request.contextPath}/forgotPassword.jsp">Forgot Password?</a>

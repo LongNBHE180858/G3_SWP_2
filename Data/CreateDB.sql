@@ -197,7 +197,7 @@ CREATE TABLE QuizAttempt (
 );
 
 CREATE TABLE Question (
-    QuestionID INT PRIMARY KEY,
+    QuestionID INT IDENTITY(1,1) PRIMARY KEY,
     QuestionContent NVARCHAR(MAX) NOT NULL,
     QuestionType INT NOT NULL,
     Status BIT NOT NULL DEFAULT 0,

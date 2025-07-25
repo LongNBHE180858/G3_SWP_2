@@ -8,6 +8,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.*;
 
@@ -17,6 +18,20 @@ public class QuestionListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+       // --- Kiểm tra session và vai trò người dùng ---
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("userID") == null || session.getAttribute("roleID") == null) {
+            // Nếu không có session, userID hoặc roleID, chuyển hướng về trang đăng nhập
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
+            return;
+        }
+
+        Integer roleID = (Integer) session.getAttribute("roleID");
+        if (roleID == null || roleID != 2) { // Kiểm tra nếu roleID không phải là 2
+            response.sendRedirect(request.getContextPath() + "/HomeServlet"); // Chuyển hướng về HomeServlet
+            return;
+        }
 
         // Lấy tham số từ request
         String search = request.getParameter("search");
@@ -55,7 +70,7 @@ public class QuestionListServlet extends HttpServlet {
         request.setAttribute("pageIndex", pageIndex);
         request.setAttribute("totalPage", totalPage);
 
-        request.getRequestDispatcher("/userPages/questionList.jsp").forward(request, response);
+        request.getRequestDispatcher("/adminPages/questionList.jsp").forward(request, response);
     }
 
     @Override

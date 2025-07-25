@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import model.Question;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.sql.Statement;
 
 /**
  *
@@ -20,16 +23,18 @@ public class QuestionDAO extends DBContext {
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
+                Timestamp timestamp = rs.getTimestamp("createdAt");
+                LocalDateTime createdAt = (timestamp != null) ? timestamp.toLocalDateTime() : null;
                 Question question = new Question(
-                    rs.getInt("QuestionID"),
-                    rs.getString("QuestionContent"),
-                    rs.getInt("QuestionType"),
-                    rs.getBoolean("Status"),
-                    rs.getInt("QuestionLevel"),
-                    rs.getInt("CreatedBy"),
-                    rs.getString("createdAt"),
-                    rs.getInt("SubjectId"),
-                    rs.getInt("LessonId")
+                        rs.getInt("QuestionID"),
+                        rs.getString("QuestionContent"),
+                        rs.getInt("QuestionType"),
+                        rs.getBoolean("Status"),
+                        rs.getInt("QuestionLevel"),
+                        rs.getInt("CreatedBy"),
+                        createdAt,
+                        rs.getInt("SubjectId"),
+                        rs.getInt("LessonId")
                 );
                 questions.add(question);
             }
@@ -69,16 +74,18 @@ public class QuestionDAO extends DBContext {
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
+                    Timestamp timestamp = rs.getTimestamp("createdAt");
+                    LocalDateTime createdAt = (timestamp != null) ? timestamp.toLocalDateTime() : null;
                     Question question = new Question(
-                        rs.getInt("QuestionID"),
-                        rs.getString("QuestionContent"),
-                        rs.getInt("QuestionType"),
-                        rs.getBoolean("Status"),
-                        rs.getInt("QuestionLevel"),
-                        rs.getInt("CreatedBy"),
-                        rs.getString("createdAt"),
-                        rs.getInt("SubjectId"),
-                        rs.getInt("LessonId")
+                            rs.getInt("QuestionID"),
+                            rs.getString("QuestionContent"),
+                            rs.getInt("QuestionType"),
+                            rs.getBoolean("Status"),
+                            rs.getInt("QuestionLevel"),
+                            rs.getInt("CreatedBy"),
+                            createdAt,
+                            rs.getInt("SubjectId"),
+                            rs.getInt("LessonId")
                     );
                     questions.add(question);
                 }
@@ -127,16 +134,19 @@ public class QuestionDAO extends DBContext {
             ps.setInt(1, questionID);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
+                    Timestamp timestamp = rs.getTimestamp("createdAt");
+                    LocalDateTime createdAt = (timestamp != null) ? timestamp.toLocalDateTime() : null;
+
                     return new Question(
-                        rs.getInt("QuestionID"),
-                        rs.getString("QuestionContent"),
-                        rs.getInt("QuestionType"),
-                        rs.getBoolean("Status"),
-                        rs.getInt("QuestionLevel"),
-                        rs.getInt("CreatedBy"),
-                        rs.getString("CreatedAt"),
-                        rs.getInt("SubjectID"),
-                        rs.getInt("LessonID")
+                            rs.getInt("QuestionID"),
+                            rs.getString("QuestionContent"),
+                            rs.getInt("QuestionType"),
+                            rs.getBoolean("Status"),
+                            rs.getInt("QuestionLevel"),
+                            rs.getInt("CreatedBy"),
+                            createdAt,
+                            rs.getInt("SubjectID"),
+                            rs.getInt("LessonID")
                     );
                 }
             }
@@ -165,8 +175,7 @@ public class QuestionDAO extends DBContext {
     }
 
     /**
-     * Delete a question by its ID.
-     * Returns true if the deletion was successful.
+     * Delete a question by its ID. Returns true if the deletion was successful.
      */
     public boolean deleteQuestionByID(int questionID) {
         String sql = "DELETE FROM Question WHERE QuestionID = ?";
@@ -177,5 +186,47 @@ public class QuestionDAO extends DBContext {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public static int insertQuestion(Question question) { // Thay đổi kiểu trả về từ boolean sang int
+        DBContext db = DBContext.getInstance();
+        String sql = """
+            INSERT INTO Question (
+                QuestionContent, QuestionType, Status, QuestionLevel,
+                CreatedBy, CreatedAt, SubjectID, LessonID
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """;
+        int generatedQuestionId = -1; // Biến để lưu ID được tạo tự động
+
+        try (
+                // Thêm Statement.RETURN_GENERATED_KEYS vào prepareStatement
+                PreparedStatement stmt = db.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);) {
+            stmt.setString(1, question.getQuestionContent());
+            stmt.setInt(2, question.getQuestionType());
+            stmt.setBoolean(3, question.isStatus());
+            stmt.setInt(4, question.getQuestionLevel());
+            stmt.setInt(5, question.getCreatedBy());
+            // Chuyển đổi LocalDateTime sang Timestamp để lưu vào DB
+            stmt.setTimestamp(6, Timestamp.valueOf(question.getCreatedAt()));
+            stmt.setInt(7, question.getSubjectID());
+            stmt.setInt(8, question.getLessonID());
+
+            int affectedRows = stmt.executeUpdate();
+
+            if (affectedRows > 0) {
+                // Lấy các khóa được tạo tự động (Generated Keys)
+                try (ResultSet rs = stmt.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        generatedQuestionId = rs.getInt(1); // Lấy ID của dòng vừa được chèn
+                        question.setQuestionID(generatedQuestionId); // Cập nhật ID vào đối tượng Question
+                    }
+                }
+            }
+        } catch (Exception e) { // Nên bắt SQLException cụ thể hơn
+            e.printStackTrace();
+            // Có thể log lỗi chi tiết hơn ở đây
+            // generatedQuestionId vẫn là -1 nếu có lỗi
+        }
+        return generatedQuestionId; // Trả về ID hoặc -1 nếu thất bại
     }
 }

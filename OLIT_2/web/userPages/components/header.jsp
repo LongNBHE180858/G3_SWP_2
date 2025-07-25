@@ -92,7 +92,9 @@
             <a href="${pageContext.request.contextPath}/HomeServlet">Home</a>
             <a href="${pageContext.request.contextPath}/CourseListServlet">Courses</a>
             <a href="${pageContext.request.contextPath}/BlogListServlet">Blog</a>
-
+            <c:if test="${sessionScope.roleID == 2}">
+                <a href="${pageContext.request.contextPath}/QuestionListServlet">Questions</a>
+            </c:if>
             <c:choose>
                 <c:when test="${not empty sessionScope.userID}">
                     <a href="${pageContext.request.contextPath}/LogoutServlet">Logout</a>
