@@ -134,13 +134,15 @@
                         <h1>📊 Dashboard</h1>
                         <form class="row g-2" method="get">
                             <div class="col-auto">
-                                <input type="date" name="from" value="${param.from}" 
-                                       class="form-control form-control-sm"/>
+                                <input type="date" name="from" 
+       value="${not empty param.from ? param.from : defaultFrom}" 
+       class="form-control form-control-sm"/>
                             </div>
                             <div class="col-auto align-self-center">to</div>
                             <div class="col-auto">
-                                <input type="date" name="to" value="${param.to}" 
-                                       class="form-control form-control-sm"/>
+                                <input type="date" name="to" 
+       value="${not empty param.to ? param.to : defaultTo}" 
+       class="form-control form-control-sm"/>
                             </div>
                             <div class="col-auto">
                                 <button type="submit" class="btn btn-primary btn-sm">Apply</button>
@@ -182,7 +184,7 @@
                                     </c:forEach>
                                 </ul>
                             </div>
-                        </div>
+                        </div>  
                         <div class="col-md-3">
                             <div class="card text-center p-3 shadow-sm">
                                 <i class="bi bi-people stat-icon text-info"></i>

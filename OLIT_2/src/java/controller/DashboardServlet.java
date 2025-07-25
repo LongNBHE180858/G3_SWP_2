@@ -83,10 +83,11 @@ System.out.println("revByCat      = " + revByCat);
 System.out.println("newCustomers  = " + newCustomers);
 System.out.println("newBuyingCust = " + newBuyingCustomers);
 System.out.println("orderTrend    = " + trend);
+
             // Đẩy về JSP
             req.setAttribute("dashboardStats", stats);
-            req.setAttribute("fromDate", from.format(fmt));
-            req.setAttribute("toDate",   to.format(fmt));
+            req.setAttribute("defaultFrom", from.format(fmt));
+            req.setAttribute("defaultTo",   to.format(fmt));
             req.getRequestDispatcher("/userPages/dashboard.jsp")
                .forward(req, resp);
 

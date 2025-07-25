@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import dal.DBContext;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -441,35 +442,48 @@ public class RegistrationDAO extends DBContext {
 
     // Xu hướng đơn hàng theo ngày ValidFrom
     public List<TrendPoint> findOrderTrend(LocalDateTime from, LocalDateTime to) {
-        String sql = """
-            SELECT CAST(ValidFrom AS date) AS d,
-                   COUNT(*) AS total,
-                   SUM(CASE WHEN Status='Approved' THEN 1 ELSE 0 END) AS success
-              FROM Registration
-             WHERE ValidFrom BETWEEN ? AND ?
-             GROUP BY CAST(ValidFrom AS date)
-             ORDER BY CAST(ValidFrom AS date)
-        """;
-        List<TrendPoint> list = new ArrayList<>();
-        try (PreparedStatement ps = DBContext.getInstance()
-                                             .getConnection()
-                                             .prepareStatement(sql)) {
-            ps.setObject(1, from);
-            ps.setObject(2, to);
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    list.add(new TrendPoint(
-                        rs.getDate("d").toLocalDate(),
-                        rs.getLong("total"),
-                        rs.getLong("success")
-                    ));
-                }
-            }
-            return list;
-        } catch (SQLException e) {
-            throw new RuntimeException("DB error in findOrderTrend", e);
-        }
+    Map<LocalDate, TrendPoint> trendMap = new LinkedHashMap<>();
+
+    // B1: Tạo 7 ngày mặc định với total = 0, success = 0
+    LocalDate current = from.toLocalDate();
+    LocalDate endDate = to.toLocalDate();
+    while (!current.isAfter(endDate)) {
+        trendMap.put(current, new TrendPoint(current, 0, 0));
+        current = current.plusDays(1);
     }
+
+    // B2: Lấy dữ liệu thực tế từ DB
+    String sql = """
+        SELECT CAST(ValidFrom AS date) AS d,
+               COUNT(*) AS total,
+               SUM(CASE WHEN Status = 'Approved' THEN 1 ELSE 0 END) AS success
+        FROM Registration
+        WHERE ValidFrom BETWEEN ? AND ?
+        GROUP BY CAST(ValidFrom AS date)
+    """;
+
+    try (PreparedStatement ps = DBContext.getInstance()
+                                         .getConnection()
+                                         .prepareStatement(sql)) {
+        ps.setObject(1, from);
+        ps.setObject(2, to);
+        try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                LocalDate date = rs.getDate("d").toLocalDate();
+                long total = rs.getLong("total");
+                long success = rs.getLong("success");
+
+                // Ghi đè dữ liệu ngày có thực trong DB
+                trendMap.put(date, new TrendPoint(date, total, success));
+            }
+        }
+    } catch (SQLException e) {
+        throw new RuntimeException("DB error in findOrderTrend", e);
+    }
+
+    return new ArrayList<>(trendMap.values());
+}
+
 
     // Doanh thu theo chuyên mục dựa trên ValidFrom
     public Map<String, BigDecimal> revenueByCategory(LocalDateTime from, LocalDateTime to) {
