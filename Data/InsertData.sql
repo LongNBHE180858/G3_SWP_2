@@ -306,11 +306,21 @@ INSERT INTO PricePackage (PackageID, CourseID, Name, AccessDuration, ListPrice, 
 
 -- Thêm dữ liệu vào bảng Registration
 INSERT INTO Registration (RegistrationID, UserID, CourseID, PackageID, ApprovedBy, Status, ValidFrom, ValidTo) VALUES
-(1, 1, 1, 1, 1, 'Approved', '2024-05-01', '2024-05-31'),
-(2, 2, 2, 3, 1, 'Approved', '2024-05-05', '2024-07-04'),
-(3, 4, 3, 4, 1, 'Approved', '2024-05-10', '2024-06-24'),
-(4, 4, 4, 5, 1, 'NotApproved', '2024-05-15', '2024-09-12'),
-(5, 2, 1, 2, 1, 'Approved', '2024-05-12', '2024-08-10');
+(1, 1, 1, 1, 1, 'Approved', '2024-05-31', '2024-05-01'),
+(2, 2, 2, 3, 1, 'Approved', '2024-07-04', '2024-05-05'),
+(3, 4, 3, 4, 1, 'Approved', '2024-06-24', '2024-05-10'),
+(4, 4, 4, 5, 1, 'NotApproved', '2024-09-12', '2024-05-15'),
+(5, 2, 1, 2, 1, 'Approved', '2024-08-10', '2024-05-12'),
+(6, 1, 1, 1, 1, 'Approved', '2025-09-01', '2025-07-01'),
+(7, 2, 2, 2, 1, 'Approved', '2025-09-01', '2025-07-02'),
+(8, 3, 1, 1, 1, 'Approved', '2025-09-01', '2025-07-03'),
+(9, 4, 2, 2, 1, 'Approved', '2025-09-01', '2025-07-04'),
+(10, 2, 2, 3, 1, 'Approved', '2025-09-01', '2025-07-05'),
+(11, 1, 1, 1, 1, 'Approved', '2025-09-19', '2025-07-19'),
+(12, 2, 2, 2, 1, 'Approved', '2025-09-20', '2025-07-20'),
+(13, 3, 1, 1, 1, 'Approved', '2025-09-21', '2025-07-21'),
+(14, 4, 2, 2, 1, 'Approved', '2025-09-22', '2025-07-22'),
+(15, 2, 2, 3, 1, 'Approved', '2025-09-23', '2025-07-23');
 
 -- Thêm dữ liệu vào bảng CourseSection
 INSERT INTO CourseSection (SectionID, CourseID, SectionTitle) VALUES
