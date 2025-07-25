@@ -288,21 +288,21 @@ INSERT INTO Review (ReviewID, UserID, CourseID, Content, Star, ImageURL) VALUES
 
 -- Thêm dữ liệu vào bảng PricePackage
 INSERT INTO PricePackage (PackageID, CourseID, Name, AccessDuration, ListPrice, SalePrice, Status, Description) VALUES
-(1, 1, N'Gói cơ bản', 30, 500000.00, 400000.00, 1, N'Truy cập khóa học trong 30 ngày'),
-(2, 5, N'Gói mở rộng', 90, 1200000.00, 1000000.00, 1, N'Truy cập khóa học trong 90 ngày + tài liệu'),
-(3, 2, N'Gói tiêu chuẩn', 60, 800000.00, 650000.00, 1, N'Truy cập khóa học trong 60 ngày'),
-(4, 3, N'Gói cơ bản', 45, 700000.00, 600000.00, 1, N'Truy cập khóa học trong 45 ngày'),
-(5, 4, N'Gói premium', 120, 1500000.00, 1200000.00, 1, N'Truy cập không giới hạn + mentor support'),
-(6, 6, N'Gói cơ bản', 30, 500000.00, 400000.00, 1, N'Truy cập khóa học trong 30 ngày'),
-(7, 7, N'Gói mở rộng', 90, 1200000.00, 1000000.00, 1, N'Truy cập khóa học trong 90 ngày + tài liệu'),
-(8, 8, N'Gói tiêu chuẩn', 60, 800000.00, 650000.00, 1, N'Truy cập khóa học trong 60 ngày'),
-(9, 9, N'Gói cơ bản', 45, 700000.00, 600000.00, 1, N'Truy cập khóa học trong 45 ngày'),
-(10, 10, N'Gói premium', 120, 1500000.00, 1200000.00, 1, N'Truy cập không giới hạn + mentor support'),
-(11, 12, N'Gói cơ bản', 30, 500000.00, 400000.00, 1, N'Truy cập khóa học trong 30 ngày'),
-(12, 11, N'Gói mở rộng', 90, 1200000.00, 1000000.00, 1, N'Truy cập khóa học trong 90 ngày + tài liệu'),
-(13, 14, N'Gói tiêu chuẩn', 60, 800000.00, 650000.00, 1, N'Truy cập khóa học trong 60 ngày'),
-(14, 13, N'Gói cơ bản', 45, 700000.00, 600000.00, 1, N'Truy cập khóa học trong 45 ngày'),
-(15, 15, N'Gói premium', 120, 1500000.00, 1200000.00, 1, N'Truy cập không giới hạn + mentor support');
+(1, 1, N'Gói cơ bản', 30, 410000.00, 320000.00, 1, N'Truy cập khóa học trong 30 ngày'),
+(2, 5, N'Gói mở rộng', 90, 980000.00, 870000.00, 1, N'Truy cập khóa học trong 90 ngày + tài liệu'),
+(3, 2, N'Gói tiêu chuẩn', 60, 710000.00, 605000.00, 1, N'Truy cập khóa học trong 60 ngày'),
+(4, 3, N'Gói cơ bản', 45, 445000.00, 355000.00, 1, N'Truy cập khóa học trong 45 ngày'),
+(5, 4, N'Gói premium', 120, 1320000.00, 1110000.00, 1, N'Truy cập không giới hạn '),
+(6, 6, N'Gói cơ bản', 30, 395000.00, 305000.00, 1, N'Truy cập khóa học trong 30 ngày'),
+(7, 7, N'Gói mở rộng', 90, 970000.00, 860000.00, 1, N'Truy cập khóa học trong 90 ngày + tài liệu'),
+(8, 8, N'Gói tiêu chuẩn', 60, 695000.00, 598000.00, 1, N'Truy cập khóa học trong 60 ngày'),
+(9, 9, N'Gói cơ bản', 45, 460000.00, 340000.00, 1, N'Truy cập khóa học trong 45 ngày'),
+(10, 10, N'Gói premium', 120, 1285000.00, 1090000.00, 1, N'Truy cập không giới hạn '),
+(11, 12, N'Gói cơ bản', 30, 405000.00, 310000.00, 1, N'Truy cập khóa học trong 30 ngày'),
+(12, 11, N'Gói mở rộng', 90, 990000.00, 875000.00, 1, N'Truy cập khóa học trong 90 ngày + tài liệu'),
+(13, 14, N'Gói tiêu chuẩn', 60, 725000.00, 615000.00, 1, N'Truy cập khóa học trong 60 ngày'),
+(14, 13, N'Gói cơ bản', 45, 435000.00, 345000.00, 1, N'Truy cập khóa học trong 45 ngày'),
+(15, 15, N'Gói premium', 120, 1310000.00, 1105000.00, 1, N'Truy cập không giới hạn');
 
 -- Thêm dữ liệu vào bảng Registration
 INSERT INTO Registration (RegistrationID, UserID, CourseID, PackageID, ApprovedBy, Status, ValidFrom, ValidTo) VALUES
