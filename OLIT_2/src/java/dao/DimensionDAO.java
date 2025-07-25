@@ -17,7 +17,7 @@ import java.sql.ResultSet;
  */
 public class DimensionDAO {
 
-    public static List<Dimension> getAllDemension() {
+    public static List<Dimension> getAllDimension() {
         List<Dimension> dimensions = new ArrayList<>();
         DBContext db = DBContext.getInstance();
         try {
@@ -67,6 +67,28 @@ public class DimensionDAO {
             return null;
         }
         return dimensions;
+    }
+    
+    public static boolean insertQuestionDimension(int questionID, int dimensionID) {
+        DBContext db = DBContext.getInstance();
+        String sql = """
+            INSERT INTO QuestionDimension (
+                QuestionID, DimensionID
+            ) VALUES (?, ?)
+        """;
+
+        try {
+            PreparedStatement stmt = db.getConnection().prepareStatement(sql);
+
+            stmt.setInt(1, questionID);
+            stmt.setInt(2, dimensionID);
+
+            return stmt.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Có thể log lỗi chi tiết hơn ở đây
+            return false;
+        }
     }
 
 }

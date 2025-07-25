@@ -7,6 +7,7 @@ package model;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
@@ -21,14 +22,17 @@ public class Question {
     private boolean status;
     private int questionLevel;
     private int createdBy;
-    private String createdAt;
+    private LocalDateTime createdAt; // Đã thay đổi từ String sang LocalDateTime
     private int subjectID;
     private int lessonID;
 
     public Question() {
+        // Constructor mặc định có thể khởi tạo createdAt bằng thời gian hiện tại
+        this.createdAt = LocalDateTime.now();
     }
 
-    public Question(int questionID, String questionContent, int questionType, boolean status, int questionLevel, int createdBy, String createdAt, int subjectID, int lessonID) {
+    // Constructor khi lấy dữ liệu từ Database (hoặc tạo đối tượng đầy đủ)
+    public Question(int questionID, String questionContent, int questionType, boolean status, int questionLevel, int createdBy, LocalDateTime createdAt, int subjectID, int lessonID) {
         this.questionID = questionID;
         this.questionContent = questionContent;
         this.questionType = questionType;
@@ -40,6 +44,19 @@ public class Question {
         this.lessonID = lessonID;
     }
 
+    // Constructor tiện lợi cho việc tạo mới mà không cần ID
+    public Question(String questionContent, int questionType, boolean status, int questionLevel, int createdBy, int subjectID, int lessonID) {
+        this.questionContent = questionContent;
+        this.questionType = questionType;
+        this.status = status;
+        this.questionLevel = questionLevel;
+        this.createdBy = createdBy;
+        this.subjectID = subjectID;
+        this.lessonID = lessonID;
+        this.createdAt = LocalDateTime.now(); // Tự động thiết lập thời gian tạo khi khởi tạo
+    }
+
+    // --- Getters and Setters ---
     public int getQuestionID() {
         return questionID;
     }
@@ -61,7 +78,7 @@ public class Question {
     }
 
     public String getQuestionTypeStr() {
-        return questionType == 1 ? "Type 1" : "Type 2";
+        return questionType == 1 ? "Type 1" : "Type 2"; // Hoặc có thể dùng Enum cho QuestionType
     }
 
     public void setQuestionType(int questionType) {
@@ -96,11 +113,11 @@ public class Question {
         this.createdBy = createdBy;
     }
 
-    public String getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -120,22 +137,20 @@ public class Question {
         this.lessonID = lessonID;
     }
 
-    public String getDate() throws ParseException {
-        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
-        // Định dạng đầu ra chỉ có giờ và phút
-        SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-        // Chuyển đổi chuỗi thành Date
-        Date date = inputFormat.parse(createdAt.split(" ")[0]);
-        return outputFormat.format(date);
+    // --- Các phương thức hỗ trợ định dạng hiển thị ---
+    public String getFormattedDate() {
+        if (createdAt == null) {
+            return "";
+        }
+        // Định dạng ngày theo dd/MM/yyyy
+        return createdAt.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
-    public String getTime() {
-        if (createdAt != null && createdAt.contains(" ")) {
-            String[] parts = createdAt.split(" "); // Tách chuỗi thành mảng
-            String timePart = parts[1]; // Lấy phần tử thứ hai (giờ)
-            return timePart.substring(0, 5); // Lấy "HH:mm"
+    public String getFormattedTime() {
+        if (createdAt == null) {
+            return "";
         }
-        return ""; // Trả về chuỗi rỗng nếu không hợp lệ
+        // Định dạng giờ theo HH:mm
+        return createdAt.format(DateTimeFormatter.ofPattern("HH:mm"));
     }
 }

@@ -92,4 +92,31 @@ public class LessonDAO {
         }
         return lesson;
     }
+
+    public static List<Lesson> getAllLesson() {
+        String sql = """
+                         SELECT * FROM LESSON ORDER BY [Order]
+                         """;
+        List<Lesson> lessons = new ArrayList<Lesson>();
+        try (PreparedStatement ps = DBContext.getInstance().getConnection().prepareStatement(sql)) {
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Lesson lesson = new Lesson(
+                            rs.getInt("LessonID"),
+                            rs.getInt("ModuleID"),
+                            rs.getString("LessonTitle"),
+                            rs.getString("LessonDetails"),
+                            rs.getBoolean("Status"),
+                            rs.getString("URLLesson"),
+                            rs.getInt("Order")
+                    );
+                    lessons.add(lesson);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return lessons;
+    }
+    
 }

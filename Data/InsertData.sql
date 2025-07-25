@@ -9,12 +9,10 @@ INSERT INTO Role (RoleID, RoleName) VALUES
 
 -- Thêm dữ liệu vào bảng Account
 INSERT INTO Account (RoleID, FullName, Gender, Email, PhoneNumber, Password, URLAvatar, Status, Address, Birthday) VALUES
-(1, N'Nguyễn Bá Long', 'Male', 'longnbhe180858@fpt.edu.vn', '0123456789', '123', 'https://img.tripi.vn/cdn-cgi/image/width=700,height=700/https://gcs.tripi.vn/public-tripi/tripi-feed/img/482744KVW/anh-mo-ta.png', 'active', N'Hà Nội, Việt Nam', '1995-05-15'),
-(2, N'Trần Thị Minh', 'Female', 'minhtthe170234@fpt.edu.vn', '0987654321', '123', 'https://robohash.org/nguyenkhai.png', 'active', N'Hồ Chí Minh, Việt Nam', '1988-08-20'),
-(2, N'Lê Văn Hùng', 'Male', 'hunglvhe160567@fpt.edu.vn', '0369852147', '123', 'https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/anh-avatar-ngau-2.jpg', 'active', N'Đà Nẵng, Việt Nam', '1990-12-03'),
-(3, N'Phạm Thị Lan', 'Female', 'lanpthe190123@fpt.edu.vn', '0456789123', '123', 'https://www.vietnamworks.com/hrinsider/wp-content/uploads/2023/12/anh-den-ngau.jpeg', 'active', N'Hải Phòng, Việt Nam', '2001-03-10'),
-(3, N'Vũ Minh Tuấn', 'Male', 'tuanvmhe190456@fpt.edu.vn', '0789123456', '123', 'https://toigingiuvedep.vn/wp-content/uploads/2021/01/avatar-dep-cute.jpg', 'active', N'Cần Thơ, Việt Nam', '2000-11-25'),
-(3, N'Hoàng Thị Thu', 'Female', 'thuhtse190789@fpt.edu.vn', '0321654987', '123', 'https://chiemtaimobile.vn/images/companies/1/%E1%BA%A2nh%20Blog/avatar-facebook-dep/top-36-anh-dai-dien-dep-cho-nu/hinh-anh-hut-thuoc-ngau-anime-nu-facebook.jpg?1708402451277', 'active', N'Huế, Việt Nam', '2002-07-18');
+(2, N'Nguyễn Bảo Long', 'Male', 'longnbhe180858@fpt.edu.vn', '0123456789', '123', 'https://img.tripi.vn/cdn-cgi/image/width=700,height=700/https://gcs.tripi.vn/public-tripi/tripi-feed/img/482744KVW/anh-mo-ta.png', 'active', N'Hà Nội, Việt Nam', '1995-05-15'),
+(2, N'Nguyễn Khải', 'Male', 'khainguyen25101998@gmail.com', '0987654321', '123', 'https://robohash.org/nguyenkhai.png', 'active', N'Hồ Chí Minh, Việt Nam', '1988-08-20'),
+(1, N'Phạm Tiến Nam', 'Male', 'nampthe181240@fpt.edu.vn', '0369852147', '123', 'https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/anh-avatar-ngau-2.jpg', 'active', N'Đà Nẵng, Việt Nam', '1990-12-03'),
+(3, N'Phạm Thị Lan', 'Female', 'studen@123', '0456789123', '123', 'https://www.vietnamworks.com/hrinsider/wp-content/uploads/2023/12/anh-den-ngau.jpeg', 'active', N'Hải Phòng, Việt Nam', '2001-03-10');
 
 -- Thêm dữ liệu vào bảng PostCategory
 INSERT INTO PostCategory (CategoryID, CategoryName, URL) VALUES
@@ -117,7 +115,7 @@ VALUES
 - Viết file README, LICENSE và .gitignore chuẩn.',
  1, '2024-05-18 13:30:00', 'https://cdn.codegym.vn/wp-content/uploads/2021/12/khoa-hoc-nhap-mon-git-va-github-online-mien-phi-codegym-5.jpg', 0),
 
-(8, 5, 3, N'Tự động hóa kiểm thử với Selenium',
+(8, 3, 3, N'Tự động hóa kiểm thử với Selenium',
  N'Hướng dẫn cài đặt, viết test case và chạy song song với Selenium WebDriver:
 - Cài đặt Java, Maven/Gradle và thêm dependency Selenium.
 - Download Driver (ChromeDriver, GeckoDriver) và cấu hình PATH.
@@ -280,13 +278,13 @@ VALUES
 --Thêm dữ liệu vào bảng Review
 INSERT INTO Review (ReviewID, UserID, CourseID, Content, Star, ImageURL) VALUES
 (1, 4, 1, N'Khóa học Java rất hay và dễ hiểu.', 5, 'review-images/java1.jpg'),
-(2, 5, 2, N'MySQL được giảng giải rõ ràng, dễ tiếp cận.', 4, 'review-images/mysql1.png'),
-(3, 6, 3, N'React còn hơi khó với người mới, cần ví dụ thực tế hơn.', 3, 'review-images/react-feedback.jpg'),
-(4, 4, 4, N'Nội dung marketing khá thực tế, áp dụng được.', 4, NULL),
-(5, 5, 5, N'Mô hình Agile giúp tôi cải thiện quy trình làm việc rất nhiều.', 5, 'review-images/agile-review.png'),
-(6, 6, 1, N'Khóa Java quá cơ bản, nên mở rộng thêm.', 3, NULL),
-(7, 5, 3, N'Tôi thích cách truyền đạt của giảng viên React.', 4, 'review-images/react-teacher.jpg'),
-(8, 6, 1, N'Khóa học khá ổn.', 5, NULL);
+(2, 4, 2, N'MySQL được giảng giải rõ ràng, dễ tiếp cận.', 4, 'review-images/mysql1.png'),
+(3, 4, 3, N'React còn hơi khó với người mới, cần ví dụ thực tế hơn.', 3, 'review-images/react-feedback.jpg'),
+(4, 1, 4, N'Nội dung marketing khá thực tế, áp dụng được.', 4, NULL),
+(5, 2, 5, N'Mô hình Agile giúp tôi cải thiện quy trình làm việc rất nhiều.', 5, 'review-images/agile-review.png'),
+(6, 3, 1, N'Khóa Java quá cơ bản, nên mở rộng thêm.', 3, NULL),
+(7, 1, 3, N'Tôi thích cách truyền đạt của giảng viên React.', 4, 'review-images/react-teacher.jpg'),
+(8, 2, 1, N'Khóa học khá ổn.', 5, NULL);
 
 -- Thêm dữ liệu vào bảng PricePackage
 INSERT INTO PricePackage (PackageID, CourseID, Name, AccessDuration, ListPrice, SalePrice, Status, Description) VALUES
@@ -308,11 +306,11 @@ INSERT INTO PricePackage (PackageID, CourseID, Name, AccessDuration, ListPrice, 
 
 -- Thêm dữ liệu vào bảng Registration
 INSERT INTO Registration (RegistrationID, UserID, CourseID, PackageID, ApprovedBy, Status, ValidFrom, ValidTo) VALUES
-(1, 4, 1, 1, 1, 'Approved', '2024-05-01', '2024-05-31'),
-(2, 5, 2, 3, 1, 'Approved', '2024-05-05', '2024-07-04'),
-(3, 6, 3, 4, 1, 'Approved', '2024-05-10', '2024-06-24'),
+(1, 1, 1, 1, 1, 'Approved', '2024-05-01', '2024-05-31'),
+(2, 2, 2, 3, 1, 'Approved', '2024-05-05', '2024-07-04'),
+(3, 4, 3, 4, 1, 'Approved', '2024-05-10', '2024-06-24'),
 (4, 4, 4, 5, 1, 'NotApproved', '2024-05-15', '2024-09-12'),
-(5, 5, 1, 2, 1, 'Approved', '2024-05-12', '2024-08-10');
+(5, 2, 1, 2, 1, 'Approved', '2024-05-12', '2024-08-10');
 
 -- Thêm dữ liệu vào bảng CourseSection
 INSERT INTO CourseSection (SectionID, CourseID, SectionTitle) VALUES
@@ -434,14 +432,34 @@ INSERT INTO Quiz (QuizID, SectionID, QuizName, PassRate, QuizType, QuizDuration,
 (5, 13, N'Agile Methodology Test', 85.00, N'Mixed', 40, N'Advanced', 1);
 
 -- Thêm dữ liệu vào bảng Question
-INSERT INTO Question (QuestionID, QuestionContent, QuestionType, Status, QuestionLevel, CreatedBy, CreatedAt, SubjectID, LessonID) VALUES
-(1, N'Java là ngôn ngữ lập trình thuộc loại nào?', 1, 1, 1, 2, GETDATE(), 1, 1),
-(2, N'Khóa chính (Primary Key) trong database có tác dụng gì?', 1, 1, 1, 3, GETDATE(), 2, 2),
-(3, N'JSX là gì trong React?', 1, 1, 1, 2, GETDATE(), 3, 3),
-(4, N'SEO viết tắt của từ nào?', 1, 1, 1, 3, GETDATE(), 4, 4),
-(5, N'Scrum là một framework của phương pháp nào?', 1, 1, 2, 2, GETDATE(), 5, 5),
-(6, N'Trong Java, từ khóa "static" có ý nghĩa gì?', 1, 1, 2, 2, GETDATE(), 1, 6),
-(7, N'Chuẩn hóa database (Database Normalization) là gì?', 1, 1, 2, 3, GETDATE(), 2, 7);
+INSERT INTO Question (QuestionContent, QuestionType, Status, QuestionLevel, CreatedBy, CreatedAt, SubjectID, LessonID) VALUES
+(N'Java là ngôn ngữ lập trình thuộc loại nào?', 1, 1, 1, 2, GETDATE(), 1, 1),
+(N'Khóa chính (Primary Key) trong database có tác dụng gì?', 1, 1, 1, 3, GETDATE(), 2, 2),
+(N'JSX là gì trong React?', 1, 1, 1, 2, GETDATE(), 3, 3),
+(N'SEO viết tắt của từ nào?', 1, 1, 1, 3, GETDATE(), 4, 4),
+(N'Scrum là một framework của phương pháp nào?', 1, 1, 2, 2, GETDATE(), 5, 5),
+(N'Trong Java, từ khóa "static" có ý nghĩa gì?', 1, 1, 2, 2, GETDATE(), 1, 6),
+(N'Chuẩn hóa database (Database Normalization) là gì?', 1, 1, 2, 3, GETDATE(), 2, 7),
+(N'Thẻ div trong HTML dùng để làm gì?', 1, 1, 1, 2, GETDATE(), 3, 8),
+(N'CSS box model bao gồm những thành phần nào?', 1, 1, 1, 3, GETDATE(), 3, 9),
+(N'API là viết tắt của từ gì?', 1, 1, 1, 2, GETDATE(), 1, 10),
+(N'Cú pháp khai báo biến trong JavaScript là gì?', 1, 1, 1, 3, GETDATE(), 3, 11),
+(N'Phương thức GET và POST trong HTTP khác nhau như thế nào?', 1, 1, 2, 2, GETDATE(), 4, 12),
+(N'Làm thế nào để tạo một class trong Python?', 1, 1, 1, 3, GETDATE(), 5, 13),
+(N'SQL Injection là loại tấn công gì?', 1, 1, 2, 2, GETDATE(), 2, 14),
+(N'Mô hình MVC trong phát triển web có ý nghĩa gì?', 1, 1, 2, 3, GETDATE(), 1, 15),
+(N'Docker là gì và nó dùng để làm gì?', 1, 1, 2, 2, GETDATE(), 5, 16),
+(N'HTTPS an toàn hơn HTTP ở điểm nào?', 1, 1, 1, 3, GETDATE(), 4, 17),
+(N'Big O notation dùng để làm gì trong giải thuật?', 1, 1, 3, 2, GETDATE(), 1, 18),
+(N'Thế nào là polymorphism trong OOP?', 1, 1, 2, 3, GETDATE(), 1, 19),
+(N'Sự khác biệt giữa INNER JOIN và LEFT JOIN trong SQL?', 1, 1, 2, 2, GETDATE(), 2, 20),
+(N'Callback function trong JavaScript là gì?', 1, 1, 2, 3, GETDATE(), 3, 21),
+(N'Microservices architecture là gì?', 1, 1, 3, 2, GETDATE(), 5, 22),
+(N'CI/CD là viết tắt của gì trong DevOps?', 1, 1, 2, 3, GETDATE(), 5, 23),
+(N'Hashing và Encryption khác nhau như thế nào?', 1, 1, 3, 2, GETDATE(), 4, 24),
+(N'Ưu điểm của sử dụng Git là gì?', 1, 1, 1, 3, GETDATE(), 5, 25),
+(N'Mô hình OSI có bao nhiêu tầng?', 1, 1, 2, 2, GETDATE(), 4, 26),
+(N'Cache là gì và lợi ích của nó?', 1, 1, 2, 3, GETDATE(), 1, 27);
 
 -- Thêm dữ liệu vào bảng QuestionDimension
 INSERT INTO QuestionDimension (QuestionID, DimensionID) VALUES
@@ -504,10 +522,10 @@ INSERT INTO QuizQuestion (QuizQuestionID, QuizID, QuestionID, QuestionOrder, Poi
 -- Thêm dữ liệu vào bảng QuizAttempt
 INSERT INTO QuizAttempt (AttemptID, UserID, QuizID, StartTime, EndTime, TotalScore) VALUES
 (1, 4, 1, '2024-05-15 10:00:00', '2024-05-15 10:25:00', 4.0),
-(2, 5, 2, '2024-05-16 14:30:00', '2024-05-16 15:10:00', 5.5),
-(3, 6, 3, '2024-05-17 09:00:00', '2024-05-17 09:20:00', 2.0),
+(2, 4, 2, '2024-05-16 14:30:00', '2024-05-16 15:10:00', 5.5),
+(3, 4, 3, '2024-05-17 09:00:00', '2024-05-17 09:20:00', 2.0),
 (4, 4, 4, '2024-05-18 16:00:00', '2024-05-18 16:15:00', 2.0),
-(5, 5, 1, '2024-05-19 11:30:00', '2024-05-19 11:55:00', 3.5);
+(5, 4, 1, '2024-05-19 11:30:00', '2024-05-19 11:55:00', 3.5);
 
 -- Thêm dữ liệu vào bảng UserAnswer
 INSERT INTO UserAnswer (UserAnswerID, QuestionID, AttemptID, UserAnswerContent, IsCorrect) VALUES
