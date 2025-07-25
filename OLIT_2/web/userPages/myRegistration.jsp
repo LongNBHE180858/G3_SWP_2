@@ -1,7 +1,7 @@
 <%-- 
     Document   : myRegistration
     Created on : Jun 2, 2025, 10:25:29 PM
-    Author     : Admin
+    Author     : Nam
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -9,6 +9,9 @@
 <%@ page import="model.Registration" %>
 <%@ page import="model.Course" %>
 <%@ page import="model.PricePackage" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="java.util.Collections" %>
+<%@ page import="java.util.Comparator" %>
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -37,36 +40,81 @@
                 /* chừa chỗ cho button cố định */
             }
 
-            header {
-                background: linear-gradient(to right, #4a90e2, #0077cc);
+ 
+           /* Header */
+            .header {
+                background-color: #1e88e5;
                 color: white;
                 padding: 15px 40px;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                position: sticky;
-                top: 0;
-                z-index: 10;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             }
 
-            .logo {
+            .header .logo {
                 font-size: 24px;
                 font-weight: bold;
+                text-transform: uppercase;
+                letter-spacing: 1px;
             }
 
-            .nav-links a {
+            .header .nav {
+                display: flex;
+                gap: 20px;
+            }
+
+            .header .nav a {
                 color: white;
-                margin-left: 20px;
                 text-decoration: none;
-                font-weight: 500;
-                transition: opacity 0.2s ease;
+                font-size: 16px;
+                transition: color 0.3s;
             }
 
-            .nav-links a:hover {
-                opacity: 0.8;
+            .header .nav a:hover {
+                color: #bbdefb;
+            }
+            .header {
+                background-color: #1E88E5;
+                color: white;
+                padding: 15px 40px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
             }
 
+            /* Phần logo và tên (từ header-left gốc) */
+            .header-left {
+                display: flex;
+                align-items: center;
+                gap: 16px; /* khoảng cách giữa logo và chữ */
+            }
+            .logo-img {
+                height: 54px;       /* chiều cao logo */
+                width: auto;
+                padding: 4px;       /* khoảng trắng quanh icon */
+                border-radius: 8px;
+                background: rgba(255,255,255,0.15);
+                box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+                display: block;
+            }
+            .logo-text {
+                font-size: 2.1em;
+                font-weight: 700;
+                color: #fff;
+                letter-spacing: 1.5px;
+                font-family: inherit;
+                line-height: 1;
+            }
+
+  .header .nav {
+                    gap: 10px;
+                }
+
+                .header .nav a {
+                    font-size: 16px;
+                    font-weight: bold;
+                }
             h3 {
                 color: #0d6efd;
                 font-weight: bold;
@@ -154,25 +202,11 @@
             .bottom-right-btn:hover {
                 background-color: #0b5ed7;
             }
-
-            footer {
-                background-color: #f0f0f0;
-                padding: 15px 40px;
-                text-align: center;
-                font-size: 14px;
-                color: #333;
-                box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
-            }
-
             @media (max-width: 768px) {
                 header {
                     flex-direction: column;
                     align-items: flex-start;
                     gap: 10px;
-                }
-
-                .nav-links a {
-                    margin: 5px 0;
                 }
 
                 .bottom-left-btn,
@@ -182,33 +216,55 @@
                     padding: 8px 14px;
                     font-size: 14px;
                 }
+                .mb-3-filter{
+                    display: none;
+                }
             }
         </style>
     </head>
 
     <body>
         <header>
-            <div class="logo">Online Learn</div>
-            <div class="nav-links">
+
+            <div class="header">
+                <!-- Logo + tên -->
+                <div class="header-left">
+                    <img class="logo-img" src="images/HeaderIcon.png" alt="Logo">
+                    <span class="logo-text">CourseAura</span>
+                </div>
+                            <div class="nav">
                 <a href="${pageContext.request.contextPath}/HomeServlet">Home</a>
-                <a href="${pageContext.request.contextPath}/MyCourseServlet">My Course</a>
-                <a href="${pageContext.request.contextPath}/BlogListServlet">Blog List</a>
-                <a href="#">Quiz List</a>
-                <a href="${pageContext.request.contextPath}/LogoutServlet">Log out</a>
+                <a href="${pageContext.request.contextPath}/MyCourseServlet">MyCourses</a>
+                <a href="${pageContext.request.contextPath}/BlogListServlet">Blog</a>
+                <a href="${pageContext.request.contextPath}/LogoutServlet">Logout</a>
+                
             </div>
         </header>
 
         <main>
             <div class="container-fluid">
                 <h3 class="mb-4">My Registration</h3>
+                <% if (session.getAttribute("message") != null) { 
+   String type = (String)session.getAttribute("messageType"); 
+   String alertClass = "alert-success";
+   String customStyle = "background-color:#e6f9ed;color:#155724;";
+   if ("error".equals(type)) {
+       alertClass = "alert-danger";
+       customStyle = "background-color:#ffeaea;color:#b71c1c;";
+   }
+%>
+<div class="alert <%= alertClass %>" style="margin-bottom:18px; text-align:center; font-weight:500; <%= customStyle %>">
+    <%= session.getAttribute("message") %>
+</div>
+<% session.removeAttribute("message"); session.removeAttribute("messageType"); } %>
                 <div class="row">
                     <!-- Left Section: Course List -->
                     <div class="col-md-9">
                         <table class="table table-bordered table-striped align-middle">
                             <thead class="table-dark">
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Subject</th>
+                                    <th>STT</th>
+                                    <th>Course</th>
                                     <th>Registration Time</th>
                                     <th>Package</th>
                                     <th>Total Cost</th>
@@ -221,11 +277,29 @@
                             <tbody>
                                 <%
                                     List<Registration> registrations = (List<Registration>) request.getAttribute("registrations");
+                                    int currentPage = (Integer) request.getAttribute("currentPage");
+                                    int recordsPerPage = 6; // Cần đảm bảo giá trị này khớp với servlet
+                                    int startingStt = (currentPage - 1) * recordsPerPage + 1;
+
+                                    // Sắp xếp danh sách: Pending lên đầu, sau đó theo registrationID giảm dần
+                                    if (registrations != null) {
+                                        Collections.sort(registrations, new Comparator<Registration>() {
+                                            @Override
+                                            public int compare(Registration r1, Registration r2) {
+                                                boolean isPending1 = "Pending".equalsIgnoreCase(r1.getStatus());
+                                                boolean isPending2 = "Pending".equalsIgnoreCase(r2.getStatus());
+                                                if (isPending1 && !isPending2) return -1;
+                                                if (!isPending1 && isPending2) return 1;
+                                                return Integer.compare(r2.getRegistrationID(), r1.getRegistrationID());
+                                            }
+                                        });
+                                    }
+                                    
                                     if (registrations != null) {
                                         for (Registration r : registrations) {
                                 %>
                                 <tr>
-                                    <td><%= r.getRegistrationID() %></td>
+                                    <td><%= startingStt++ %></td>
                                     <td><%= r.getCourse().getCourseTitle() %></td>
                                     <td><%= r.getValidFrom() %></td>
                                     <td><%= r.getPricePackage().getName() %></td>
@@ -239,7 +313,12 @@
                                     <td><%= r.getValidTo() %></td>
                                     <td>
                                         <% if ("Pending".equals(r.getStatus())) { %>
-                                        <button class="btn btn-danger btn-sm cancel-btn">Cancel</button>
+                                        <form method="post" action="MyRegistration" style="display:inline;" onsubmit="return confirmCancel();">
+                                            <input type="hidden" name="registrationID" value="<%= r.getRegistrationID() %>" />
+                                            <input type="hidden" name="action" value="cancel" />
+                                            <button type="submit" class="btn btn-danger btn-sm cancel-btn">Cancel</button>
+                                        </form>
+                                        <a href="PaymentServlet?registrationID=<%= r.getRegistrationID() %>" class="btn btn-success btn-sm" style="margin-left:6px;">Payment</a>
                                         <% } %>
                                     </td>
                                 </tr>
@@ -264,7 +343,7 @@
                                     <!-- Page numbers -->
                                     <c:forEach begin="1" end="${totalPages}" var="i">
                                         <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                            <a class="page-link" href="MyRegistration?page=${currentPage}">${currentPage}</a>
+                                            <a class="page-link" href="MyRegistration?page=${i}">${i}</a>
                                         </li>
                                     </c:forEach>
                                     <!-- Next -->
@@ -282,31 +361,22 @@
                     <div class="col-md-3">
                         <div class="mb-3">
                             <label for="search" class="form-label">Search</label>
-                            <input type="text" id="search" class="form-control" placeholder="Search subject...">
+                            <input type="text" id="search" class="form-control" placeholder="Search course...">
                         </div>
-                        <div class="mb-3">
-                            <label for="subjectFilter" class="form-label">Filter by Subject</label>
+                        <div class="mb-3-filter">
+                            <label for="subjectFilter" class="form-label"></label>
                             <select id="subjectFilter" class="form-select">
-                                <option value="">-- All Subjects --</option>
-                                <option value="Java Web">Java Web</option>
-                                <option value="Python Backend">Python Backend</option>
-                                <option value="React Frontend">React Frontend</option>
+                                
                             </select>
                         </div>
                         <div>
                             <!-- Fixed Buttons -->
-                            <button class="bottom-left-btn" style="border-radius: 8px;">⚙️ Settings</button>
-                            <button class="bottom-right-btn" style="border-radius: 8px;">➕ Course Register</button>
+                            <a href="CourseRegisterServlet" class="bottom-right-btn" style="border-radius: 8px; display: inline-block; text-align: center; line-height: 40px; text-decoration: none;">➕ Course Register</a>
                         </div>
                     </div>
                 </div>
             </div>
         </main>
-
-        <!-- Footer -->
-        <footer>
-            <p>📞 Contact: contact@onlinelearn.vn | ☎ 0123 456 789</p>
-        </footer>
 
         <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -334,7 +404,43 @@
                 searchInput.addEventListener('input', filterTable);
                 subjectFilter.addEventListener('change', filterTable);
             });
+
+            document.addEventListener('DOMContentLoaded', function() {
+                document.getElementById('course').selectedIndex = -1;
+            });
+
+            function confirmCancel() {
+                return confirm('Are you sure to Register this account?');
+            }
+
+            // Tạo object: courseID -> list package
+            var allPackages = {};
+            <c:forEach var="pkg" items="${allPackages}">
+                if (!allPackages['${pkg.courseID}']) allPackages['${pkg.courseID}'] = [];
+                allPackages['${pkg.courseID}'].push({
+                    id: '${pkg.packageID}',
+                    name: '${pkg.name}',
+                    salePrice: '${pkg.salePrice}',
+                    listPrice: '${pkg.listPrice}',
+                    accessDuration: '${pkg.accessDuration}'
+                });
+            </c:forEach>
+
+            function updatePackages() {
+                var courseId = document.getElementById('course').value;
+                var packageSelect = document.getElementById('package');
+                packageSelect.innerHTML = '<option value="">-- Select Package --</option>';
+                if (allPackages[courseId]) {
+                    allPackages[courseId].forEach(function(pkg) {
+                        var opt = document.createElement('option');
+                        opt.value = pkg.id;
+                        opt.textContent = pkg.name + ' - $' + pkg.salePrice + (pkg.listPrice > pkg.salePrice ? ' (was $' + pkg.listPrice + ')' : '') + ' - ' + pkg.accessDuration + ' months';
+                        packageSelect.appendChild(opt);
+                    });
+                }
+            }
         </script>
+        <jsp:include page="components/footer.jsp" />
     </body>
 
 </html>

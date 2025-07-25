@@ -5,6 +5,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import dal.DBContext;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import model.DashboardStatsDTO.TrendPoint;
 
 public class RegistrationDAO extends DBContext {
 
@@ -167,7 +172,7 @@ public class RegistrationDAO extends DBContext {
         }
         return 0;
     }
-    
+
     public List<Registration> getAllRegistrationsForAdmin() {
         List<Registration> list = new ArrayList<>();
         String sql = "SELECT r.RegistrationID, r.UserID, r.CourseID, r.PackageID, r.ApprovedBy, "
@@ -197,6 +202,7 @@ public class RegistrationDAO extends DBContext {
 
                 // Tạo Course object
                 Course course = new Course();
+                course.setCourseID(rs.getInt("CourseID"));
                 course.setCourseTitle(rs.getString("CourseTitle"));
                 r.setCourse(course);
 
@@ -220,4 +226,278 @@ public class RegistrationDAO extends DBContext {
 
         return list;
     }
+
+    public boolean deleteRegistrationById(int registrationId) {
+        String sql = "DELETE FROM Registration WHERE RegistrationID = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, registrationId);
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updateRegistrationStatus(int registrationId, String status) {
+        String sql = "UPDATE Registration SET Status = ? WHERE RegistrationID = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, status);
+            ps.setInt(2, registrationId);
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public List<Registration> getApprovedRegistrationsByUserID(int userID) {
+        Connection conn = DBContext.getInstance().getConnection();
+        List<Registration> list = new ArrayList<>();
+        String sql = "SELECT r.RegistrationID, r.UserID, r.CourseID, r.PackageID, r.ApprovedBy, "
+                + "r.Status, r.ValidFrom, r.ValidTo, "
+                + "c.CourseTitle, "
+                + "pp.Name AS PackageName, pp.SalePrice "
+                + "FROM Registration r "
+                + "JOIN Course c ON r.CourseID = c.courseID "
+                + "JOIN PricePackage pp ON r.PackageID = pp.PackageID "
+                + "WHERE r.UserID = ? AND r.Status = 'Approved'";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userID);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Registration r = new Registration();
+                r.setRegistrationID(rs.getInt("RegistrationID"));
+                r.setUserID(rs.getInt("UserID"));
+                r.setCourseID(rs.getInt("CourseID"));
+                r.setPackageID(rs.getInt("PackageID"));
+                r.setApprovedBy(rs.getInt("ApprovedBy"));
+                r.setStatus(rs.getString("Status"));
+                r.setValidFrom(rs.getString("ValidFrom"));
+                r.setValidTo(rs.getString("ValidTo"));
+                Course course = new Course();
+                course.setCourseTitle(rs.getString("courseTitle"));
+                r.setCourse(course);
+                PricePackage pp = new PricePackage();
+                pp.setName(rs.getString("PackageName"));
+                pp.setSalePrice(rs.getInt("SalePrice"));
+                r.setPricePackage(pp);
+                list.add(r);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public Registration getLatestRegistrationByUserAndCourse(int userID, int courseID) {
+        String sql = "SELECT TOP 1 r.RegistrationID, r.UserID, r.CourseID, r.PackageID, r.ApprovedBy, r.Status, r.ValidFrom, r.ValidTo, "
+                + "c.CourseTitle, pp.Name AS PackageName, pp.SalePrice "
+                + "FROM Registration r "
+                + "JOIN Course c ON r.CourseID = c.courseID "
+                + "JOIN PricePackage pp ON r.PackageID = pp.PackageID "
+                + "WHERE r.UserID = ? AND r.CourseID = ? "
+                + "ORDER BY r.RegistrationID DESC";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, userID);
+            ps.setInt(2, courseID);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Registration r = new Registration();
+                r.setRegistrationID(rs.getInt("RegistrationID"));
+                r.setUserID(rs.getInt("UserID"));
+                r.setCourseID(rs.getInt("CourseID"));
+                r.setPackageID(rs.getInt("PackageID"));
+                r.setApprovedBy(rs.getInt("ApprovedBy"));
+                r.setStatus(rs.getString("Status"));
+                r.setValidFrom(rs.getString("ValidFrom"));
+                r.setValidTo(rs.getString("ValidTo"));
+                Course course = new Course();
+                course.setCourseTitle(rs.getString("CourseTitle"));
+                r.setCourse(course);
+                PricePackage pp = new PricePackage();
+                pp.setName(rs.getString("PackageName"));
+                pp.setSalePrice(rs.getInt("SalePrice"));
+                r.setPricePackage(pp);
+                return r;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Registration getRegistrationById(int registrationId) {
+        String sql = "SELECT r.RegistrationID, r.UserID, r.CourseID, r.PackageID, r.ApprovedBy, r.Status, r.ValidFrom, r.ValidTo, "
+                + "c.CourseTitle, pp.Name AS PackageName, pp.SalePrice "
+                + "FROM Registration r "
+                + "JOIN Course c ON r.CourseID = c.courseID "
+                + "JOIN PricePackage pp ON r.PackageID = pp.PackageID "
+                + "WHERE r.RegistrationID = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, registrationId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Registration r = new Registration();
+                r.setRegistrationID(rs.getInt("RegistrationID"));
+                r.setUserID(rs.getInt("UserID"));
+                r.setCourseID(rs.getInt("CourseID"));
+                r.setPackageID(rs.getInt("PackageID"));
+                r.setApprovedBy(rs.getInt("ApprovedBy"));
+                r.setStatus(rs.getString("Status"));
+                r.setValidFrom(rs.getString("ValidFrom"));
+                r.setValidTo(rs.getString("ValidTo"));
+                Course course = new Course();
+                course.setCourseTitle(rs.getString("CourseTitle"));
+                r.setCourse(course);
+                PricePackage pp = new PricePackage();
+                pp.setName(rs.getString("PackageName"));
+                pp.setSalePrice(rs.getInt("SalePrice"));
+                r.setPricePackage(pp);
+                return r;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Registration getLatestRegistrationByUser(int userID) {
+        String sql = "SELECT TOP 1 r.RegistrationID, r.UserID, r.CourseID, r.PackageID, r.ApprovedBy, r.Status, r.ValidFrom, r.ValidTo, "
+                + "c.CourseTitle, pp.Name AS PackageName, pp.SalePrice "
+                + "FROM Registration r "
+                + "JOIN Course c ON r.CourseID = c.courseID "
+                + "JOIN PricePackage pp ON r.PackageID = pp.PackageID "
+                + "WHERE r.UserID = ? "
+                + "ORDER BY r.RegistrationID DESC";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, userID);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Registration r = new Registration();
+                r.setRegistrationID(rs.getInt("RegistrationID"));
+                r.setUserID(rs.getInt("UserID"));
+                r.setCourseID(rs.getInt("CourseID"));
+                r.setPackageID(rs.getInt("PackageID"));
+                r.setApprovedBy(rs.getInt("ApprovedBy"));
+                r.setStatus(rs.getString("Status"));
+                r.setValidFrom(rs.getString("ValidFrom"));
+                r.setValidTo(rs.getString("ValidTo"));
+                Course course = new Course();
+                course.setCourseTitle(rs.getString("CourseTitle"));
+                r.setCourse(course);
+                PricePackage pp = new PricePackage();
+                pp.setName(rs.getString("PackageName"));
+                pp.setSalePrice(rs.getInt("SalePrice"));
+                r.setPricePackage(pp);
+                return r;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public long countByStatus(String status, LocalDateTime from, LocalDateTime to) {
+        String sql = """
+            SELECT COUNT(*) 
+              FROM Registration 
+             WHERE Status = ? 
+               AND ValidFrom BETWEEN ? AND ?
+        """;
+        try (PreparedStatement ps = DBContext.getInstance()
+                                             .getConnection()
+                                             .prepareStatement(sql)) {
+            ps.setString(1, status);
+            ps.setObject(2, from);
+            ps.setObject(3, to);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() ? rs.getLong(1) : 0;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("DB error in countByStatus", e);
+        }
+    }
+
+    // Tổng doanh thu dựa trên ValidFrom
+    public BigDecimal totalRevenue(LocalDateTime from, LocalDateTime to) {
+        String sql = """
+            SELECT COALESCE(SUM(pp.SalePrice),0)
+              FROM Registration r
+              JOIN PricePackage pp ON r.PackageID = pp.PackageID
+             WHERE r.Status = 'Approved'
+               AND r.ValidFrom BETWEEN ? AND ?
+        """;
+        try (PreparedStatement ps = DBContext.getInstance()
+                                             .getConnection()
+                                             .prepareStatement(sql)) {
+            ps.setObject(1, from);
+            ps.setObject(2, to);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() ? rs.getBigDecimal(1) : BigDecimal.ZERO;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("DB error in totalRevenue", e);
+        }
+    }
+
+    // Xu hướng đơn hàng theo ngày ValidFrom
+    public List<TrendPoint> findOrderTrend(LocalDateTime from, LocalDateTime to) {
+        String sql = """
+            SELECT CAST(ValidFrom AS date) AS d,
+                   COUNT(*) AS total,
+                   SUM(CASE WHEN Status='Approved' THEN 1 ELSE 0 END) AS success
+              FROM Registration
+             WHERE ValidFrom BETWEEN ? AND ?
+             GROUP BY CAST(ValidFrom AS date)
+             ORDER BY CAST(ValidFrom AS date)
+        """;
+        List<TrendPoint> list = new ArrayList<>();
+        try (PreparedStatement ps = DBContext.getInstance()
+                                             .getConnection()
+                                             .prepareStatement(sql)) {
+            ps.setObject(1, from);
+            ps.setObject(2, to);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    list.add(new TrendPoint(
+                        rs.getDate("d").toLocalDate(),
+                        rs.getLong("total"),
+                        rs.getLong("success")
+                    ));
+                }
+            }
+            return list;
+        } catch (SQLException e) {
+            throw new RuntimeException("DB error in findOrderTrend", e);
+        }
+    }
+
+    // Doanh thu theo chuyên mục dựa trên ValidFrom
+    public Map<String, BigDecimal> revenueByCategory(LocalDateTime from, LocalDateTime to) {
+        String sql = """
+            SELECT s.Category, COALESCE(SUM(pp.SalePrice),0) AS rev
+              FROM Registration r
+              JOIN PricePackage pp ON r.PackageID = pp.PackageID
+              JOIN Course c ON pp.CourseID = c.CourseID
+              JOIN Subject s ON c.SubjectID = s.SubjectID
+             WHERE r.Status = 'Approved'
+               AND r.ValidFrom BETWEEN ? AND ?
+             GROUP BY s.Category
+        """;
+        Map<String, BigDecimal> map = new LinkedHashMap<>();
+        try (PreparedStatement ps = DBContext.getInstance()
+                                             .getConnection()
+                                             .prepareStatement(sql)) {
+            ps.setObject(1, from);
+            ps.setObject(2, to);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    map.put(rs.getString("Category"), rs.getBigDecimal("rev"));
+                }
+            }
+            return map;
+        } catch (SQLException e) {
+            throw new RuntimeException("DB error in revenueByCategory", e);
+        }
+    }
+
 }

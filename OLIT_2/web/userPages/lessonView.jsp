@@ -108,7 +108,7 @@
             <!-- Sidebar -->
             <aside class="sidebar">
                 <div class="sidebar-header">
-                    <h1 class="logo"><i class="fas fa-graduation-cap"></i>OLIT</h1>
+                    <h1 class="logo"><i class="fas fa-graduation-cap"></i>Course Aura</h1>
                 </div>
                 <nav class="sidebar-nav">
                     <ul>
@@ -220,7 +220,7 @@
                             <i class="fas fa-book-open"></i>
                             <h3>Select a lesson to begin</h3>
                             <p>Choose a lesson from the list to start learning</p>
-                        </div>
+                        </div>                       
                     </div>
                 </div>
             </main>
@@ -248,26 +248,35 @@
             let html = '<div class="selected-lesson"><h3>' + title + '</h3>';
             document.querySelectorAll('.lesson').forEach(el => el.classList.remove('active'));
             el.classList.add('active');
-            if (url.match(/^https?:\/\/.*\.html$/)) {
-            // External .html
-            html += `<iframe id="lesson-frame" src="${url}" frameborder="0" style="width:100%;height:100%;"></iframe>`;
-            html += '</div>';
+            // 4a. Nếu .html nội bộ
+            if (url.endsWith('.html')) {
+            const cleanPath = url.startsWith('/') ? url : '/' + url;
+            const src = contextPath.replace(/\/$/, '') + cleanPath;
+            // show header luôn, rồi mới fetch nội dung
             lessonContent.innerHTML = html;
-            // Gọi API sau 30 giây
-            setTimeout(() => {
-            markLessonCompleted(lessonId);
-            }, 30000);
-            } else if (url.endsWith('.html')) {
-            // Internal .html
-            html += `<iframe id="lesson-frame" src="${contextPath + url}" frameborder="0" style="width:100%;height:100%;"></iframe>`;
-            html += '</div>';
-            lessonContent.innerHTML = html;
-            // Gọi API sau 30 giây
-            setTimeout(() => {
-            markLessonCompleted(lessonId);
-            }, 30000);
+            fetch(src)
+                    .then(res => {
+                    if (!res.ok) throw new Error(res.status);
+                    return res.text();
+                    })
+                    .then(html => {
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'lesson-html-content';
+                    wrapper.innerHTML = html;
+                    lessonContent.appendChild(wrapper);
+                    lessonContent.appendChild(wrapper);
+                    setTimeout(() => markLessonCompleted(lessonId), 30000);
+                    })
+                    .catch(err => {
+                    console.error(err);
+                    const errP = document.createElement('p');
+                    errP.style.color = 'red';
+                    errP.textContent = 'Không tải được nội dung bài học.';
+                    lessonContent.appendChild(errP);
+                    lessonContent.appendChild(errP);
+                    });
+            // 4b. Nếu YouTube
             } else {
-            // YouTube video
             const id = extractYouTubeId(url);
             html += `<div id="yt-player"></div>`;
             html += '</div>';
@@ -300,6 +309,12 @@
             }
             }
             }
+
+
+
+
+
+
             function markLessonCompleted(lessonId) {
             console.log('✅ Marking completed lessonId =', lessonId);
             fetch(contextPath + '/lesson-progress', {
@@ -314,6 +329,7 @@
                     })
                     .catch(err => console.error('❌ Error marking complete:', err));
             }
+
 
 
             function selectLessonByData(title, url, lessonId) {

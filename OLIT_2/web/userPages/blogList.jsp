@@ -11,251 +11,279 @@
 <!DOCTYPE html>
 <html lang="vi">
 
-    <head>
-        <meta charset="UTF-8">
-        <title>Danh sách Blog</title>
-        <style>
-            
-            * {
-                box-sizing: border-box;
-            }
+    <style>
 
-            body {
-                margin: 0;
-                font-family: 'Segoe UI', sans-serif;
-                background: linear-gradient(to right, #f9f9f9, #e6f0ff);
-                color: #333;
-            }
+/* Box sizing and base styles */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to right, #f9f9f9, #e6f0ff);
+  color: #333;
+  line-height: 1.5;
+}
 
-            header {
-                background: linear-gradient(to right, #4a90e2, #0077cc);
-                color: white;
-                padding: 15px 40px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                position: sticky;
-                top: 0;
-                z-index: 10;
-            }
+/* Header (included via components/header.jsp) */
+.header {
+  background: linear-gradient(to right, #4a90e2, #0077cc);
+  color: white;
+  padding: 20px 40px;
+  min-height: 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.header .logo-text {
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+}
+.header .nav-links {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+.header .nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+.header .nav-links a:hover {
+  color: #ffcc00;
+  text-decoration: underline;
+}
+.header .nav-links .admin-btn {
+  background: #ffc107;
+  color: #1e1e1e;
+  padding: 6px 12px;
+  border-radius: 4px;
+}
+.header .nav-links .admin-btn:hover {
+  background: #e0a800;
+}
 
-            .logo {
-                font-size: 26px;
-                font-weight: bold;
-                letter-spacing: 1px;
-            }
+/* Main container layout */
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 30px 40px;
+  gap: 30px;
+}
+.left {
+  flex: 2;
+  min-width: 300px;
+}
+.right {
+  flex: 1;
+  min-width: 250px;
+}
 
-            .nav-links a {
-                color: white;
-                margin-left: 25px;
-                text-decoration: none;
-                font-weight: 500;
-                transition: all 0.3s ease;
-            }
+/* Blog cards */
+.blog-card {
+  background: #fff;
+  margin-bottom: 25px;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+  display: flex;
+  gap: 20px;
+  transition: transform 0.2s ease;
+}
+.blog-card:hover {
+  transform: translateY(-3px);
+}
+.blog-card img {
+  width: 220px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+.blog-info h3,
+.latest-blogs h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #0077cc;
+}
+.blog-info h3 a {
+  text-decoration: none;
+  color: inherit;
+}
+.blog-info p {
+  margin: 5px 0;
+}
 
-            .nav-links a:hover {
-                text-decoration: underline;
-                color: #ffcc00;
-            }
+/* Search box */
+.search-box form {
+  display: flex;
+  gap: 8px;
+}
+.search-box input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+}
+.search-box button {
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.search-box button:hover {
+  background-color: #005fa3;
+}
 
-            .container {
-                display: flex;
-                flex-wrap: wrap;
-                padding: 30px 40px;
-                gap: 30px;
-            }
+/* Filter form */
+.filter-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.category-select {
+  flex: 1;
+  padding: 10px;
+  font-size: 14px;
+  background-color: #e0f4ff;
+  border: 1px solid #0c98cf;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+.category-select:focus {
+  border-color: #2196f3;
+  box-shadow: 0 0 5px rgba(33,150,243,0.4);
+}
+.filter-btn {
+  padding: 6px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.filter-btn:hover {
+  background-color: #0056b3;
+}
 
-            .left {
-                flex: 2;
-                min-width: 300px;
-            }
+/* Latest blogs sidebar */
+.latest-blogs .blog-card {
+  flex-direction: column;
+  align-items: start;
+}
+.latest-blogs .blog-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
 
-            .right {
-                flex: 1;
-                min-width: 250px;
-            }
+/* Footer */
+footer {
+  background-color: #333;
+  color: white;
+  padding: 20px 40px;
+  text-align: center;
+  margin-top: 40px;
+}
 
-            .blog-card {
-                background: white;
-                margin-bottom: 25px;
-                padding: 20px;
-                border-radius: 12px;
-                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-                display: flex;
-                gap: 20px;
-                transition: transform 0.2s ease;
-            }
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px 20px;
+    gap: 10px;
+  }
+  .header .nav-links {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  .container {
+    flex-direction: column;
+    padding: 20px;
+  }
+  .nav-links a {
+    margin: 0;
+  }
+}
+.latest-blogs h3 {
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
 
-            .blog-card:hover {
-                transform: translateY(-3px);
-            }
+/* Blog cards */
+.blog-card {
+  display: flex;
+  margin-bottom: 1rem;
+}
+.blog-card img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-right: 1rem;
+}
+.blog-info h4 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+.blog-info p {
+  margin: 0.25rem 0 0;
+  font-size: 0.85rem;
+  color: #666;
+}
 
-            .blog-card img {
-                width: 220px;
-                height: 140px;
-                object-fit: cover;
-                border-radius: 10px;
-            }
+/* Contact links styled like a list of cards */
+.contact-links {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+}
+.contact-links li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+.contact-links i {
+  font-size: 1.2rem;
+  margin-right: 0.5rem;
+  color: #0077cc;
+}
+.contact-links a {
+  font-size: 1rem;
+  color: #0077cc;
+  text-decoration: none;
+}
+.contact-links a:hover {
+  text-decoration: underline;
+}
 
-            .blog-info {
-                flex: 1;
-            }
+    </style>
+    <header>
 
-            .blog-info h3 {
-                margin-top: 0;
-                margin-bottom: 10px;
-                color: #0077cc;
-            }
+        <jsp:include page="components/header.jsp"/>
 
-            .search-box form {
-                display: flex;
-                gap: 8px;
-            }
+        
 
-            .search-box input {
-                flex: 1;
-                padding: 10px;
-                border: 1px solid #ccc;
-                border-radius: 6px;
-                font-size: 15px;
-            }
+    </header>
 
-            .search-box button {
-                background-color: #0077cc;
-                color: white;
-                border: none;
-                padding: 10px 14px;
-                border-radius: 6px;
-                font-size: 15px;
-                cursor: pointer;
-                transition: background-color 0.3s ease;
-            }
-
-            .search-box button:hover {
-                background-color: #005fa3;
-            }
-
-            .category-select {
-                width: 100%;
-                padding: 10px;
-                margin-bottom: 20px;
-                background-color: #e0f4ff;
-                /* Xanh biển nhạt */
-                border: 1px solid #0c98cf;
-                border-radius: 6px;
-                color: #333;
-                font-size: 16px;
-                outline: none;
-                transition: border-color 0.3s ease;
-            }
-
-            .category-select:focus {
-                border-color: #2196f3;
-                box-shadow: 0 0 5px rgba(33, 150, 243, 0.4);
-            }
-
-            .filter-form {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                margin-bottom: 20px;
-                flex-wrap: wrap;
-            }
-
-            .category-select {
-                padding: 6px 10px;
-                font-size: 14px;
-                border-radius: 5px;
-                border: 1px solid #ccc;
-            }
-
-            .filter-btn {
-                padding: 6px 16px;
-                background-color: #007bff;
-                color: white;
-                font-size: 14px;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-                transition: background-color 0.2s ease;
-            }
-
-            .filter-btn:hover {
-                background-color: #0056b3;
-            }
-
-            .latest-blogs h3 {
-                margin-top: 0;
-                margin-bottom: 15px;
-                color: #0077cc;
-            }
-
-            .latest-blogs .blog-card {
-                flex-direction: column;
-                align-items: start;
-            }
-
-            .latest-blogs .blog-card img {
-                width: 100%;
-                height: 150px;
-                object-fit: cover;
-            }
-
-            footer {
-                background-color: #333;
-                color: white;
-                padding: 20px 40px;
-                text-align: center;
-                margin-top: 40px;
-            }
-
-            @media (max-width: 768px) {
-                header {
-                    flex-direction: column;
-                    align-items: flex-start;
-                    gap: 10px;
-                }
-
-                .container {
-                    flex-direction: column;
-                    padding: 20px;
-                }
-
-                .nav-links a {
-                    margin-left: 0;
-                    margin-right: 20px;
-                }
-                .logo-img {
-        height: 54px;       /* chiều cao logo */
-        width: auto;
-        padding: 4px;       /* khoảng trắng quanh icon */
-        border-radius: 8px;
-        background: rgba(255,255,255,0.15);
-        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-        display: block;
-    }
-    .logo-text {
-        font-size: 2.1em;
-        font-weight: 700;
-        color: #fff;
-        letter-spacing: 1.5px;
-        font-family: inherit;
-        line-height: 1;
-    }
-            }
-        </style>
-        <header>
-            <div class="logo">Course Aura</div>
-            <div class="nav-links">
-                <a href="${pageContext.request.contextPath}/HomeServlet">Home</a>
-                <a href="${pageContext.request.contextPath}/MyCourseServlet">Course List</a>
-                <a href="${pageContext.request.contextPath}/SubjectList">Subject List</a>
-                <a href="${pageContext.request.contextPath}/QuestionListServlet">Question List</a>
-                
-            </div>
-        </header>
-    </head>
 
     <body>       
 
@@ -267,9 +295,13 @@
                     <c:when test="${not empty blogList}">
                         <c:forEach var="blog" items="${blogList}">
                             <div class="blog-card">
-                                <img src="${blog.thumbnailURL}" alt="Blog Image">
+                                <a href="${pageContext.request.contextPath}/BlogDetailsServlet?postID=${blog.postID}">
+                                    <img src="${blog.thumbnailURL}" alt="Blog Image">
+                                </a>
                                 <div class="blog-info">
-                                    <h3>${blog.blogTitle}</h3>
+                                    <h3>
+                                        <a href="${pageContext.request.contextPath}/BlogDetailsServlet?postID=${blog.postID}">                                      
+                                            ${blog.blogTitle}</a></h3>
                                     <p>Tác giả: <strong>${blog.getAccount().getFullName()}</strong></p> <!-- Bạn có thể sửa userID thành tên nếu truy vấn SQL có -->
                                     <p>Ngày đăng: ${blog.updatedDate}</p>
                                     <p>Thể loại: <strong>${blog.getPostCategory().getCategoryName()}</strong></p> <!-- Tương tự categoryID có thể đổi tên thể loại -->
@@ -287,36 +319,77 @@
 
             <!-- Phần sidebar: tìm kiếm, thể loại, blog mới -->
             <div class="right">
+
+                <!-- Search box -->
                 <div class="search-box">
-                    <form action="BlogListServlet" method="get"> <!-- hoặc method="post" nếu Servlet xử lý POST -->
-                        <input type="text" name="search" placeholder="🔍 Tìm kiếm blog..." id="search-input" />
+                    <form action="${pageContext.request.contextPath}/BlogListServlet" method="get">
+                        <input
+                            type="text"
+                            name="search"
+                            placeholder="🔍 Tìm kiếm blog..."
+                            value="${param.search}"
+                            />
                         <button type="submit">Tìm kiếm</button>
                     </form>
                 </div>
 
-
-                <form action="BlogListServlet" method="get">
-                    <label for="category-select">Thể loại:</label>
-                    <select class="category-select" id="category-select" name="categoryId">
-                        <option value="">-- Chọn thể loại --</option>
-                        <option value="1">Tin tức giáo dục</option>
-                        <option value="2">Hướng dẫn học tập</option>
-                        <option value="3">Công nghệ</option>
-                        <option value="4">Kinh nghiệm học tập</option>
-                        <option value="5">Sự kiện</option>
+                <!-- Category filter -->
+                <form action="${pageContext.request.contextPath}/BlogListServlet" method="get" class="filter-form">
+                    <label for="category-select">Category:</label>
+                    <select id="category-select" name="categoryId" class="category-select">
+                        <option value="">-- Pick a Category --</option>
+                        <c:forEach var="cat" items="${categories}">
+                            <option
+                                value="${cat.categoryID}"
+                                <c:if test="${param.categoryId == cat.categoryID}">selected</c:if>
+                                    >
+                                ${cat.categoryName}
+                            </option>
+                        </c:forEach>
                     </select>
                     <button type="submit" class="filter-btn">Lọc</button>
                 </form>
 
+                <!-- …rest of your widgets (latest posts, contacts…)… -->
+
+
+
                 <div class="latest-blogs">
-                    <h3>🆕 Blog mới nhất</h3>
+                    <h3>🆕 Newest Posts</h3>
                     <c:forEach var="post" items="${newestPosts}">
                         <div class="blog-card">
-                            <img src="${post.thumbnailURL}" alt="Latest Blog">
-                            <h4>${post.blogTitle}</h4>
-                            <p>${post.updatedDate} - ${post.postCategory.categoryName}</p>
+                            <a href="${pageContext.request.contextPath}/BlogDetailsServlet?postID=${post.postID}">
+                                <img src="${post.thumbnailURL}" alt="Latest Blog">
+                            </a>
+                            <div class="blog-info">
+                                <h4>
+                                    <a href="${pageContext.request.contextPath}/BlogDetailsServlet?postID=${post.postID}">
+                                        ${post.blogTitle}
+                                    </a>
+                                </h4>
+                                <p>${post.updatedDate} – ${post.postCategory.categoryName}</p>
+                            </div>
                         </div>
                     </c:forEach>
+                <h3>Contact &amp; Links</h3>
+                <ul>
+                    <li>
+                        <i class="bi bi-facebook"></i>
+                        <a href="${facebookLink}" target="_blank">Facebook</a>
+                    </li>
+                    <li>
+                        <i class="bi bi-envelope-fill"></i>
+                        <a href="mailto:${supportEmail}">Email Us</a>
+                    </li>
+                    <li>
+                        <i class="bi bi-info-circle-fill"></i>
+                        <a href="${pageContext.request.contextPath}${aboutPage}">About Us</a>
+                    </li>
+                    <li>
+                        <i class="bi bi-telephone-fill"></i>
+                        <a href="${pageContext.request.contextPath}${contactPage}">Contact Page</a>
+                    </li>
+                </ul>
                 </div>
             </div>
         </div>

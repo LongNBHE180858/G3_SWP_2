@@ -222,6 +222,47 @@ public class PostDAO extends DBContext {
 
     return listHot;
 }
+    
+    public Post getPostByID(int id) {
+    String sql = "SELECT p.*, a.FullName, c.CategoryName, c.URL "
+               + "FROM Post p "
+               + "JOIN Account a ON p.UserID = a.UserID "
+               + "JOIN PostCategory c ON p.CategoryID = c.CategoryID "
+               + "WHERE p.PostID = ?";
+    try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        ps.setInt(1, id);
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                Post post = new Post();
+                post.setPostID(rs.getInt("PostID"));
+                post.setUserID(rs.getInt("UserID"));
+                post.setCategoryID(rs.getInt("CategoryID"));
+                post.setBlogTitle(rs.getString("BlogTitle"));
+                post.setPostDetails(rs.getString("PostDetails"));
+                post.setStatus(rs.getInt("Status"));
+                post.setUpdatedDate(rs.getString("UpdatedDate"));
+                post.setThumbnailURL(rs.getString("ThumbnailURL"));
+                post.setIsHot(rs.getBoolean("IsHot"));
+
+                Account acc = new Account();
+                acc.setFullName(rs.getString("FullName"));
+                post.setAccount(acc);
+
+                PostCategory pc = new PostCategory();
+                pc.setCategoryID(rs.getInt("CategoryID"));
+                pc.setCategoryName(rs.getString("CategoryName"));
+                pc.setURL(rs.getString("URL"));
+                post.setPostCategory(pc);
+
+                return post;
+            }
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return null;
+}
+
 
 
     public static void main(String[] args) {

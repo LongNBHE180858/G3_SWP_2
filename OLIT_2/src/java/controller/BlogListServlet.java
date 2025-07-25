@@ -4,6 +4,7 @@
  */
 package controller;
 
+import dao.PostCategoryDAO;
 import dao.PostDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import model.Post;
+import model.PostCategory;
 
 /**
  *
@@ -52,6 +54,7 @@ public class BlogListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         PostDAO postDao = new PostDAO();
+        PostCategoryDAO catDAO = new PostCategoryDAO();
         String search = request.getParameter("search");
         String categoryIdRaw = request.getParameter("categoryId");
         List<Post> list = null;
@@ -65,11 +68,12 @@ public class BlogListServlet extends HttpServlet {
         } else {
             list = postDao.getAllBlog(); // hoặc hàm lấy toàn bộ bài viết
         }
-        
-        List<Post> newestPosts = postDao.getNewestPost();
 
+        List<Post> newestPosts = postDao.getNewestPost();
+        List<PostCategory> categories = catDAO.findAll();
         request.setAttribute("blogList", list);
         request.setAttribute("newestPosts", newestPosts);
+        request.setAttribute("categories", categories);
         request.getRequestDispatcher("userPages/blogList.jsp").forward(request, response);
     }
 

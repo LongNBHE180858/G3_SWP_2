@@ -43,7 +43,7 @@ public class MyCourseServlet extends HttpServlet {
         RegistrationDAO regDao = new RegistrationDAO();
         CourseDAO courseDao = new CourseDAO();
 
-        List<Registration> registrations = regDao.getRegistrationsByUserID(userID);
+        List<Registration> registrations = regDao.getApprovedRegistrationsByUserID(userID);
         List<Course> myCourses = new ArrayList<>();
 
         for (Registration reg : registrations) {

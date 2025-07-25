@@ -7,6 +7,7 @@ package dao;
 import dal.DBContext;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import model.Account;
@@ -233,6 +234,20 @@ public class AccountDAO {
         }
     }
 
+    public static boolean updateAvatar(int userID, String urlAvatar) {
+        DBContext db = DBContext.getInstance();
+        String sql = "UPDATE Account SET URLAvatar = ? WHERE UserID = ?";
+        try {
+            PreparedStatement stmt = db.getConnection().prepareStatement(sql);
+            stmt.setString(1, urlAvatar);
+            stmt.setInt(2, userID);
+            return stmt.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public static Account getAccountByPhone(String phone) {
         DBContext db = DBContext.getInstance();
         try {
@@ -266,6 +281,94 @@ public class AccountDAO {
             e.printStackTrace();
         }
         return list;
+    }
+    
+    public long countNewCustomers(LocalDateTime from, LocalDateTime to) {
+        String sql = """
+            SELECT COUNT(DISTINCT UserID)
+              FROM Registration
+             WHERE ValidFrom BETWEEN ? AND ?
+        """;
+        try (PreparedStatement ps = DBContext.getInstance()
+                                             .getConnection()
+                                             .prepareStatement(sql)) {
+            ps.setObject(1, from);
+            ps.setObject(2, to);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() ? rs.getLong(1) : 0;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("DB error in countNewCustomers", e);
+        }
+    }
+
+    // Đếm những người mua lần đầu cũng dựa trên ValidFrom
+    public long countNewBuyingCustomers(LocalDateTime from, LocalDateTime to) {
+        String sql = """
+            SELECT COUNT(DISTINCT UserID)
+              FROM Registration
+             WHERE Status = 'Approved'
+               AND ValidFrom BETWEEN ? AND ?
+        """;
+        try (PreparedStatement ps = DBContext.getInstance()
+                                             .getConnection()
+                                             .prepareStatement(sql)) {
+            ps.setObject(1, from);
+            ps.setObject(2, to);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() ? rs.getLong(1) : 0;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("DB error in countNewBuyingCustomers", e);
+        }
+    }
+    
+
+    public static boolean updateAccount(Account acc) {
+        DBContext db = DBContext.getInstance();
+        String sql = """
+            UPDATE Account SET
+                FullName = ?,
+                Gender = ?,
+                Email = ?,
+                PhoneNumber = ?,
+                RoleID = ?,
+                Status = ?,
+                Address = ?,
+                Birthday = ?,
+                URLAvatar = ?
+            WHERE UserID = ?
+        """;
+        try {
+            PreparedStatement stmt = db.getConnection().prepareStatement(sql);
+            stmt.setString(1, acc.getFullName());
+            stmt.setString(2, acc.getGender());
+            stmt.setString(3, acc.getEmail());
+            stmt.setString(4, acc.getPhoneNumber());
+            stmt.setInt(5, acc.getRoleID());
+            stmt.setString(6, acc.getStatus());
+            stmt.setString(7, acc.getAddress());
+            stmt.setString(8, acc.getBirthday());
+            stmt.setString(9, acc.getUrlAvatar());
+            stmt.setInt(10, acc.getUserID());
+            return stmt.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean deleteAccount(int userID) {
+        DBContext db = DBContext.getInstance();
+        String sql = "DELETE FROM Account WHERE UserID = ?";
+        try {
+            PreparedStatement stmt = db.getConnection().prepareStatement(sql);
+            stmt.setInt(1, userID);
+            return stmt.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public static void main(String[] args) {
