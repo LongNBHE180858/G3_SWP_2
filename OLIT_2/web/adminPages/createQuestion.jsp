@@ -31,28 +31,20 @@
 
             .container {
                 display: flex;
-                gap: 24px;
-                max-width: 1200px;
-                margin: 40px auto;
-                padding: 16px;
+                justify-content: center;
+                align-items: flex-start;
+                min-height: 100vh;
+                padding: 40px 16px;
             }
 
-            .form-section,
-            .media-section {
+
+            .form-section {
+                width: 100%;
+                max-width: 600px;
                 background: #fff;
                 border-radius: 8px;
                 box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
                 padding: 24px;
-            }
-
-            .form-section {
-                flex: 0 0 40%;
-            }
-
-            .media-section {
-                flex: 0 0 60%;
-                display: flex;
-                flex-direction: column;
             }
 
             h1 {
@@ -160,31 +152,6 @@
                 background: #dc2626;
             }
 
-            .media-preview-wrapper {
-                position: relative;
-                background: #f9fafb;
-                border-radius: 8px;
-                overflow: hidden;
-                height: 360px;
-                margin-bottom: 16px;
-            }
-
-            .media-item {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                display: none;
-                /* Only show 1 active media, all others are completely hidden */
-                justify-content: center;
-                align-items: center;
-            }
-
-            .media-item.active {
-                display: flex;
-            }
-
             .arrow-btn {
                 position: absolute;
                 top: 50%;
@@ -217,6 +184,15 @@
                 background: #2563eb;
                 color: #fff;
             }
+
+            .page-wrapper {
+                display: flex;
+                justify-content: center;
+                align-items: flex-start; /* hoặc center nếu muốn giữa cả theo chiều dọc */
+                min-height: 100vh;
+                padding: 40px 16px;
+            }
+
         </style>
     </head>
 
@@ -302,7 +278,6 @@
                                 </c:forEach>
                             </c:when>
                             <c:otherwise>
-                                <%-- Initial two answer fields when page first loads or no answers submitted --%>
                                 <div class="answer-group">
                                     <div class="form-group">
                                         <label>Answer</label>
@@ -348,7 +323,8 @@
             </div>
 
             <script>
-                // Answer handlers
+                
+                // Delete an existing answer using AJAX
                 function deleteAnswer(id) {
                     const params = new URLSearchParams({action: 'deleteAnswer', qaId: id, questionID: questionID});
                     fetch('${pageContext.request.contextPath}/QuestionDetailServlet', {
@@ -363,6 +339,8 @@
                             alert('Delete failed: ' + txt);
                     });
                 }
+                
+                // Dynamically add a new answer block to the form
                 function addAnswer() {
                     const c = document.getElementById('answersContainer'), d = document.createElement('div');
                     d.className = 'answer-group';
@@ -387,19 +365,18 @@
                     c.appendChild(d);
                 }
 
-                // --- New validation logic ---
+                // Validate form before submitting
                 document.querySelector('form').addEventListener('submit', function(event) {
-                // 1. Kiểm tra QuestionContent không rỗng (đã có required HTML attribute)
-
-                // 2. Kiểm tra ít nhất 2 đáp án
+                    // Count new answer inputs
                 const answerDetails = document.querySelectorAll('input[name="newAnswerDetail"]');
-                        if (answerDetails.length < 2) {
+                // Check for at least two answers
+                if (answerDetails.length < 2) {
                 alert('A question must have at least 2 answers.');
                         event.preventDefault(); // Ngăn form gửi đi
                         return;
                 }
 
-                // 3. Kiểm tra ít nhất 1 đáp án đúng
+                // Ensure at least one correct answer is selected
                 let hasCorrectAnswer = false;
                         const isCorrectOptions = document.querySelectorAll('select[name="newIsCorrect"]');
                         for (let i = 0; i < isCorrectOptions.length; i++) {
@@ -415,7 +392,7 @@
                         return;
                 }
 
-                // Kiểm tra tất cả các trường input 'required' động
+                // Check all 'required' input fields dynamically
                 const requiredInputs = document.querySelectorAll('#answersContainer input[required], #answersContainer select[required]');
                         for (let i = 0; i < requiredInputs.length; i++) {
                 if (!requiredInputs[i].value.trim()) {

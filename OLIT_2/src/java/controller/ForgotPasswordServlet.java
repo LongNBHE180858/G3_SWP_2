@@ -30,7 +30,6 @@ import validate.InputValidator;
  */
 @WebServlet("/ForgotPasswordServlet")
 public class ForgotPasswordServlet extends HttpServlet {
-    
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -85,20 +84,26 @@ public class ForgotPasswordServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
+
+        // Handle "resetPassword" action
         String action = request.getParameter("action");
         String err = "";
+
         if (action.equalsIgnoreCase("resetPassword")) {
             String email = request.getParameter("email");
+
+            // Validate email and check if it exists
             Account acc = AccountDAO.getAccountByMail(email);
             if (acc == null || !InputValidator.isEmail(email)) {
                 err = "Email is not registered or invalid, register or try again.";
                 request.setAttribute("err", err);
                 request.getRequestDispatcher("forgotPassword.jsp").forward(request, response);
             } else {
+                // Send reset password email
                 String resetLink = "http://localhost:9999/OLIT_2/userPages/setPassword.jsp?email=" + email;
-
                 sendVerificationEmail(email, resetLink);
 
+                // Forward to waiting page
                 request.setAttribute("email", email);
                 request.setAttribute("action", "Reset your password");
                 request.getRequestDispatcher("waitingEmail.jsp").forward(request, response);
@@ -106,16 +111,19 @@ public class ForgotPasswordServlet extends HttpServlet {
         }
     }
 
+// Send password reset email
     private void sendVerificationEmail(String to, String link) {
         final String from = "longxz135@gmail.com";
         final String pass = "nxjw uecr wgcm vsmc";
 
+        // Set email properties
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
 
+        // Authenticate and create session
         Session session = Session.getInstance(props, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(from, pass);
@@ -123,6 +131,7 @@ public class ForgotPasswordServlet extends HttpServlet {
         });
 
         try {
+            // Compose email content
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(from));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
@@ -134,11 +143,12 @@ public class ForgotPasswordServlet extends HttpServlet {
                     + "<p style='margin-top: 30px; font-size: 14px; color: #666;'>If you did not request a password reset, you can safely ignore this email. Only a person with access to your email can reset your account password.</p>"
                     + "</body></html>";
             message.setContent(htmlContent, "text/html; charset=utf-8");
+
+            // Send email
             Transport.send(message);
         } catch (MessagingException e) {
             e.printStackTrace();
         }
-
     }
 
     /**

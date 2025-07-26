@@ -78,6 +78,8 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        // Get email and password from the login form
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String err = "";
@@ -85,7 +87,11 @@ public class LoginServlet extends HttpServlet {
         boolean loginSuccess = false;
         Account loggedInAccount = null;
 
-        if (AccountDAO.getAccountByMail(email) != null && AccountDAO.getAccountByMail(email).getPassword().equals(password)) {
+        // Authenticate user
+        if (AccountDAO.getAccountByMail(email) != null
+                && AccountDAO.getAccountByMail(email).getPassword().equals(password)) {
+
+            // Create session and store user info
             loggedInAccount = AccountDAO.getAccountByMail(email);
             HttpSession session = request.getSession();
             session.setAttribute("userID", loggedInAccount.getUserID());
@@ -93,8 +99,12 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("userEmail", loggedInAccount.getEmail());
             session.setAttribute("fullAccount", loggedInAccount);
             session.setAttribute("avatarUrl", loggedInAccount.getUrlAvatar());
+
+            // Redirect to homepage
             response.sendRedirect(request.getContextPath() + "/HomeServlet");
+
         } else {
+            // Handle invalid login
             err = "Wrong email or password, please re-enter";
             request.setAttribute("err", err);
             RequestDispatcher rs = request.getRequestDispatcher("login.jsp");

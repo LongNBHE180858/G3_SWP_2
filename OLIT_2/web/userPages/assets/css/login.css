@@ -130,10 +130,10 @@ select {
 
 /* Error message */
 .err, .error-msg {
-    color: #e74c3c;
-    font-size: 14px;
-    margin-top: 14px;
-    text-align: center;
+    color: red !important;
+    font-size: 14px !important;
+    margin-top: 14px !important;
+    text-align: center !important;
 }
 
 /* Password hint */

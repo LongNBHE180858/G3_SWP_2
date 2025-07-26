@@ -24,6 +24,7 @@ public class ChangePasswordServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String action = request.getParameter("action");
 
+        // Handle password change for logged-in users
         if (action.equalsIgnoreCase("changePassword")) {
             HttpSession session = request.getSession(false);
             if (session != null) {
@@ -32,23 +33,35 @@ public class ChangePasswordServlet extends HttpServlet {
                 String newPassword = request.getParameter("newPassword");
                 String confirm = request.getParameter("confirmPassword");
 
+                // Validate old password
                 if (!AccountDAO.getAccountByMail(userEmail).getPassword().equals(oldPassword)) {
                     request.setAttribute("error", "Incorrect password, please re-enter");
                     request.getRequestDispatcher("userPages/changePassword.jsp?email=" + userEmail).forward(request, response);
                     return;
-                } else if (oldPassword.equals(newPassword)) {
+                }
+
+                // Check if new password is same as old password
+                if (oldPassword.equals(newPassword)) {
                     request.setAttribute("error", "New password must be different from old password");
                     request.getRequestDispatcher("userPages/changePassword.jsp?email=" + userEmail).forward(request, response);
                     return;
-                } else if (!InputValidator.isStrongPass(newPassword)) {
+                }
+
+                // Check password strength
+                if (!InputValidator.isStrongPass(newPassword)) {
                     request.setAttribute("error", "Password must be at least 8 characters including numbers, letters and special characters.");
                     request.getRequestDispatcher("userPages/changePassword.jsp?email=" + userEmail).forward(request, response);
                     return;
-                } else if (!newPassword.equals(confirm)) {
+                }
+
+                // Check password confirmation
+                if (!newPassword.equals(confirm)) {
                     request.setAttribute("error", "Passwords do not match.");
                     request.getRequestDispatcher("userPages/changePassword.jsp?email=" + userEmail).forward(request, response);
                     return;
                 }
+
+                // Update password if all validations pass
                 boolean success = AccountDAO.updatePasswordAndActivate(userEmail, newPassword);
                 if (success) {
                     response.sendRedirect("userPages/userProfile.jsp");
@@ -59,19 +72,27 @@ public class ChangePasswordServlet extends HttpServlet {
             }
         }
 
+        // Handle initial password setup (e.g. after email verification)
         if (action.equalsIgnoreCase("setPassword")) {
             String userEmail = request.getParameter("email");
             String newPassword = request.getParameter("newPassword");
             String confirm = request.getParameter("confirmPassword");
+
+            // Check password strength
             if (!InputValidator.isStrongPass(newPassword)) {
                 request.setAttribute("error", "Password must be at least 8 characters including numbers, letters and special characters.");
                 request.getRequestDispatcher("userPages/setPassword.jsp?email=" + userEmail).forward(request, response);
                 return;
-            } else if (!newPassword.equals(confirm)) {
+            }
+
+            // Check confirmation
+            if (!newPassword.equals(confirm)) {
                 request.setAttribute("error", "Passwords do not match.");
                 request.getRequestDispatcher("userPages/setPassword.jsp?email=" + userEmail).forward(request, response);
                 return;
             }
+
+            // Set new password and log in the user
             boolean success = AccountDAO.updatePasswordAndActivate(userEmail, newPassword);
             if (success) {
                 Account loggedInAccount = AccountDAO.getAccountByMail(userEmail);

@@ -27,7 +27,6 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.io.File;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -41,21 +40,20 @@ public class QuestionDetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        // --- Kiểm tra session và vai trò người dùng ---
+
+        // Validate session and role
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("userID") == null || session.getAttribute("roleID") == null) {
-            // Nếu không có session, userID hoặc roleID, chuyển hướng về trang đăng nhập
             response.sendRedirect(request.getContextPath() + "/login.jsp");
             return;
         }
-
         Integer roleID = (Integer) session.getAttribute("roleID");
-        if (roleID == null || roleID != 2) { // Kiểm tra nếu roleID không phải là 2
-            response.sendRedirect(request.getContextPath() + "/HomeServlet"); // Chuyển hướng về HomeServlet
+        if (roleID == null || roleID != 2) {
+            response.sendRedirect(request.getContextPath() + "/HomeServlet");
             return;
         }
-        
+
+        // Load question details
         String qid = request.getParameter("questionID");
         if (qid == null || qid.isBlank()) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing parameter questionID");
@@ -97,14 +95,14 @@ public class QuestionDetailServlet extends HttpServlet {
 
         switch (action == null ? "" : action) {
             case "saveChanges":
-                // --- Update Question ---
+                // Update question content and status
                 Question q = new Question();
                 q.setQuestionID(questionID);
                 q.setQuestionContent(request.getParameter("questionContent"));
                 q.setStatus("1".equals(request.getParameter("status")));
                 new QuestionDAO().update(q);
 
-                // --- Update existing Answers ---
+                // Update existing answers
                 String[] ansIds = request.getParameterValues("answerID");
                 if (ansIds != null) {
                     String[] dets = request.getParameterValues("answerDetail");
@@ -119,8 +117,8 @@ public class QuestionDetailServlet extends HttpServlet {
                                 "1".equals(cors[i]));
                     }
                 }
-                
-                // --- Create new Answers ---
+
+                // Add new answers
                 String[] newD = request.getParameterValues("newAnswerDetail");
                 if (newD != null) {
                     String[] newE = request.getParameterValues("newExplanation");
@@ -135,9 +133,8 @@ public class QuestionDetailServlet extends HttpServlet {
                         }
                     }
                 }
-                
-                response.sendRedirect(request.getContextPath()
-                        + "/QuestionDetailServlet?questionID=" + questionID);
+
+                response.sendRedirect(request.getContextPath() + "/QuestionDetailServlet?questionID=" + questionID);
                 break;
 
             case "saveMediaList":
@@ -147,7 +144,7 @@ public class QuestionDetailServlet extends HttpServlet {
                     QuestionMediaDAO.deleteQuestionMedia(m.getMediaId());
                 }
 
-                // Get data from form
+                // Upload and save new media
                 String[] mTypes = request.getParameterValues("mediaType");
                 String[] mDescs = request.getParameterValues("mediaDescription");
                 String[] existingURLs = request.getParameterValues("existingMediaURL");
@@ -163,11 +160,12 @@ public class QuestionDetailServlet extends HttpServlet {
                         filename = Path.of(filePart.getSubmittedFileName()).getFileName().toString();
                         String uploadDir = getServletContext().getRealPath("/userPages/assets/mediaQuestion");
                         File uploadPath = new File(uploadDir);
-                        if (!uploadPath.exists())
+                        if (!uploadPath.exists()) {
                             uploadPath.mkdirs();
+                        }
                         filePart.write(uploadDir + File.separator + filename);
                     } else if (existingURLs != null && existingURLs.length > i) {
-                        filename = existingURLs[i]; // keep old file if not uploading new one
+                        filename = existingURLs[i];
                     }
                     if (filename != null && !filename.isBlank()) {
                         QuestionMediaDAO.createQuestionMedia(
@@ -177,10 +175,12 @@ public class QuestionDetailServlet extends HttpServlet {
                                 mDescs[i]);
                     }
                 }
+
                 response.sendRedirect(request.getContextPath() + "/QuestionDetailServlet?questionID=" + questionID);
                 break;
 
             case "deleteQuestion":
+                // Delete question and redirect
                 boolean ok = new QuestionDAO().deleteQuestionByID(questionID);
                 if (ok) {
                     response.sendRedirect(request.getContextPath() + "/QuestionListServlet");

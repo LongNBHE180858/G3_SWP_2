@@ -31,28 +31,34 @@ public class SignupServlet extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
 
+        // Get user input from signup form
         String fullName = request.getParameter("fullName");
         String gender = request.getParameter("gender");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
         String err = "";
 
+        // Validate email format and check if it already exists
         if (!InputValidator.isEmail(email) || AccountDAO.getAccountByMail(email) != null) {
             err = "Email already exists or is invalid!";
             request.setAttribute("err", err);
             request.getRequestDispatcher("signUp.jsp").forward(request, response);
-        } else if (!InputValidator.isPhone(phone)) {
+        } // Validate phone number format
+        else if (!InputValidator.isPhone(phone)) {
             err = "Phone number must be 10 digits long!";
             request.setAttribute("err", err);
             request.getRequestDispatcher("signUp.jsp").forward(request, response);
-        } else if (AccountDAO.getAccountByPhone(phone) != null) {
+        } // Check if phone number already exists
+        else if (AccountDAO.getAccountByPhone(phone) != null) {
             err = "Phone number already exists!";
             request.setAttribute("err", err);
             request.getRequestDispatcher("signUp.jsp").forward(request, response);
         } else {
+            // Send verification email for setting password
             String link = "http://localhost:9999/OLIT_2/userPages/setPassword.jsp?email=" + email;
             sendVerificationEmail(email, link);
 
+            // Create a new account and insert it into the database
             Account newAccount = new Account();
             newAccount.setFullName(fullName);
             newAccount.setGender(gender);
@@ -63,12 +69,14 @@ public class SignupServlet extends HttpServlet {
             newAccount.setPassword("0");
             AccountDAO.insertAccount(newAccount);
 
+            // Forward to waiting email confirmation page
             request.setAttribute("email", email);
             request.setAttribute("action", "Create Your Account");
             request.getRequestDispatcher("waitingEmail.jsp").forward(request, response);
         }
     }
 
+    // Send verification email with password setup link
     private void sendVerificationEmail(String to, String link) {
         final String from = "longxz135@gmail.com";
         final String pass = "nxjw uecr wgcm vsmc";
@@ -91,6 +99,7 @@ public class SignupServlet extends HttpServlet {
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
             message.setSubject("Confirm account registration");
 
+            // Email content with setup link
             String htmlContent = "<html><body style='font-family: Arial, sans-serif; text-align: center;'>"
                     + "<h1>Login to the System</h1>"
                     + "<p>Click the link below to login</p>"

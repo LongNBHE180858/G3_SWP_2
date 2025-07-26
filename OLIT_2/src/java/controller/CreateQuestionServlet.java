@@ -70,83 +70,39 @@ public class CreateQuestionServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // --- Kiểm tra session và vai trò người dùng ---
+        // Validate session and user role
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("userID") == null || session.getAttribute("roleID") == null) {
-            // Nếu không có session, userID hoặc roleID, chuyển hướng về trang đăng nhập
             response.sendRedirect(request.getContextPath() + "/login.jsp");
             return;
         }
 
         Integer roleID = (Integer) session.getAttribute("roleID");
-        if (roleID == null || roleID != 2) { // Kiểm tra nếu roleID không phải là 2
-            response.sendRedirect(request.getContextPath() + "/HomeServlet"); // Chuyển hướng về HomeServlet
+        if (roleID == null || roleID != 2) {
+            response.sendRedirect(request.getContextPath() + "/HomeServlet");
             return;
         }
 
+        // Load dropdown data
         SubjectDAO sj = new SubjectDAO();
         List<Subject> subjects = sj.getAllPublishedSubjects();
         List<Dimension> dimensions = DimensionDAO.getAllDimension();
-
         List<Lesson> lessons = LessonDAO.getAllLesson();
 
+        // Set attributes and forward to JSP
         request.setAttribute("subjects", subjects);
         request.setAttribute("dimensions", dimensions);
         request.setAttribute("lessons", lessons);
         request.getRequestDispatcher("adminPages/createQuestion.jsp").forward(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        int subject = Integer.parseInt(request.getParameter("subject"));
-//        int lesson = Integer.parseInt(request.getParameter("lesson"));
-//        int statusInt = Integer.parseInt(request.getParameter("status"));
-//        boolean status = (statusInt == 1);
-//        String questionContent = request.getParameter("questionContent");
-//        int userID = Integer.parseInt(request.getParameter("userID"));
-//        int lv = Integer.parseInt(request.getParameter("lv"));
-//        Question question = new Question(questionContent, 1, status, lv, userID, subject, lesson);
-//        int questionID = QuestionDAO.insertQuestion(question);
-//
-//        String[] dimensions = request.getParameterValues("dimensions");
-//        if (dimensions != null && questionID != -1) {
-//            for (int i = 0; i < dimensions.length; i++) {
-//                if (!dimensions[i].isBlank()) {
-//                    int dimension = Integer.parseInt(dimensions[i]);
-//                    DimensionDAO.insertQuestionDimension(questionID, dimension);
-//                }
-//            }
-//        }
-//        // --- Create new Answers ---
-//        String[] newD = request.getParameterValues("newAnswerDetail");
-//        if (newD != null && questionID != -1) {
-//            String[] newE = request.getParameterValues("newExplanation");
-//            String[] newC = request.getParameterValues("newIsCorrect");
-//            for (int i = 0; i < newD.length; i++) {
-//                if (!newD[i].isBlank()) {
-//                    QuestionAnswerDAO.createQuestionAnswer(
-//                            questionID,
-//                            newD[i],
-//                            newE[i],
-//                            "1".equals(newC[i]));
-//                }
-//            }
-//        }
-//
-//        response.sendRedirect(request.getContextPath() + "/QuestionListServlet");
-        String errorMessage = null; // Biến để lưu thông báo lỗi
+        String errorMessage = null;
 
         try {
-            // 1. Lấy và kiểm tra các thông tin cơ bản của câu hỏi
+            // Get and validate basic question info
             String subjectParam = request.getParameter("subject");
             String lessonParam = request.getParameter("lesson");
             String statusParam = request.getParameter("status");
@@ -171,15 +127,15 @@ public class CreateQuestionServlet extends HttpServlet {
                     subject = Integer.parseInt(subjectParam);
                     lesson = Integer.parseInt(lessonParam);
                     int statusInt = Integer.parseInt(statusParam);
-                    status = (statusInt == 1); // Fix logic: 1 is true (Active)
+                    status = (statusInt == 1);
                     userID = Integer.parseInt(userIDParam);
                     lv = Integer.parseInt(lvParam);
                 } catch (NumberFormatException e) {
-                    errorMessage = "Invalid numeric input for subject, lesson, status, user ID, or level.";
+                    errorMessage = "Invalid numeric input.";
                 }
             }
 
-            // 2. Kiểm tra ít nhất 2 đáp án và ít nhất 1 đáp án đúng
+            // Validate answers
             String[] newAnswerDetails = request.getParameterValues("newAnswerDetail");
             String[] newExplanations = request.getParameterValues("newExplanation");
             String[] newIsCorrects = request.getParameterValues("newIsCorrect");
@@ -202,36 +158,31 @@ public class CreateQuestionServlet extends HttpServlet {
                 }
             }
 
-            // Nếu có lỗi, đặt thông báo lỗi và forward lại trang JSP
+            // Return if validation fails
             if (errorMessage != null) {
                 request.setAttribute("errorMessage", errorMessage);
-                // Retain previously selected values if possible (for a better UX)
                 request.setAttribute("selectedSubject", subjectParam);
                 request.setAttribute("selectedLesson", lessonParam);
                 request.setAttribute("selectedStatus", statusParam);
                 request.setAttribute("selectedLevel", lvParam);
                 request.setAttribute("questionContent", questionContent);
-                // Also need to pass subjects, dimensions, lessons again
-                doGet(request, response); // Reuse doGet to load dropdowns etc.
+                doGet(request, response);
                 return;
             }
 
-            // --- Nếu không có lỗi, tiến hành lưu vào DB ---
+            // Insert question into database
             Question question = new Question(questionContent, 1, status, lv, userID, subject, lesson);
-            question.setCreatedAt(LocalDateTime.now()); // Set Creation Time
-
-            // Sửa lại Question Type nếu cần, hiện tại đang hardcode 1
-            // question.setQuestionType(Integer.parseInt(request.getParameter("questionType"))); // Nếu có input cho QuestionType
+            question.setCreatedAt(LocalDateTime.now());
             int questionID = QuestionDAO.insertQuestion(question);
 
             if (questionID == -1) {
-                errorMessage = "Failed to create question. Please try again.";
+                errorMessage = "Failed to create question.";
                 request.setAttribute("errorMessage", errorMessage);
                 doGet(request, response);
                 return;
             }
 
-            // Xử lý Dimensions
+            // Insert dimensions
             String[] dimensions = request.getParameterValues("dimensions");
             if (dimensions != null) {
                 for (String dimStr : dimensions) {
@@ -242,25 +193,25 @@ public class CreateQuestionServlet extends HttpServlet {
                 }
             }
 
-            // Xử lý Answers mới
-            // newAnswerDetails đã được kiểm tra null và length ở trên
+            // Insert answers
             for (int i = 0; i < newAnswerDetails.length; i++) {
-                // newAnswerDetails[i] đã được kiểm tra không rỗng ở trên
                 String detail = newAnswerDetails[i].trim();
-                String explanation = (newExplanations != null && i < newExplanations.length) ? newExplanations[i].trim() : "";
-                boolean isCorrect = (newIsCorrects != null && i < newIsCorrects.length) && "1".equals(newIsCorrects[i]);
+                String explanation = (newExplanations != null && i < newExplanations.length)
+                        ? newExplanations[i].trim() : "";
+                boolean isCorrect = (newIsCorrects != null && i < newIsCorrects.length)
+                        && "1".equals(newIsCorrects[i]);
 
                 QuestionAnswerDAO.createQuestionAnswer(questionID, detail, explanation, isCorrect);
             }
 
-            // Chuyển hướng sau khi tạo thành công
+            // Redirect after success
             response.sendRedirect(request.getContextPath() + "/QuestionListServlet");
 
         } catch (Exception e) {
             e.printStackTrace();
-            errorMessage = "An unexpected error occurred: " + e.getMessage();
+            errorMessage = "Unexpected error: " + e.getMessage();
             request.setAttribute("errorMessage", errorMessage);
-            doGet(request, response); // Forward back with error
+            doGet(request, response);
         }
     }
 

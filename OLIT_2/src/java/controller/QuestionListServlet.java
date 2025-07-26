@@ -18,30 +18,33 @@ public class QuestionListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-       // --- Kiểm tra session và vai trò người dùng ---
+
+        // Check session and user role
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("userID") == null || session.getAttribute("roleID") == null) {
-            // Nếu không có session, userID hoặc roleID, chuyển hướng về trang đăng nhập
+            // If session or required attributes are missing, redirect to login page
             response.sendRedirect(request.getContextPath() + "/login.jsp");
             return;
         }
 
         Integer roleID = (Integer) session.getAttribute("roleID");
-        if (roleID == null || roleID != 2) { // Kiểm tra nếu roleID không phải là 2
-            response.sendRedirect(request.getContextPath() + "/HomeServlet"); // Chuyển hướng về HomeServlet
+        if (roleID == null || roleID != 2) {
+            // If the user is not an Expert (roleID != 2), redirect to Home
+            response.sendRedirect(request.getContextPath() + "/HomeServlet");
             return;
         }
 
-        // Lấy tham số từ request
-        String search = request.getParameter("search");
-        String filter = request.getParameter("filter");
-        String pageSizeRaw = request.getParameter("pageSize");
-        String pageIndexRaw = request.getParameter("page");
+        // Get request parameters for search, filter, pagination
+        String search = request.getParameter("search");        // Search keyword
+        String filter = request.getParameter("filter");        // Filter option (e.g., by topic)
+        String pageSizeRaw = request.getParameter("pageSize"); // How many questions per page
+        String pageIndexRaw = request.getParameter("page");    // Current page number
 
-        int pageSize = 10;  // Giá trị mặc định
+        // Default pagination values
+        int pageSize = 10;
         int pageIndex = 1;
 
+        // Parse pageSize and pageIndex if provided
         try {
             if (pageSizeRaw != null && !pageSizeRaw.isEmpty()) {
                 pageSize = Integer.parseInt(pageSizeRaw);
@@ -50,19 +53,20 @@ public class QuestionListServlet extends HttpServlet {
                 pageIndex = Integer.parseInt(pageIndexRaw);
             }
         } catch (NumberFormatException e) {
-            // Nếu lỗi thì giữ nguyên pageSize, pageIndex mặc định
+            // If invalid input, retain default values
         }
 
+        // Retrieve questions from DAO 
         QuestionDAO dao = new QuestionDAO();
 
-        // Lấy danh sách câu hỏi theo search, filter, phân trang
+        // Get filtered and paginated list of questions
         List<Question> questionList = dao.getAllQuestionWithParam(search, filter, pageSize, pageIndex);
 
-        // Lấy tổng số bản ghi để tính số trang
+        // Get total number of matching records for pagination
         int totalRecords = dao.getTotalQuestionCount(search, filter);
-        int totalPage = (int) Math.ceil((double) totalRecords / pageSize);
+        int totalPage = (int) Math.ceil((double) totalRecords / pageSize); // Total pages
 
-        // Truyền dữ liệu sang JSP
+        // Set attributes to be forwarded to JSP 
         request.setAttribute("questionList", questionList);
         request.setAttribute("search", search);
         request.setAttribute("filter", filter);
@@ -70,6 +74,7 @@ public class QuestionListServlet extends HttpServlet {
         request.setAttribute("pageIndex", pageIndex);
         request.setAttribute("totalPage", totalPage);
 
+        // Step 6: Forward to JSP page for rendering 
         request.getRequestDispatcher("/adminPages/questionList.jsp").forward(request, response);
     }
 
