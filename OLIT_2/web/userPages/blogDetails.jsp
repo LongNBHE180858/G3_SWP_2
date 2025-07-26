@@ -7,9 +7,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
-/>
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    />
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -47,7 +47,7 @@
                 </c:if>
 
                 <div class="post-body">
-                    ${post.postDetails}
+                    <pre style="text-align: left;"><c:out value="${post.postDetails}" escapeXml="false"/></pre>
                 </div>
             </article>
 
@@ -111,26 +111,26 @@
                         </c:forEach>
                     </div>
 
-                <!-- Contact & Links -->
-                 <h3>Contact &amp; Links</h3>
-                <ul>
-                    <li>
-                        <i class="bi bi-facebook"></i>
-                        <a href="${facebookLink}" target="_blank">Facebook</a>
-                    </li>
-                    <li>
-                        <i class="bi bi-envelope-fill"></i>
-                        <a href="mailto:${supportEmail}">Email Us</a>
-                    </li>
-                    <li>
-                        <i class="bi bi-info-circle-fill"></i>
-                        <a href="${pageContext.request.contextPath}${aboutPage}">About Us</a>
-                    </li>
-                    <li>
-                        <i class="bi bi-telephone-fill"></i>
-                        <a href="${pageContext.request.contextPath}${contactPage}">Contact Page</a>
-                    </li>
-                </ul>
+                    <!-- Contact & Links -->
+                    <h3>Contact &amp; Links</h3>
+                    <ul>
+                        <li>
+                            <i class="bi bi-facebook"></i>
+                            <a href="${facebookLink}" target="_blank">Facebook</a>
+                        </li>
+                        <li>
+                            <i class="bi bi-envelope-fill"></i>
+                            <a href="mailto:${supportEmail}">Email Us</a>
+                        </li>
+                        <li>
+                            <i class="bi bi-info-circle-fill"></i>
+                            <a href="${pageContext.request.contextPath}${aboutPage}">About Us</a>
+                        </li>
+                        <li>
+                            <i class="bi bi-telephone-fill"></i>
+                            <a href="${pageContext.request.contextPath}${contactPage}">Contact Page</a>
+                        </li>
+                    </ul>
                     </br>
                 </section>    
             </aside>
@@ -138,7 +138,7 @@
 
         <!-- Footer -->
         <footer>
-                    <jsp:include page="components/footer.jsp"/>
+            <jsp:include page="components/footer.jsp"/>
 
         </footer>
     </body>

@@ -1,5 +1,5 @@
 /* Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap');
 
 /* 1. Reset & chung */
 * {
@@ -11,16 +11,17 @@ html {
     scroll-behavior: smooth;
 }
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Inter', sans-serif;
     background: #f7f9fc;
-    color: #333;
-    line-height: 1.6;
+    color: #2d3748;
+    font-size: 1.05rem;
+    line-height: 1.7;
     overflow-x: hidden;
 }
 
 /* 2. Breadcrumb */
 .breadcrumb {
-    padding-left: 1.5rem;   /* Khoảng cách từ trái */
+    padding-left: 1.5rem;
     font-size: 0.95rem;
     color: #666;
     margin: 1rem 0;
@@ -50,7 +51,7 @@ body {
     content: '';
 }
 
-/* 3. Layout hai cột */
+/* 3. Layout */
 .container {
     display: flex;
     gap: 2rem;
@@ -71,29 +72,16 @@ body {
     flex-direction: column;
     gap: 1.5rem;
 }
-/* Border và căn giữa cho tất cả ảnh trong bài viết */
-.post-detail img,
-.post-body img {
-    display: block;
-    margin: 1.5rem auto;      /* căn giữa ngang và cách trên dưới */
-    max-width: 100%;          /* không tràn container */
-    height: auto;
-    border: 1px solid #e2e8f0;/* viền nhạt */
-    padding: 4px;             /* đệm nhỏ cho viền nổi bật hơn */
-    border-radius: 4px;
-    background: #fff;         /* nếu ảnh nhỏ, nền trắng bao quanh */
-}
 
-
-/* 4. Ảnh & tiêu đề bài viết */
+/* Tiêu đề bài viết */
 .post-detail h1 {
     font-family: 'Playfair Display', serif;
-    font-size: 2.5rem;
-    margin-bottom: 0.75rem;
+    font-size: 2.8rem;
     color: #1a202c;
+    margin-bottom: 1rem;
 }
 .post-meta {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: #718096;
     margin-bottom: 1.5rem;
 }
@@ -104,13 +92,57 @@ body {
     margin-left: 1rem;
     font-style: italic;
 }
+
+/* Ảnh đại diện */
 .post-detail .featured-img {
-    width: 100%;
+    display: block;
+    margin: 0 auto 1.5rem;
+    max-width: 100%;
+    height: auto;
     border-radius: 6px;
-    margin-bottom: 1.5rem;
 }
 
-/* 5. Widget chung */
+/* Nội dung bài viết */
+.post-detail .post-body {
+    display: block !important;
+    text-align: left !important;
+    padding-top: 1.5rem;
+    font-size: 1.1rem;
+    line-height: 1.9;
+    color: #2d3748;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+.post-detail .post-body p {
+    margin-bottom: 1.25rem;
+}
+.post-detail .post-body img {
+    display: block;
+    margin: 1.5rem auto;
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #e2e8f0;
+    padding: 4px;
+    border-radius: 4px;
+    background: #fff;
+}
+.post-detail .post-body ul,
+.post-detail .post-body ol {
+    padding-left: 2rem;
+    margin: 1rem 0;
+}
+.post-detail .post-body li {
+    margin-bottom: 0.6rem;
+    line-height: 1.8;
+}
+.post-detail .post-body code {
+    background: #f0f0f0;
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+    font-family: monospace;
+}
+
+/* Sidebar widgets */
 .sidebar .widget {
     background: #fff;
     padding: 1.5rem;
@@ -118,7 +150,7 @@ body {
     box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 
-/* 5.1 Search */
+/* Search Widget */
 .search-widget form {
     display: flex;
 }
@@ -140,7 +172,7 @@ body {
     background: #005fa3;
 }
 
-/* 5.2 Filter category */
+/* Filter */
 .filter-form {
     display: flex;
     flex-direction: column;
@@ -171,7 +203,7 @@ body {
     background: #4b5bdc;
 }
 
-/* 5.3 Latest Posts */
+/* Latest Posts */
 .latest-widget h2 {
     margin-bottom: 1rem;
     font-size: 1.2rem;
@@ -217,7 +249,7 @@ body {
     margin: 0 0.25rem;
 }
 
-/* 5.4 Contact & Links */
+/* Contact */
 .contact-widget ul {
     list-style: none;
 }
@@ -238,141 +270,12 @@ body {
     color: #000dff;
 }
 
-/* 6. Footer */
+/* Footer */
 footer {
     margin-top: 3rem;
 }
-/* 1. Căn giữa featured image */
-.post-detail .featured-img {
-    display: block;       /* chuyển về block để margin auto có hiệu lực */
-    margin: 0 auto 1.5rem;/* margin trên‑giữa‑dưới */
-}
 
-/* 2. Nếu ảnh nằm trong slider (vd. Slick, Swiper) */
-.slick-slide,
-.swiper-slide {
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
-}
-.slick-slide img,
-.swiper-slide img {
-    max-width: 100%;
-    height: auto;
-}
-
-/* 3. Đối với ảnh trong nội dung bài (.post-body) */
-.post-detail .post-body {
-    text-align: center;   /* ép nội dung text + img căn giữa */
-}
-.post-detail .post-body img {
-    display: inline-block; /* để text-align center phát huy */
-    margin: 1.5rem auto;   /* thêm khoảng cách trên/dưới */
-    max-width: 100%;
-    height: auto;
-}
-
-/* 4. Wrapper chung (nếu cần) */
-.image-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.image-wrapper img {
-    max-width: 100%;
-    height: auto;
-}
-/* 1. Ép parent luôn căn giữa mọi nội dung ảnh */
-.post-detail .post-body {
-    text-align: center !important;
-}
-
-/* 2. Ép ảnh thành inline-block + margin auto với !important */
-.post-detail .post-body img {
-    display: inline-block !important;
-    margin: 1.5rem auto !important;
-    max-width: 100% !important;
-    height: auto !important;
-}
-
-/* 3. Đảm bảo featured-img cũng không bị ghi đè */
-.post-detail .featured-img {
-    display: block !important;
-    margin: 0 auto 1.5rem !important;
-}
-
-/* 4. Nếu dùng Slick/Swiper slider, ép slide thành flex */
-.slick-slide,
-.swiper-slide {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-}
-.slick-slide img,
-.swiper-slide img {
-    max-width: 100% !important;
-    height: auto !important;
-}
-/* 1. Biến post-body thành flex container */
-.post-detail .post-body {
-    display: flex !important;
-    flex-direction: column;
-    align-items: center !important;
-    gap: 1rem;               /* khoảng cách giữa các đoạn và ảnh */
-    text-align: left;        /* giữ text still left‑aligned */
-}
-
-/* 2. Ảnh chỉ co dãn vừa đủ, không full width */
-.post-detail .post-body img {
-    flex-shrink: 1;
-    flex-grow: 0;
-    max-width: 100%;
-    height: auto;
-    border: 1px solid #e2e8f0;
-    padding: 4px;
-    border-radius: 4px;
-    background: #fff;
-}
-
-/* Thêm vào cuối file blogdetails.css */
-
-/* 1. Giữ nguyên các xuống dòng và khoảng trắng */
-.post-body {
-    /* pre-wrap: giữ nguyên khoảng trắng và xuống dòng, vẫn wrap khi quá rộng */
-    white-space: pre-wrap;
-    /* break-word: ngắt từ khi dài quá */
-    word-wrap: break-word;
-    /* canh lề dễ đọc */
-    margin-top: 1rem;
-    color: #444;
-    line-height: 1.8;
-}
-
-/* 2. Các đoạn <p> trong post-body */
-.post-body p {
-    margin-bottom: 1em;
-}
-
-/* 3. Tiêu đề và metadata gọn hơn */
-.post-detail h1 {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-}
-.post-meta {
-    font-size: 0.85rem;
-    color: #888;
-    margin-bottom: 1.5rem;
-}
-
-/* 4. Phần comment hoặc code nếu có */
-.post-body code {
-    background: #f0f0f0;
-    padding: 0.2em 0.4em;
-    border-radius: 4px;
-    font-family: monospace;
-}
-
-/* 5. Responsive: thu gọn padding khi trên mobile */
+/* Responsive */
 @media (max-width: 768px) {
     .container {
         flex-direction: column;
