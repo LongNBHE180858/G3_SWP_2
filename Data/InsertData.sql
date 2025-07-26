@@ -318,9 +318,8 @@ INSERT INTO Registration (RegistrationID, UserID, CourseID, PackageID, ApprovedB
 (10, 2, 2, 3, 1, 'Approved', '2025-07-26', '2025-07-26'),
 (11, 1, 1, 1, 1, 'Approved', '2025-07-27', '2025-07-26'),
 (12, 2, 2, 2, 1, 'Approved', '2025-07-27', '2025-07-26'),
-(13, 3, 1, 1, 1, 'Approved', '2025-07-28', '2025-07-26'),
-(14, 4, 2, 2, 1, 'Approved', '2025-07-28', '2025-07-26'),
-(15, 2, 2, 3, 1, 'Approved', '2025-07-29', '2025-07-26');
+(13, 4, 5, 1, 1, 'NotApproved', '2025-07-28', '2025-07-26'),
+(14, 2, 2, 3, 1, 'Approved', '2025-07-29', '2025-07-26');
 
 -- Thêm dữ liệu vào bảng CourseSection
 INSERT INTO CourseSection (SectionID, CourseID, SectionTitle) VALUES
