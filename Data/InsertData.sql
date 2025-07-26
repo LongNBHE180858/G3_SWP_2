@@ -9,10 +9,15 @@ INSERT INTO Role (RoleID, RoleName) VALUES
 
 -- Thêm dữ liệu vào bảng Account
 INSERT INTO Account (RoleID, FullName, Gender, Email, PhoneNumber, Password, URLAvatar, Status, Address, Birthday) VALUES
-(2, N'Nguyễn Bảo Long', 'Male', 'longnbhe180858@fpt.edu.vn', '0123456789', '123', 'https://img.tripi.vn/cdn-cgi/image/width=700,height=700/https://gcs.tripi.vn/public-tripi/tripi-feed/img/482744KVW/anh-mo-ta.png', 'active', N'Hà Nội, Việt Nam', '1995-05-15'),
-(2, N'Nguyễn Khải', 'Male', 'khainguyen25101998@gmail.com', '0987654321', '123', 'https://robohash.org/nguyenkhai.png', 'active', N'Hồ Chí Minh, Việt Nam', '1988-08-20'),
-(1, N'Phạm Tiến Nam', 'Male', 'nampthe181240@fpt.edu.vn', '0369852147', '123', 'https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/anh-avatar-ngau-2.jpg', 'active', N'Đà Nẵng, Việt Nam', '1990-12-03'),
-(3, N'Phạm Thị Lan', 'Female', 'studen@123', '0456789123', '123', 'https://www.vietnamworks.com/hrinsider/wp-content/uploads/2023/12/anh-den-ngau.jpeg', 'active', N'Hải Phòng, Việt Nam', '2001-03-10');
+(2, N'Nguyễn Bảo Long', 'Male', 'longnbhe180858@fpt.edu.vn', '0123456789', '123', 'https://ss-images.saostar.vn/wp700/pc/1617160792140/saostar-j67dox5fxucodxyz.jpg', 'active', N'Hà Nội, Việt Nam', '1995-05-15'),
+(2, N'Nguyễn Khải', 'Male', 'khainguyen25101998@gmail.com', '0987654321', '123', 'https://studiochupanhdep.com/Upload/Images/Album/anh-the-2023.jpg', 'active', N'Hồ Chí Minh, Việt Nam', '1988-08-20'),
+(1, N'Phạm Tiến Nam', 'Male', 'nampthe181240@fpt.edu.vn', '0369852147', '123', 'https://chuphinhthe.com/upload/product/4709-tam-8496.jpg', 'active', N'Đà Nẵng, Việt Nam', '1990-12-03'),
+(3, N'Phạm Thị Lan', 'Female', 'studen123@gmail.com', '0456789123', '123', 'https://faceinch.vn/upload/news/chup-anh-the-tha-toc-3007.jpg', 'active', N'Hải Phòng, Việt Nam', '2001-03-10'),
+(3, N'Lê Minh Châu', 'Female', 'leminhchau01@gmail.com', '0911222333', '123', 'https://faceinch.vn/upload/news/chup-chan-dung-3-4662.jpg', 'active', N'Huế, Việt Nam', '2002-09-12'),
+(3, N'Trần Anh Tú', 'Male', 'anh.tu@student.edu.vn', '0903444555', '123', 'https://bizweb.dktcdn.net/100/175/849/files/nhung-luu-y-khi-di-chup-anh-the-hoc-sinh-sinh-vien-1-016c9c22-e8bb-46fe-a6bb-69b81dcdd0c3.jpg?v=1720762597525', 'active', N'Quảng Nam, Việt Nam', '2000-07-08'),
+(3, N'Huỳnh Gia Bảo', 'Male', 'giabao123@gmail.com', '0967888999', '123', 'https://smilemedia.vn/wp-content/uploads/2022/09/chup-hinh-the-dep-e1664379729855.jpg', 'active', N'TP.HCM, Việt Nam', '2003-02-21'),
+(3, N'Vũ Thị Hạnh', 'Female', 'hanh.vt@gmail.com', '0935667788', '123', 'https://kamiidphoto.vn/wp-content/uploads/2025/04/top-9-tiem-chup-anh-the-dep-nhat-tp-thu-duc-907-7.jpg', 'active', N'Hà Nội, Việt Nam', '2001-11-30'),
+(3, N'Đặng Quốc Duy', 'Male', 'duy.dang@studentmail.edu.vn', '0974332211', '123', 'https://bizweb.dktcdn.net/100/175/849/files/chup-anh-the-dep-cho-hoc-sinh-03.jpg?v=1609569926973', 'active', N'Cần Thơ, Việt Nam', '2002-04-05');
 
 -- Thêm dữ liệu vào bảng PostCategory
 INSERT INTO PostCategory (CategoryID, CategoryName, URL) VALUES
